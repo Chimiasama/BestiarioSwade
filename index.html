@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compêndio Savage Worlds - Bestiário de Lendas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cinzel+Decorative:wght@700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-cinzel {
+        font-family: 'Cinzel', serif;
+      }
+      .font-cinzel-dec {
+        font-family: 'Cinzel Decorative', cursive, serif;
+      }
+      .font-crimson {
+        font-family: 'Crimson Pro', Georgia, serif;
+      }
+      .font-mono-dice {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Custom parchment and grim scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f1218;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #2d1810;
+        border-radius: 4px;
+        border: 1px solid #7c2d12;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #991b1b;
+      }
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        @page {
+          margin: 0;
+          size: A4;
+        }
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+          background: #ffffff !important;
+          color: #111827 !important;
+        }
+      }
+      /* ========================================================
+         THEME PALETTES (CSS CUSTOM PROPERTIES ENGINE)
+         ======================================================== */
+
+      /* 1. MODO NOTURNO - Grimório Sombrio (Padrão SWADE) */
+      :root,
+      html[data-theme="grimorio"] {
+        --bg-app: #0c0a09;
+        --bg-surface: #141210;
+        --bg-card: #1c1917;
+        --bg-subtle: #292524;
+        --bg-hover: #292524;
+        --bg-input: #141210;
+        --border-base: #292524;
+        --border-subtle: #44403c;
+        --border-accent: #78350f;
+        --text-primary: #f5f5f4;
+        --text-secondary: #d6d3d1;
+        --text-muted: #a8a29e;
+        --text-dim: #78716c;
+        --accent-title: #fef08a;
+        --accent-highlight: #f59e0b;
+        --badge-bg: #451a03;
+        --badge-text: #fde68a;
+        --scrollbar-thumb: #33180b;
+        --modal-backdrop: rgba(0, 0, 0, 0.85);
+      }
+
+      /* 2. MODO NOTURNO - Floresta Ancestral */
+      html[data-theme="floresta"] {
+        --bg-app: #06120a;
+        --bg-surface: #0a1b10;
+        --bg-card: #0f2618;
+        --bg-subtle: #173824;
+        --bg-hover: #173824;
+        --bg-input: #0a1b10;
+        --border-base: #173824;
+        --border-subtle: #225134;
+        --border-accent: #059669;
+        --text-primary: #f0fdf4;
+        --text-secondary: #bbf7d0;
+        --text-muted: #86efac;
+        --text-dim: #4ade80;
+        --accent-title: #6ee7b7;
+        --accent-highlight: #10b981;
+        --badge-bg: #064e3b;
+        --badge-text: #a7f3d0;
+        --scrollbar-thumb: #0f3d23;
+        --modal-backdrop: rgba(3, 12, 6, 0.88);
+      }
+
+      /* 3. MODO NOTURNO - Cripta & Sangue */
+      html[data-theme="horror"] {
+        --bg-app: #0d0608;
+        --bg-surface: #170a0f;
+        --bg-card: #220e16;
+        --bg-subtle: #361421;
+        --bg-hover: #361421;
+        --bg-input: #170a0f;
+        --border-base: #361421;
+        --border-subtle: #50192e;
+        --border-accent: #991b1b;
+        --text-primary: #fff1f2;
+        --text-secondary: #fecdd3;
+        --text-muted: #fda4af;
+        --text-dim: #fb7185;
+        --accent-title: #fca5a5;
+        --accent-highlight: #ef4444;
+        --badge-bg: #450a15;
+        --badge-text: #fecdd3;
+        --scrollbar-thumb: #3d0c17;
+        --modal-backdrop: rgba(10, 4, 7, 0.88);
+      }
+
+      /* 4. MODO NOTURNO - Noite de Aço */
+      html[data-theme="aco"] {
+        --bg-app: #080d16;
+        --bg-surface: #0f172a;
+        --bg-card: #1e293b;
+        --bg-subtle: #334155;
+        --bg-hover: #334155;
+        --bg-input: #0f172a;
+        --border-base: #334155;
+        --border-subtle: #475569;
+        --border-accent: #0284c7;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --text-dim: #64748b;
+        --accent-title: #7dd3fc;
+        --accent-highlight: #38bdf8;
+        --badge-bg: #082f49;
+        --badge-text: #bae6fd;
+        --scrollbar-thumb: #1e3a5f;
+        --modal-backdrop: rgba(5, 9, 16, 0.88);
+      }
+
+      /* ========================================================
+         MODO DIURNO (PERGAMINHOS CONFORTÁVEIS - SEM BRANCO ESTOURADO!)
+         ======================================================== */
+
+      /* 5. MODO DIURNO - Pergaminho Nobre */
+      html[data-theme="pergaminho"] {
+        --bg-app: #f4ecdc;
+        --bg-surface: #fbf7ee;
+        --bg-card: #faf4e8;
+        --bg-subtle: #ebdcc3;
+        --bg-hover: #ebdcc3;
+        --bg-input: #ffffff;
+        --border-base: #d8c3a1;
+        --border-subtle: #c7ad86;
+        --border-accent: #997340;
+        --text-primary: #23150b;
+        --text-secondary: #3b2314;
+        --text-muted: #613e25;
+        --text-dim: #845a39;
+        --accent-title: #7f2405;
+        --accent-highlight: #9a3412;
+        --badge-bg: #eddabf;
+        --badge-text: #7c2d12;
+        --scrollbar-thumb: #b89c74;
+        --modal-backdrop: rgba(35, 21, 11, 0.65);
+      }
+
+      /* 6. MODO DIURNO - Cartografia do Sertão */
+      html[data-theme="sertao"] {
+        --bg-app: #f4ecde;
+        --bg-surface: #fcf7f0;
+        --bg-card: #f9f2e7;
+        --bg-subtle: #e9dac4;
+        --bg-hover: #e9dac4;
+        --bg-input: #ffffff;
+        --border-base: #d2b592;
+        --border-subtle: #bd9b70;
+        --border-accent: #a0431b;
+        --text-primary: #211206;
+        --text-secondary: #3a210d;
+        --text-muted: #613819;
+        --text-dim: #865228;
+        --accent-title: #993810;
+        --accent-highlight: #c2410c;
+        --badge-bg: #ebd8be;
+        --badge-text: #7c2d12;
+        --scrollbar-thumb: #b89366;
+        --modal-backdrop: rgba(33, 18, 6, 0.65);
+      }
+
+      /* 7. MODO DIURNO - Herbalista da Alvorada */
+      html[data-theme="alvorada"] {
+        --bg-app: #eef3ee;
+        --bg-surface: #f9fbf9;
+        --bg-card: #f3f7f3;
+        --bg-subtle: #dbe7dc;
+        --bg-hover: #dbe7dc;
+        --bg-input: #ffffff;
+        --border-base: #b8cfbd;
+        --border-subtle: #9cbda2;
+        --border-accent: #2e633d;
+        --text-primary: #0f2316;
+        --text-secondary: #1a3c26;
+        --text-muted: #335e41;
+        --text-dim: #4f7e5f;
+        --accent-title: #1e5230;
+        --accent-highlight: #15803d;
+        --badge-bg: #d7e7d9;
+        --badge-text: #14532d;
+        --scrollbar-thumb: #97bca0;
+        --modal-backdrop: rgba(15, 35, 22, 0.65);
+      }
+
+      /* 8. MODO DIURNO - Tomo Real de Marfim */
+      html[data-theme="marfim"] {
+        --bg-app: #f6f4ed;
+        --bg-surface: #fdfdfb;
+        --bg-card: #faf8f2;
+        --bg-subtle: #eae5d6;
+        --bg-hover: #eae5d6;
+        --bg-input: #ffffff;
+        --border-base: #d2cbba;
+        --border-subtle: #bbb19a;
+        --border-accent: #1e40af;
+        --text-primary: #111827;
+        --text-secondary: #1f2937;
+        --text-muted: #4b5563;
+        --text-dim: #6b7280;
+        --accent-title: #1e3a8a;
+        --accent-highlight: #2563eb;
+        --badge-bg: #dbeafe;
+        --badge-text: #1e40af;
+        --scrollbar-thumb: #b8b09c;
+        --modal-backdrop: rgba(17, 24, 39, 0.65);
+      }
+
+      /* ========================================================
+         GLOBAL ELEMENT & TAILWIND CLASS MAPPINGS
+         ======================================================== */
+
+      html, body {
+        background-color: var(--bg-app) !important;
+        color: var(--text-primary) !important;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      /* Background surfaces */
+      [class*="bg-stone-950"] {
+        background-color: var(--bg-app) !important;
+      }
+      [class*="bg-stone-900"] {
+        background-color: var(--bg-surface) !important;
+      }
+      [class*="bg-stone-850"],
+      [class*="bg-stone-800"] {
+        background-color: var(--bg-card) !important;
+      }
+      [class*="bg-stone-700"] {
+        background-color: var(--bg-subtle) !important;
+      }
+
+      /* Borders */
+      [class*="border-stone-950"],
+      [class*="border-stone-900"],
+      [class*="border-stone-800"] {
+        border-color: var(--border-base) !important;
+      }
+      [class*="border-stone-750"],
+      [class*="border-stone-700"] {
+        border-color: var(--border-subtle) !important;
+      }
+      [class*="border-amber-900"],
+      [class*="border-amber-800"],
+      [class*="border-amber-700"] {
+        border-color: var(--border-accent) !important;
+      }
+
+      /* Typography colors */
+      [class*="text-stone-100"],
+      [class*="text-stone-200"] {
+        color: var(--text-primary) !important;
+      }
+      [class*="text-stone-300"] {
+        color: var(--text-secondary) !important;
+      }
+      [class*="text-stone-400"] {
+        color: var(--text-muted) !important;
+      }
+      [class*="text-stone-500"],
+      [class*="text-stone-600"] {
+        color: var(--text-dim) !important;
+      }
+
+      /* Accents & Titles */
+      [class*="text-amber-200"],
+      [class*="text-amber-300"] {
+        color: var(--accent-title) !important;
+      }
+      [class*="text-amber-400"],
+      [class*="text-amber-500"] {
+        color: var(--accent-highlight) !important;
+      }
+
+      /* Badges & Chips */
+      [class*="bg-amber-950"] {
+        background-color: var(--badge-bg) !important;
+      }
+      [class*="bg-amber-950"] [class*="text-amber-400"],
+      [class*="bg-amber-950"] [class*="text-amber-300"] {
+        color: var(--badge-text) !important;
+      }
+
+      /* Interactive Hover */
+      [class*="hover:bg-stone-800"]:hover,
+      [class*="hover:bg-stone-700"]:hover {
+        background-color: var(--bg-hover) !important;
+      }
+      [class*="hover:bg-stone-900"]:hover {
+        background-color: var(--bg-surface) !important;
+      }
+
+      /* Form inputs, textareas and selects */
+      input[type="text"],
+      input[type="search"],
+      input[type="number"],
+      select,
+      textarea {
+        background-color: var(--bg-input) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-base) !important;
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--text-dim) !important;
+      }
+      select option {
+        background-color: var(--bg-surface) !important;
+        color: var(--text-primary) !important;
+      }
+
+      /* Modal Backdrop */
+      [class*="bg-black/80"],
+      [class*="bg-black/85"],
+      [class*="bg-black/60"] {
+        background-color: var(--modal-backdrop) !important;
+      }
+
+      /* Keep monster card image title crisp over dark image banner */
+      .group .relative.h-48 h3,
+      .group .relative.h-48 .text-amber-200,
+      .group .relative.h-48 .text-amber-300 {
+        color: #fef08a !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+      }
+      .group .relative.h-48 p,
+      .group .relative.h-48 .text-stone-300 {
+        color: #f5f5f4 !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+      }
+
+      /* Font Family Variations */
+      html[data-font="tatico"] body {
+        font-family: 'Inter', system-ui, sans-serif !important;
+      }
+      html[data-font="rustico"] .font-cinzel {
+        font-family: 'Cinzel Decorative', cursive, serif !important;
+      }
+      html[data-font="rustico"] .font-crimson {
+        font-style: italic !important;
+      }
+
+      .card-front, .card-back {
+        width: 70mm;
+        height: 120mm;
+        box-sizing: border-box;
+      }
+
+      /* Dice Roll Vibration (Shake) & Subtle Glow Keyframes */
+      @keyframes diceRattle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        15% { transform: translate(-4px, 2px) rotate(-1.5deg); }
+        30% { transform: translate(4px, -2px) rotate(1.5deg); }
+        45% { transform: translate(-3px, -1px) rotate(-1deg); }
+        60% { transform: translate(3px, 2px) rotate(0.8deg); }
+        75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+        90% { transform: translate(1px, -1px) rotate(0.3deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+      }
+
+      @keyframes diceGlowTheme {
+        0% {
+          box-shadow: 0 0 0 0 transparent, inset 0 0 0 transparent;
+          border-color: var(--border-accent, rgba(217, 119, 6, 0.4));
+        }
+        30% {
+          box-shadow: 0 0 28px 6px var(--accent-highlight, #f59e0b), inset 0 0 16px 2px var(--border-accent, #78350f);
+          border-color: var(--accent-highlight, #f59e0b);
+        }
+        70% {
+          box-shadow: 0 0 16px 3px var(--border-accent, #78350f), inset 0 0 10px 1px var(--border-base, #292524);
+          border-color: var(--border-accent, #78350f);
+        }
+        100% {
+          box-shadow: 0 0 8px 1px var(--border-accent, #78350f), inset 0 0 4px transparent;
+          border-color: var(--border-accent, #78350f);
+        }
+      }
+
+      @keyframes diceGlowAmber {
+        0% {
+          box-shadow: 0 0 0 0 rgba(245, 158, 11, 0), inset 0 0 0 rgba(245, 158, 11, 0);
+          border-color: rgba(217, 119, 6, 0.4);
+        }
+        30% {
+          box-shadow: 0 0 26px 5px rgba(245, 158, 11, 0.42), inset 0 0 16px 2px rgba(245, 158, 11, 0.22);
+          border-color: rgba(245, 158, 11, 0.9);
+        }
+        70% {
+          box-shadow: 0 0 16px 3px rgba(245, 158, 11, 0.25), inset 0 0 10px 1px rgba(245, 158, 11, 0.15);
+          border-color: rgba(217, 119, 6, 0.6);
+        }
+        100% {
+          box-shadow: 0 0 8px 1px rgba(245, 158, 11, 0.1), inset 0 0 4px rgba(245, 158, 11, 0.05);
+          border-color: rgba(217, 119, 6, 0.4);
+        }
+      }
+
+      @keyframes diceGlowEmerald {
+        0% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0), inset 0 0 0 rgba(16, 185, 129, 0);
+          border-color: rgba(5, 150, 105, 0.4);
+        }
+        30% {
+          box-shadow: 0 0 30px 6px rgba(16, 185, 129, 0.5), inset 0 0 18px 2px rgba(16, 185, 129, 0.25);
+          border-color: rgba(52, 211, 153, 0.95);
+        }
+        70% {
+          box-shadow: 0 0 18px 3px rgba(16, 185, 129, 0.3), inset 0 0 10px 1px rgba(16, 185, 129, 0.15);
+          border-color: rgba(16, 185, 129, 0.6);
+        }
+        100% {
+          box-shadow: 0 0 8px 1px rgba(16, 185, 129, 0.12), inset 0 0 4px rgba(16, 185, 129, 0.05);
+          border-color: rgba(5, 150, 105, 0.4);
+        }
+      }
+
+      @keyframes diceGlowCrimson {
+        0% {
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0), inset 0 0 0 rgba(239, 68, 68, 0);
+          border-color: rgba(220, 38, 38, 0.4);
+        }
+        30% {
+          box-shadow: 0 0 32px 7px rgba(239, 68, 68, 0.55), inset 0 0 20px 2px rgba(239, 68, 68, 0.28);
+          border-color: rgba(248, 113, 113, 0.95);
+        }
+        70% {
+          box-shadow: 0 0 18px 3px rgba(239, 68, 68, 0.35), inset 0 0 12px 1px rgba(239, 68, 68, 0.18);
+          border-color: rgba(220, 38, 38, 0.6);
+        }
+        100% {
+          box-shadow: 0 0 8px 1px rgba(239, 68, 68, 0.12), inset 0 0 4px rgba(239, 68, 68, 0.05);
+          border-color: rgba(220, 38, 38, 0.4);
+        }
+      }
+
+      @keyframes diceNumberImpact {
+        0% {
+          transform: scale(0.65) translateY(-4px);
+          opacity: 0.3;
+          filter: blur(1px);
+        }
+        50% {
+          transform: scale(1.22) translateY(0);
+          opacity: 1;
+          filter: blur(0px);
+        }
+        75% {
+          transform: scale(0.96);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes diceShineSweep {
+        0% {
+          transform: translateX(-120%) skewX(-20deg);
+          opacity: 0;
+        }
+        30% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateX(220%) skewX(-20deg);
+          opacity: 0;
+        }
+      }
+
+      .animate-dice-shake {
+        animation: diceRattle 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+
+      .animate-dice-glow-theme {
+        animation: diceGlowTheme 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .animate-dice-glow-amber {
+        animation: diceGlowAmber 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .animate-dice-glow-emerald {
+        animation: diceGlowEmerald 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .animate-dice-glow-crimson {
+        animation: diceGlowCrimson 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .animate-dice-number-impact {
+        animation: diceNumberImpact 0.48s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      }
+
+      .animate-dice-shine-sweep {
+        animation: diceShineSweep 0.75s ease-out both;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "jspdf": "https://aistudiocdn.com/jspdf@2.5.1",
+    "html2canvas": "https://aistudiocdn.com/html2canvas@1.4.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-[var(--bg-app)] text-[var(--text-primary)] antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

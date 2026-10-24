@@ -1,0 +1,6 @@
+{
+  "name": "Compêndio Savage Worlds - Bestiário de Lendas",
+  "description": "Compêndio de monstros e bestiário para Savage Worlds (SWADE). Perfis de criaturas folclóricas e clássicas, fichas com rolador de dados com Ases, gerador de lendas com IA, cartas de tarô e impressão em PDF.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
