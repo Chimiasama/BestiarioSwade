@@ -1951,13 +1951,13 @@ const Bestiary: React.FC<{
               <div
                 key={title}
                 onClick={() => setSelectedBook(title)}
-                className="bg-gradient-to-b from-stone-900 to-stone-950 border border-amber-900/40 hover:border-amber-600/80 rounded-xl p-6 shadow-xl flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:-translate-y-1.5 hover:shadow-amber-900/20 ring-1 ring-amber-500/10 relative overflow-hidden"
+                className="bg-stone-900 border border-stone-800 hover:border-amber-600/80 rounded-xl p-6 shadow-xl flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:-translate-y-1.5 hover:shadow-amber-900/20 ring-1 ring-amber-500/10 relative overflow-hidden"
               >
                 {/* Book spine decorative accent */}
-                <div className="absolute top-0 left-0 bottom-0 w-2.5 bg-gradient-to-b from-amber-700 to-amber-950 border-r border-amber-900/60" />
+                <div className="absolute top-0 left-0 bottom-0 w-2.5 bg-amber-800/80 border-r border-amber-900/60" />
 
                 <div className="pl-3">
-                  <div className="p-3 bg-stone-800/80 w-fit rounded-lg text-amber-400 group-hover:text-amber-300 transition-colors border border-stone-700">
+                  <div className="p-3 bg-stone-800 w-fit rounded-lg text-amber-400 group-hover:text-amber-300 transition-colors border border-stone-700">
                     <BookOpen className="w-6 h-6" />
                   </div>
                   <h3 className="font-cinzel text-xl font-bold text-amber-200 group-hover:text-amber-300 mt-4 leading-snug">
@@ -1978,7 +1978,7 @@ const Bestiary: React.FC<{
             {/* Create Monster Quick Card */}
             <div
               onClick={showCreator}
-              className="border-2 border-dashed border-stone-800 hover:border-amber-600/80 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer group transition-all hover:bg-stone-900/50"
+              className="border-2 border-dashed border-stone-800 hover:border-amber-600/80 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer group transition-all hover:bg-stone-800/50"
             >
               <div className="p-4 bg-stone-900 rounded-full text-stone-500 group-hover:text-amber-400 border border-stone-800 group-hover:border-amber-600 transition-colors">
                 <Plus className="w-8 h-8" />
