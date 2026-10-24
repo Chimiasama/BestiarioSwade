@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bestiário de Lendas</string>
+    <string name="title_activity_main">Bestiário de Lendas</string>
+    <string name="package_name">com.bestiariodelendas.app</string>
+    <string name="custom_url_scheme">com.bestiariodelendas.app</string>
+</resources>
