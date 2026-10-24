@@ -1,11 +1,13 @@
 name: Build Android APK
 
 on:
-  push:
-    branches:
-      - main
-      - master
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch para compilar a APK'
+        required: true
+        default: 'main'
+        type: string
 
 jobs:
   build-apk:
@@ -13,8 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout selected branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,7 +30,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version: '17'
 
       - name: Install dependencies
         run: npm ci
