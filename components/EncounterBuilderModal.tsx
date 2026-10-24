@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Monster, MonsterRank } from '../types';
 import {
   Swords,
@@ -12,7 +12,11 @@ import {
   Star,
   CheckCircle2,
   Dice5,
-  Flame
+  Flame,
+  Save,
+  Bookmark,
+  Trash2,
+  FolderPlus
 } from 'lucide-react';
 
 interface EncounterBuilderModalProps {
@@ -24,6 +28,16 @@ interface EncounterBuilderModalProps {
 }
 
 type EncounterDifficulty = 'escaramuca' | 'padrao' | 'desafiador' | 'chefe' | 'horda';
+
+export interface SavedEncounter {
+  id: string;
+  name: string;
+  date: string;
+  monsters: { monsterId: string; count: number; role: string }[];
+  notes?: string;
+}
+
+const SAVED_ENCOUNTERS_KEY = 'swade_saved_campaign_encounters';
 
 export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
   isOpen,
@@ -38,6 +52,28 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
   const [environmentTheme, setEnvironmentTheme] = useState<string>('todos');
   const [seed, setSeed] = useState<number>(1);
   const [addedNotice, setAddedNotice] = useState<boolean>(false);
+
+  // Saved Campaign Encounters State
+  const [savedEncounters, setSavedEncounters] = useState<SavedEncounter[]>([]);
+  const [activeTab, setActiveTab] = useState<'generator' | 'saved'>('generator');
+  const [newEncounterName, setNewEncounterName] = useState<string>('');
+  const [saveSuccessMsg, setSaveSuccessMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(SAVED_ENCOUNTERS_KEY);
+      if (stored) {
+        setSavedEncounters(JSON.parse(stored));
+      }
+    } catch {}
+  }, []);
+
+  const saveEncountersToStorage = (updated: SavedEncounter[]) => {
+    setSavedEncounters(updated);
+    try {
+      localStorage.setItem(SAVED_ENCOUNTERS_KEY, JSON.stringify(updated));
+    } catch {}
+  };
 
   // Filter pool by environment theme if specified
   const eligibleMonsters = useMemo(() => {
@@ -135,16 +171,42 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
               <Swords className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-cinzel text-xl font-bold text-amber-200">Gerador de Encontros SWADE</h2>
-              <p className="text-xs text-stone-400">Balanceamento tático para Savage Worlds Adventure Edition</p>
+              <h2 className="font-cinzel text-xl font-bold text-amber-200">Gerador & Banco de Encontros SWADE</h2>
+              <p className="text-xs text-stone-400">Balanceamento e preparação de batalhas para a campanha</p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* Tab switch */}
+            <button
+              onClick={() => setActiveTab('generator')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold transition-all ${
+                activeTab === 'generator'
+                  ? 'bg-amber-600 text-stone-950 shadow'
+                  : 'bg-stone-900 text-stone-400 border border-stone-800'
+              }`}
+            >
+              Gerar Encontro
+            </button>
+            <button
+              onClick={() => setActiveTab('saved')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold transition-all flex items-center gap-1.5 ${
+                activeTab === 'saved'
+                  ? 'bg-amber-600 text-stone-950 shadow'
+                  : 'bg-stone-900 text-stone-400 border border-stone-800'
+              }`}
+            >
+              <Bookmark className="w-3.5 h-3.5" />
+              <span>Salvos ({savedEncounters.length})</span>
+            </button>
+
+            <button
+              onClick={onClose}
+              className="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors ml-2"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Scrollable Configuration & Results */}
@@ -326,35 +388,147 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
 
         </div>
 
-        {/* Modal Footer with Actions */}
-        <div className="bg-stone-900/90 border-t border-stone-800 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
-          <div className="text-xs text-stone-400">
-            {addedNotice ? (
-              <span className="text-amber-400 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Monstros adicionados aos Favoritos!
-              </span>
+        {activeTab === 'generator' ? (
+          <>
+            {/* Save Custom Encounter Form Bar */}
+            <div className="px-4 sm:px-6 pt-3 flex items-center gap-2 border-t border-stone-800 bg-stone-950">
+              <input
+                type="text"
+                placeholder="Nome do Encontro da Campanha (ex: Emboscada na Caatinga - Sessão 3)..."
+                value={newEncounterName}
+                onChange={(e) => setNewEncounterName(e.target.value)}
+                className="flex-1 bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-3 text-xs text-stone-200 focus:ring-1 focus:ring-amber-500"
+              />
+              <button
+                onClick={() => {
+                  if (!newEncounterName.trim()) return;
+                  const newEntry: SavedEncounter = {
+                    id: `enc-${Date.now()}`,
+                    name: newEncounterName.trim(),
+                    date: new Date().toLocaleDateString('pt-BR'),
+                    monsters: generatedEncounter.map(e => ({
+                      monsterId: e.monster.id,
+                      count: e.count,
+                      role: e.role,
+                    }))
+                  };
+                  saveEncountersToStorage([newEntry, ...savedEncounters]);
+                  setNewEncounterName('');
+                  setSaveSuccessMsg(`Encontro "${newEntry.name}" salvo na campanha!`);
+                  setTimeout(() => setSaveSuccessMsg(null), 3500);
+                }}
+                disabled={!newEncounterName.trim()}
+                className="px-3 py-1.5 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-700/60 font-cinzel font-bold text-xs rounded-lg flex items-center gap-1 transition-all disabled:opacity-40"
+              >
+                <Save className="w-3.5 h-3.5 text-amber-400" />
+                Salvar Encontro
+              </button>
+            </div>
+            {saveSuccessMsg && (
+              <div className="px-6 py-1 text-xs text-emerald-400 font-semibold flex items-center gap-1 bg-stone-950">
+                <CheckCircle2 className="w-3.5 h-3.5" /> {saveSuccessMsg}
+              </div>
+            )}
+
+            {/* Modal Footer with Actions */}
+            <div className="bg-stone-900/90 border-t border-stone-800 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+              <div className="text-xs text-stone-400">
+                {addedNotice ? (
+                  <span className="text-amber-400 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    Monstros adicionados aos Favoritos!
+                  </span>
+                ) : (
+                  <span>Clique no monstro para ver sua ficha detalhada.</span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={onClose}
+                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg font-cinzel text-xs transition-colors"
+                >
+                  Fechar
+                </button>
+                <button
+                  onClick={handleAddToSession}
+                  className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-cinzel font-bold text-xs rounded-lg shadow-lg flex items-center gap-1.5 transition-all"
+                >
+                  <Star className="w-4 h-4 fill-stone-950 text-stone-950" />
+                  Fixar Encontro nos Favoritos
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          /* TAB 2: SAVED ENCOUNTERS LIST */
+          <div className="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
+            <h3 className="font-cinzel text-base font-bold text-amber-300 flex items-center gap-2">
+              <Bookmark className="w-4 h-4 text-amber-400" />
+              Encontros Salvos da Campanha ({savedEncounters.length})
+            </h3>
+
+            {savedEncounters.length === 0 ? (
+              <div className="text-center py-12 bg-stone-900/40 rounded-xl border border-stone-800 p-6">
+                <FolderPlus className="w-10 h-10 text-stone-600 mx-auto mb-2" />
+                <p className="font-cinzel text-stone-400 text-sm font-bold">Nenhum Encontro Salvo</p>
+                <p className="text-stone-500 text-xs mt-1">
+                  Gere um encontro na aba "Gerar Encontro", dê um nome e clique em Salvar para preparar combates da sua sessão!
+                </p>
+              </div>
             ) : (
-              <span>Clique no monstro para ver sua ficha detalhada.</span>
+              <div className="space-y-3">
+                {savedEncounters.map((enc) => (
+                  <div
+                    key={enc.id}
+                    className="bg-stone-900 border border-stone-800 hover:border-amber-700/60 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+                  >
+                    <div>
+                      <h4 className="font-cinzel font-bold text-amber-200 text-sm">{enc.name}</h4>
+                      <p className="text-[11px] text-stone-400 mt-0.5">Criado em: {enc.date}</p>
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {enc.monsters.map((item, i) => {
+                          const m = allMonsters.find(x => x.id === item.monsterId);
+                          return (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 bg-stone-950 border border-stone-800 rounded text-[11px] text-stone-300 font-mono-dice"
+                            >
+                              {m ? m.name : 'Monstro'} x{item.count} ({item.role})
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                      <button
+                        onClick={() => {
+                          const ids = enc.monsters.map(m => m.monsterId);
+                          onAddEncounterToSession(ids);
+                          alert(`Encontro "${enc.name}" ativado na sua lista de Favoritos!`);
+                        }}
+                        className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-cinzel font-bold text-xs rounded-lg shadow transition-all"
+                      >
+                        Carregar na Mesa
+                      </button>
+                      <button
+                        onClick={() => {
+                          const updated = savedEncounters.filter(x => x.id !== enc.id);
+                          saveEncountersToStorage(updated);
+                        }}
+                        className="p-1.5 text-stone-500 hover:text-red-400 hover:bg-stone-800 rounded transition-colors"
+                        title="Excluir encontro salvo"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg font-cinzel text-xs transition-colors"
-            >
-              Fechar
-            </button>
-            <button
-              onClick={handleAddToSession}
-              className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-cinzel font-bold text-xs rounded-lg shadow-lg flex items-center gap-1.5 transition-all"
-            >
-              <Star className="w-4 h-4 fill-stone-950 text-stone-950" />
-              Fixar Encontro nos Favoritos
-            </button>
-          </div>
-        </div>
+        )}
 
       </div>
     </div>

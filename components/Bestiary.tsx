@@ -12,7 +12,7 @@ import {
 } from '../services/customMonsterService';
 import { Monster, DiceRollResult } from '../types';
 import { generatePdf } from '../services/pdfService';
-import { rollTrait, rollDamage } from '../services/diceService';
+import { rollTrait, rollDamage, parseWeaponAttacks } from '../services/diceService';
 import { DiceRollerModal } from './DiceRollerModal';
 import { EncounterBuilderModal } from './EncounterBuilderModal';
 import { MonsterStatsModal } from './MonsterStatsModal';
@@ -20,6 +20,8 @@ import { LocalStorageManagerModal } from './LocalStorageManagerModal';
 import {
   BookOpen,
   Plus,
+  Eye,
+  EyeOff,
   Printer,
   PieChart,
   Database,
@@ -183,7 +185,9 @@ const MonsterDetail: React.FC<{
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onRoll: (title: string, formula: string, isWildCard: boolean) => void;
-}> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll }) => {
+  onRollDamage?: (title: string, formula: string, strengthDie: string) => void;
+  isPlayerView?: boolean;
+}> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll, onRollDamage, isPlayerView = false }) => {
   const [isPrinting, setIsPrinting] = useState(false);
   const [isShaken, setIsShaken] = useState(false);
   const [wounds, setWounds] = useState(0);
@@ -428,9 +432,16 @@ const MonsterDetail: React.FC<{
             </div>
 
             {/* Backstory / Flavor lore */}
-            <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-800/80 font-crimson text-stone-300 text-base leading-relaxed italic">
-              "{monster.history}"
-            </div>
+            {isPlayerView ? (
+              <div className="bg-blue-950/30 p-4 rounded-xl border border-blue-900/50 text-xs text-blue-300/80 flex items-center gap-2">
+                <EyeOff className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>[História Secreta e Fraquezas Ocultadas pelo Mestre no Modo Jogador]</span>
+              </div>
+            ) : (
+              <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-800/80 font-crimson text-stone-300 text-base leading-relaxed italic">
+                "{monster.history}"
+              </div>
+            )}
           </div>
         </div>
 
@@ -516,14 +527,30 @@ const MonsterDetail: React.FC<{
           {/* Weapons, Edges, Hindrances */}
           <div className="space-y-4">
             
-            {/* Weapons / Attacks */}
+            {/* Weapons / Attacks (Interactive Damage Buttons) */}
             {monster.weapons && (
-              <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800">
+              <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800 space-y-2">
                 <h4 className="font-cinzel text-sm font-bold text-amber-400 mb-1 flex items-center gap-2">
                   <Swords className="w-4 h-4" />
-                  Armas & Ataques
+                  Armas & Ataques (Clique para Rolar Dano)
                 </h4>
-                <p className="text-sm text-stone-300">{monster.weapons}</p>
+                <div className="space-y-2">
+                  {parseWeaponAttacks(monster.weapons).map((atk, idx) => (
+                    <div key={idx} className="flex items-center justify-between bg-stone-950 p-2 rounded-lg border border-stone-800 text-xs">
+                      <span className="text-stone-300 font-medium">{atk.originalText}</span>
+                      {onRollDamage && (
+                        <button
+                          onClick={() => onRollDamage(`${monster.name} - ${atk.name}`, atk.formula, monster.attributes.strength)}
+                          className="px-2.5 py-1 bg-red-950 hover:bg-red-900 text-red-200 border border-red-700/60 rounded font-cinzel font-bold text-[11px] transition-colors flex items-center gap-1 shadow-sm shrink-0"
+                          title={`Rolar Dano: ${atk.formula}`}
+                        >
+                          <Dices className="w-3 h-3 text-red-400" />
+                          Rolar Dano ({atk.formula})
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -835,7 +862,8 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
 const Bestiary: React.FC<{
   onEditMonster: (monster: Monster) => void;
   showCreator: () => void;
-}> = ({ onEditMonster, showCreator }) => {
+  isPlayerView?: boolean;
+}> = ({ onEditMonster, showCreator, isPlayerView = false }) => {
   const [activeTab, setActiveTab] = useState<'books' | 'all' | 'favorites'>('books');
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const [selectedMonster, setSelectedMonster] = useState<Monster | null>(null);
@@ -1093,6 +1121,11 @@ const Bestiary: React.FC<{
     setActiveRoll(result);
   };
 
+  const handleTriggerDamage = (title: string, formula: string, strengthDie: string) => {
+    const result = rollDamage(title, formula, strengthDie);
+    setActiveRoll(result);
+  };
+
   // Export JSON Backup of full local database
   const handleExportBackup = () => {
     const jsonStr = exportFullDatabaseAsJson();
@@ -1282,6 +1315,8 @@ const Bestiary: React.FC<{
           isFavorite={favoriteIds.includes(selectedMonster.id)}
           onToggleFavorite={handleToggleFavorite}
           onRoll={handleTriggerRoll}
+          onRollDamage={handleTriggerDamage}
+          isPlayerView={isPlayerView}
         />
         <DiceRollerModal
           rollResult={activeRoll}
