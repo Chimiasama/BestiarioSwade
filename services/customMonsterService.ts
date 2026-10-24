@@ -24,6 +24,47 @@ export interface StorageMetrics {
   isOfflineReady: boolean;
 }
 
+const IDB_NAME = 'swade_image_db';
+const IDB_STORE = 'monster_portraits';
+
+// Helper to store large base64 images in IndexedDB to preserve LocalStorage quota
+export const saveImageToIndexedDB = (id: string, base64: string): Promise<void> => {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.indexedDB) return resolve();
+    const req = window.indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(IDB_STORE)) {
+        db.createObjectStore(IDB_STORE);
+      }
+    };
+    req.onsuccess = () => {
+      const db = req.result;
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put(base64, id);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    };
+    req.onerror = () => resolve();
+  });
+};
+
+export const getImageFromIndexedDB = (id: string): Promise<string | null> => {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.indexedDB) return resolve(null);
+    const req = window.indexedDB.open(IDB_NAME, 1);
+    req.onsuccess = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(IDB_STORE)) return resolve(null);
+      const tx = db.transaction(IDB_STORE, 'readonly');
+      const getReq = tx.objectStore(IDB_STORE).get(id);
+      getReq.onsuccess = () => resolve(getReq.result || null);
+      getReq.onerror = () => resolve(null);
+    };
+    req.onerror = () => resolve(null);
+  });
+};
+
 // Function to convert a file to a Base64 string for offline storage
 export const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -412,13 +453,19 @@ export const importCustomMonstersFromJson = (jsonString: string): { success: boo
 
 export const addCustomMonster = async (monsterTemplate: MonsterTemplate, imageFile?: File): Promise<void> => {
   let imageUrl = monsterTemplate.imageUrl || "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
+  const monsterId = monsterTemplate.id || `custom-${new Date().getTime()}`;
 
   if (imageFile) {
     imageUrl = await toBase64(imageFile);
   }
+
+  // Save large base64 strings in IndexedDB if present
+  if (imageUrl.startsWith('data:image')) {
+    await saveImageToIndexedDB(monsterId, imageUrl);
+  }
   
   const newMonster: Monster = {
-    id: monsterTemplate.id || `custom-${new Date().getTime()}`,
+    id: monsterId,
     name: monsterTemplate.name,
     race: monsterTemplate.race,
     archetype: monsterTemplate.archetype,

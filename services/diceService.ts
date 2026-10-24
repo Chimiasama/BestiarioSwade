@@ -173,11 +173,51 @@ export const clearDiceSessionHistory = (): void => {
 /**
  * Rolls damage formula like "For+d8", "2d6", "3d6+2"
  */
+/**
+ * Parses a weapon/attack text block into discrete attack entries with formulas
+ * e.g., "Espada Curta (For+d6), Arco Curto (2d6, Alcance 12/24/48)"
+ */
+export const parseWeaponAttacks = (weaponsText?: string): { name: string; formula: string; originalText: string }[] => {
+  if (!weaponsText || !weaponsText.trim()) return [];
+
+  // Split by comma or semicolon or newlines that separate weapon entries
+  const parts = weaponsText.split(/[,;\n]/).map(s => s.trim()).filter(Boolean);
+  const results: { name: string; formula: string; originalText: string }[] = [];
+
+  for (const part of parts) {
+    // Match patterns like "Espada Longa (For+d8)" or "Adaga (For+d4+1)" or "Besta (2d6)"
+    const match = part.match(/^(.*?)(?:\((.*?)\))?$/);
+    if (match) {
+      const rawName = match[1].trim();
+      const parenthetical = match[2] ? match[2].trim() : '';
+
+      // Check if parenthetical or raw string contains a die expression (d4, d6, d8, d10, d12, for+d6, etc)
+      const formulaMatch = (parenthetical || part).match(/(for\s*\+\s*d\d+(?:\s*\+\s*\d+)?|\d*d\d+(?:\s*[+-]\s*\d+)?)/i);
+
+      if (formulaMatch) {
+        results.push({
+          name: rawName || part,
+          formula: formulaMatch[1].replace(/\s+/g, ''),
+          originalText: part
+        });
+      } else if (rawName) {
+        results.push({
+          name: rawName,
+          formula: 'For+d4',
+          originalText: part
+        });
+      }
+    }
+  }
+
+  return results;
+};
+
 export const rollDamage = (
   title: string,
   formula: string,
   strengthDie: string = 'd6'
-): { title: string; rolls: { sides: number; rolls: number[]; total: number }[]; modifier: number; total: number } => {
+): DiceRollResult => {
   let processed = formula.replace(/for/gi, strengthDie);
   const parts = processed.split('+').map(p => p.trim());
   const diceResults: { sides: number; rolls: number[]; total: number }[] = [];
@@ -214,9 +254,12 @@ export const rollDamage = (
   } catch {}
 
   return {
+    isDamage: true,
     title,
+    formula: `${formula} [Força ${strengthDie}]`,
     rolls: diceResults,
     modifier,
-    total,
+    finalTotal: total,
+    timestamp: new Date(),
   };
 };

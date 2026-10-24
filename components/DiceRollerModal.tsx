@@ -261,10 +261,12 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
               className="text-xs uppercase tracking-widest font-cinzel mb-1 flex items-center justify-center gap-1.5"
               style={{ color: 'var(--text-muted)' }}
             >
-              <span>Resultado Final</span>
-              <span className="font-mono-dice font-bold" style={{ color: 'var(--accent-highlight)' }}>
-                (Alvo {currentView.targetNumber})
-              </span>
+              <span>{currentView.isDamage ? 'Dano Total Infligido' : 'Resultado Final'}</span>
+              {!currentView.isDamage && (
+                <span className="font-mono-dice font-bold" style={{ color: 'var(--accent-highlight)' }}>
+                  (Alvo {currentView.targetNumber})
+                </span>
+              )}
               {animating && (
                 <Zap className="w-3 h-3 animate-bounce" style={{ color: 'var(--accent-highlight)' }} />
               )}
@@ -287,7 +289,11 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
 
             {/* Outcome Status Banner */}
             <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-              {currentView.isCriticalFailure ? (
+              {currentView.isDamage ? (
+                <span className="bg-red-950/90 text-red-300 border border-red-700 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm font-cinzel font-bold">
+                  💥 Golpe de Ataque (Compare com a Resistência da Vítima)
+                </span>
+              ) : currentView.isCriticalFailure ? (
                 <span className="bg-red-950/90 text-red-300 border border-red-700 px-3 py-1 rounded-full flex items-center gap-1.5 animate-pulse shadow-sm">
                   <AlertTriangle className="w-4 h-4 text-red-400" />
                   FALHA CRÍTICA! (Olhos de Cobra)
@@ -329,107 +335,135 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
               color: 'var(--text-primary)',
             }}
           >
-            {/* Trait Die Breakdown */}
-            <div 
-              className="flex items-center justify-between border-b pb-2"
-              style={{ borderColor: 'var(--border-base)' }}
-            >
-              <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
-                <span 
-                  className="w-2 h-2 rounded-full" 
-                  style={{ backgroundColor: 'var(--accent-highlight)' }}
-                />
-                Dado de Traço (d{currentView.traitDiceSides}):
-              </span>
-              <div className="font-mono-dice" style={{ color: 'var(--text-primary)' }}>
-                {currentView.traitRolls.map((r, idx) => {
-                  const isAce = r === currentView.traitDiceSides;
-                  return (
-                    <span key={idx}>
-                      <span
-                        className={
-                          isAce
-                            ? "px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-0.5 animate-pulse border shadow-xs"
-                            : ""
-                        }
-                        style={
-                          isAce 
-                            ? {
-                                backgroundColor: 'var(--badge-bg)',
-                                borderColor: 'var(--border-accent)',
-                                color: 'var(--badge-text)',
-                                boxShadow: '0 0 8px color-mix(in srgb, var(--accent-highlight) 30%, transparent)'
-                              }
-                            : { color: 'var(--text-primary)' }
-                        }
-                        title={isAce ? `Ás! Dado explodiu no valor máximo ${r}!` : undefined}
-                      >
-                        {r}
-                        {isAce && <Sparkles className="w-2.5 h-2.5 inline" style={{ color: 'var(--accent-highlight)' }} />}
-                      </span>
-                      {idx < currentView.traitRolls.length - 1 ? " + " : ""}
+            {currentView.isDamage ? (
+              /* Damage Roll Breakdown */
+              <div className="space-y-2">
+                {currentView.rolls.map((r, i) => (
+                  <div key={i} className="flex items-center justify-between border-b pb-1.5 border-stone-800">
+                    <span className="text-stone-300 text-xs font-cinzel">
+                      Dado d{r.sides}:
                     </span>
-                  );
-                })}
-                {currentView.traitRolls.length > 1 && (
-                  <span className="font-semibold" style={{ color: 'var(--accent-highlight)' }}>
-                    {" "} = {currentView.traitTotal}
-                  </span>
+                    <span className="font-mono-dice text-amber-300 font-bold">
+                      {r.rolls.map((val, idx) => (
+                        <span key={idx} className={val === r.sides ? "text-amber-400 underline font-extrabold" : ""}>
+                          {val}{idx < r.rolls.length - 1 ? " + " : ""}
+                        </span>
+                      ))} = {r.total}
+                    </span>
+                  </div>
+                ))}
+                {currentView.modifier !== 0 && (
+                  <div className="flex items-center justify-between text-xs font-mono-dice text-stone-400">
+                    <span>Modificador:</span>
+                    <span>{currentView.modifier > 0 ? `+${currentView.modifier}` : currentView.modifier}</span>
+                  </div>
                 )}
               </div>
-            </div>
-
-            {/* Wild Die Breakdown if applicable */}
-            {currentView.isWildCard && currentView.wildRolls && (
-              <div 
-                className="flex items-center justify-between border-b pb-2"
-                style={{ borderColor: 'var(--border-base)' }}
-              >
-                <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
-                  <span className="w-2 h-2 rounded-full bg-red-500" />
-                  Dado Selvagem (d6):
-                </span>
-                <div className="font-mono-dice" style={{ color: 'var(--text-primary)' }}>
-                  {currentView.wildRolls.map((r, idx) => {
-                    const isAce = r === 6;
-                    return (
-                      <span key={idx}>
-                        <span
-                          className={
-                            isAce
-                              ? "px-1.5 py-0.5 rounded bg-red-950/80 border border-red-500/80 text-red-300 font-bold shadow-sm shadow-red-500/30 inline-flex items-center gap-0.5 animate-pulse"
-                              : ""
-                          }
-                          style={!isAce ? { color: 'var(--text-primary)' } : undefined}
-                          title={isAce ? "Ás no Dado Selvagem! Rolagem máxima 6!" : undefined}
-                        >
-                          {r}
-                          {isAce && <Sparkles className="w-2.5 h-2.5 text-red-400 inline" />}
+            ) : (
+              /* Trait Roll Breakdown */
+              <>
+                <div
+                  className="flex items-center justify-between border-b pb-2"
+                  style={{ borderColor: 'var(--border-base)' }}
+                >
+                  <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-highlight)' }}
+                    />
+                    Dado de Traço (d{currentView.traitDiceSides}):
+                  </span>
+                  <div className="font-mono-dice" style={{ color: 'var(--text-primary)' }}>
+                    {currentView.traitRolls.map((r, idx) => {
+                      const isAce = r === currentView.traitDiceSides;
+                      return (
+                        <span key={idx}>
+                          <span
+                            className={
+                              isAce
+                                ? "px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-0.5 animate-pulse border shadow-xs"
+                                : ""
+                            }
+                            style={
+                              isAce
+                                ? {
+                                    backgroundColor: 'var(--badge-bg)',
+                                    borderColor: 'var(--border-accent)',
+                                    color: 'var(--badge-text)',
+                                    boxShadow: '0 0 8px color-mix(in srgb, var(--accent-highlight) 30%, transparent)'
+                                  }
+                                : { color: 'var(--text-primary)' }
+                            }
+                            title={isAce ? `Ás! Dado explodiu no valor máximo ${r}!` : undefined}
+                          >
+                            {r}
+                            {isAce && <Sparkles className="w-2.5 h-2.5 inline" style={{ color: 'var(--accent-highlight)' }} />}
+                          </span>
+                          {idx < currentView.traitRolls.length - 1 ? " + " : ""}
                         </span>
-                        {idx < (currentView.wildRolls?.length || 0) - 1 ? " + " : ""}
+                      );
+                    })}
+                    {currentView.traitRolls.length > 1 && (
+                      <span className="font-semibold" style={{ color: 'var(--accent-highlight)' }}>
+                        {" "} = {currentView.traitTotal}
                       </span>
-                    );
-                  })}
-                  {(currentView.wildRolls?.length || 0) > 1 && (
-                    <span className="text-red-400 font-semibold"> = {currentView.wildTotal}</span>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
 
-            {/* Modifiers */}
-            {currentView.modifier !== 0 && (
-              <div className="flex items-center justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
-                <span>Modificador:</span>
-                <span className="font-mono-dice font-bold" style={{ color: 'var(--accent-highlight)' }}>
-                  {currentView.modifier > 0 ? `+${currentView.modifier}` : currentView.modifier}
-                </span>
-              </div>
+                {currentView.isWildCard && currentView.wildRolls && (
+                  <div
+                    className="flex items-center justify-between border-b pb-2"
+                    style={{ borderColor: 'var(--border-base)' }}
+                  >
+                    <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                      <span className="w-2 h-2 rounded-full bg-red-500" />
+                      Dado Selvagem (d6):
+                    </span>
+                    <div className="font-mono-dice" style={{ color: 'var(--text-primary)' }}>
+                      {currentView.wildRolls.map((r, idx) => {
+                        const isAce = r === 6;
+                        return (
+                          <span key={idx}>
+                            <span
+                              className={
+                                isAce
+                                  ? "px-1.5 py-0.5 rounded bg-red-950/80 border border-red-500/80 text-red-300 font-bold shadow-sm shadow-red-500/30 inline-flex items-center gap-0.5 animate-pulse"
+                                  : ""
+                              }
+                              style={!isAce ? { color: 'var(--text-primary)' } : undefined}
+                              title={isAce ? "Ás no Dado Selvagem! Rolagem máxima 6!" : undefined}
+                            >
+                              {r}
+                              {isAce && <Sparkles className="w-2.5 h-2.5 text-red-400 inline" />}
+                            </span>
+                            {idx < (currentView.wildRolls?.length || 0) - 1 ? " + " : ""}
+                          </span>
+                        );
+                      })}
+                      {(currentView.wildRolls?.length || 0) > 1 && (
+                        <span className="text-red-400 font-semibold"> = {currentView.wildTotal}</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {currentView.modifier !== 0 && (
+                  <div className="flex items-center justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
+                    <span>Modificador:</span>
+                    <span className="font-mono-dice font-bold" style={{ color: 'var(--accent-highlight)' }}>
+                      {currentView.modifier > 0 ? `+${currentView.modifier}` : currentView.modifier}
+                    </span>
+                  </div>
+                )}
+              </>
             )}
 
             {/* Explanation note for Savage Worlds */}
             <div className="text-[11px] italic pt-1 text-center" style={{ color: 'var(--text-dim)' }}>
-              {currentView.isWildCard
+              {currentView.isDamage
+                ? "Dano em SWADE explode com Ases em todos os dados de dano."
+                : currentView.isWildCard
                 ? "Regra de Carta Selvagem: Considera-se o maior valor entre o Dado de Traço e o Dado Selvagem."
                 : "Regra Extra: Rola apenas o dado da característica (sem Dado Selvagem)."}
             </div>

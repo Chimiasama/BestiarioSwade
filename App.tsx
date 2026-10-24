@@ -13,7 +13,7 @@ import {
   subscribeToSystemTheme,
   ThemeSettings 
 } from './services/themeService';
-import { BookOpen, Plus, Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize } from 'lucide-react';
+import { BookOpen, Plus, Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize, Eye, EyeOff } from 'lucide-react';
 
 export type View = 'bestiary' | 'creator';
 
@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [quickWildCard, setQuickWildCard] = useState(true);
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [playerViewMode, setPlayerViewMode] = useState(false);
 
   // Monitor fullscreen change events (e.g. user pressed Esc or F11)
   useEffect(() => {
@@ -201,6 +202,21 @@ const App: React.FC = () => {
 
           {/* Navigation & Help */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Player View / Fog of War Toggle */}
+            <button
+              onClick={() => setPlayerViewMode(!playerViewMode)}
+              className={`p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5 shadow-sm ${
+                playerViewMode
+                  ? 'bg-blue-950/80 border-blue-500/80 text-blue-300 font-bold'
+                  : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
+              }`}
+              title={playerViewMode ? 'Modo Jogador Ativo (Segredos e Lore do Mestre Ocultos)' : 'Alternar Modo Jogador / Névoa de Guerra'}
+            >
+              {playerViewMode ? <EyeOff className="w-4 h-4 text-blue-400" /> : <Eye className="w-4 h-4 text-amber-400" />}
+              <span className="hidden sm:inline font-cinzel">
+                {playerViewMode ? 'Modo Jogador' : 'Visão Mestre'}
+              </span>
+            </button>
             <button
               onClick={() => setShowThemeModal(true)}
               className="p-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center gap-1.5 shadow-sm"
@@ -282,6 +298,7 @@ const App: React.FC = () => {
           <Bestiary
             onEditMonster={handleEditMonster}
             showCreator={() => setView('creator')}
+            isPlayerView={playerViewMode}
           />
         ) : (
           <MonsterCreator
