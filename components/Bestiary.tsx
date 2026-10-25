@@ -1331,10 +1331,10 @@ const Bestiary: React.FC<{
     <div className="space-y-6">
       
       {/* Navigation Sub-Bar (Grimório / Compêndio / Mesa do Mestre) */}
-      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-wrap justify-between items-center gap-3 backdrop-blur-md">
+      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-wrap justify-between items-center gap-3 backdrop-blur-md max-w-full overflow-x-hidden">
         
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 max-w-full">
           <button
             onClick={() => {
               setActiveTab('books');
@@ -1382,7 +1382,7 @@ const Bestiary: React.FC<{
         </div>
 
         {/* Global Action Tools (Import/Export JSON, Print, New Monster) */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 max-w-full">
           {/* Backup Import/Export */}
           <input
             type="file"
@@ -1485,7 +1485,7 @@ const Bestiary: React.FC<{
 
       {/* Search & Filter Controls (shown if in 'all', 'favorites', or inside a selected book) */}
       {(activeTab !== 'books' || selectedBook) && (
-        <div className="bg-stone-950/60 p-4 rounded-xl border border-stone-800/80 space-y-3">
+        <div className="bg-stone-950/60 p-4 rounded-xl border border-stone-800/80 space-y-3 max-w-full overflow-x-hidden">
           
           {/* Main Search and Core Selectors */}
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
@@ -1771,7 +1771,7 @@ const Bestiary: React.FC<{
         <div className="space-y-3">
           
           {/* Alphabet Ribbon (A-Z Fast Scroller) */}
-          <div className="bg-stone-950/70 border border-stone-800/90 rounded-xl p-2.5 backdrop-blur-sm">
+          <div className="bg-stone-950/70 border border-stone-800/90 rounded-xl p-2.5 backdrop-blur-sm max-w-full overflow-x-hidden">
             <div className="flex items-center justify-between gap-2 mb-2 px-1">
               <div className="flex items-center gap-2">
                 <span className="font-cinzel text-xs font-bold text-amber-300 flex items-center gap-1.5">
@@ -1797,7 +1797,7 @@ const Bestiary: React.FC<{
             </div>
 
             {/* Scrollable Ribbon */}
-            <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-stone-800">
+            <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-stone-800 max-w-full min-w-0">
               <button
                 onClick={() => setSelectedLetter('all')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold transition-all shrink-0 flex items-center gap-1.5 ${
@@ -1850,7 +1850,7 @@ const Bestiary: React.FC<{
           </div>
 
           {/* View Mode Bar & Accordion Controls */}
-          <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-3 max-w-full overflow-x-hidden">
             
             {/* View Mode Buttons */}
             <div className="flex items-center gap-1.5">

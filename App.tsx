@@ -13,7 +13,7 @@ import {
   subscribeToSystemTheme,
   ThemeSettings 
 } from './services/themeService';
-import { BookOpen, Plus, Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize, Eye, EyeOff } from 'lucide-react';
+import { Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize, Eye, EyeOff } from 'lucide-react';
 
 export type View = 'bestiary' | 'creator';
 
@@ -141,10 +141,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white">
+    <div className="min-h-screen bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden">
       
       {/* Ornate Top Header */}
-      <header className="bg-stone-950/90 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40">
+      <header className="bg-stone-950/90 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
           
           {/* Logo / Branding */}
@@ -257,43 +257,13 @@ const App: React.FC = () => {
               <HelpCircle className="w-4 h-4" />
               <span className="hidden md:inline font-cinzel">Regras SWADE</span>
             </button>
-
-            <button
-              onClick={() => {
-                setMonsterToEdit(null);
-                setView('bestiary');
-              }}
-              className={`px-3.5 py-2 rounded-lg font-cinzel text-xs font-bold transition-all flex items-center gap-2 ${
-                view === 'bestiary'
-                  ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800 border border-stone-800'
-              }`}
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>Compêndio</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setMonsterToEdit(null);
-                setView('creator');
-              }}
-              className={`px-3.5 py-2 rounded-lg font-cinzel text-xs font-bold transition-all flex items-center gap-2 ${
-                view === 'creator'
-                  ? 'bg-red-700 text-white shadow-md shadow-red-700/30'
-                  : 'bg-stone-900 text-stone-300 hover:bg-stone-800 border border-stone-800'
-              }`}
-            >
-              <Plus className="w-4 h-4" />
-              <span>Criar Monstro</span>
-            </button>
           </div>
 
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex-grow w-full">
+      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
         {view === 'bestiary' ? (
           <Bestiary
             onEditMonster={handleEditMonster}
