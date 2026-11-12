@@ -888,6 +888,140 @@ export const monsters: Monster[] = [
     history: "Veterano de guerras corporativas que teve 70% do corpo substituído por servo-motores e placas de blindagem pesada para combate espacial.",
     sourcebook: "Compêndio de Sci-Fi"
   },
+  {
+    id: "scifi-3",
+    name: "Drone Sentinela Autônomo",
+    race: "Constructo Sintético",
+    archetype: "Caçador de Segurança",
+    isWildCard: false,
+    rank: "Novato",
+    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d6 (A)", spirit: "d6", strength: "d4", vigor: "d8" },
+    skills: ["Atirar d10", "Atletismo d8", "Furtividade d8", "Perceber d10"],
+    movement: "10 (Voo)",
+    parry: 5,
+    toughness: "8 (4)",
+    size: -1,
+    abilities: [
+      { name: "Voo Antigravidade", description: "Deslocamento aéreo contínuo com Movimentação 10." },
+      { name: "Mira Tática com Laser", description: "Ignora penalidades por penumbra, escuridão e fumaça." },
+      { name: "Carapaça de Liga Titânica +4", description: "Blindagem de liga leve ultrarresistente." }
+    ],
+    weapons: "Blaster Duplo Integrado (2d6+2, AP 2, CdT 2, Alcance 12/24/48)",
+    history: "Unidade voadora de segurança corporativa programada para patrulhar corredores de estações orbitais e exterminar invasores não autorizados.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-4",
+    name: "Pirata Espacial Cyber-Aprimorado",
+    race: "Alienígena / Humano",
+    archetype: "Saqueador Estelar",
+    isWildCard: true,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d8", spirit: "d8", strength: "d8", vigor: "d8" },
+    skills: ["Atirar d10", "Atletismo d8", "Furtividade d6", "Intimidar d8", "Lutar d8", "Pilotar d8", "Perceber d8"],
+    movement: "6",
+    parry: 6,
+    toughness: "8 (2)",
+    abilities: [
+      { name: "Aprimoramento Cibernético", description: "Braço robótico concede +2 para resistir a Abalado e +2 de dano físico." }
+    ],
+    advantages: ["Saque Rápido", "Tiro Duplo", "Atirador de Elite"],
+    weapons: "Carabina de Pulso Laser (2d8+1, AP 3), Lâmina de Monofilamento (For+d8, AP 4)",
+    history: "Saqueador das rotas de hiperespaço. Ataca cargueiros com trajes pressurizados e armas de energia de contrabando.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-5",
+    name: "Verme de Silício das Névoas",
+    race: "Besta Extraterrestre",
+    archetype: "Predador dos Ermos",
+    isWildCard: true,
+    rank: "Veterano",
+    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d4 (A)", spirit: "d8", strength: "d12+4", vigor: "d12" },
+    skills: ["Atletismo d6", "Furtividade d10", "Intimidar d10", "Lutar d10", "Perceber d8"],
+    movement: "8 (Cavar)",
+    parry: 7,
+    toughness: "14 (4)",
+    size: 4,
+    abilities: [
+      { name: "Escavar na Rocha", description: "Move-se por regolito e solo arenoso a 8 quadros por rodada." },
+      { name: "Cuspe de Plasma Ácido", description: "Lança jato de ácido ionizado (3d6, AP 2) em Modelo de Cone." },
+      { name: "Pele Cristalina +4", description: "Carapaça mineral que reduz dano de energia." }
+    ],
+    weapons: "Mordida de Mandíbulas Diamantadas (For+d8, AP 3), Cuspe de Ácido (3d6)",
+    history: "Habitante de luas áridas e asteroides minerados. Emerge do subsolo para triturar sondas e trajes espaciais com dentes de cristal sintético.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-6",
+    name: "Androide Infiltrador Sombra",
+    race: "Sintético",
+    archetype: "Assassino de Holograma",
+    isWildCard: true,
+    rank: "Heroico",
+    imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d12", cunning: "d10", spirit: "d8", strength: "d8", vigor: "d10" },
+    skills: ["Atirar d10", "Atletismo d10", "Furtividade d12+2", "Hacker d10", "Lutar d10", "Perceber d10"],
+    movement: "8",
+    parry: 7,
+    toughness: "9 (2)",
+    abilities: [
+      { name: "Camuflagem Termo-Óptica", description: "Ganha Involuntariamente Inviolabilidade por Luz (-4 para ser detectado)." },
+      { name: "Mente Sintética", description: "Imune a medo, venenos, doenças e ilusões biológicas." }
+    ],
+    advantages: ["Assassino", "Acrobata", "Reflexos de Combate"],
+    weapons: "Pistola Silenciada de Agulhas (2d6, AP 4, Veneno Neurotóxico), Garras Mônicas (For+d6, AP 3)",
+    history: "Unidade sintética produzida em laboratórios secretos para espionagem corporativa e eliminação discreta de executivos.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-7",
+    name: "Parasita Psíquico de Antares",
+    race: "Aberração Cósmica",
+    archetype: "Dominador Mental",
+    isWildCard: true,
+    rank: "Lendário",
+    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d8", cunning: "d12", spirit: "d12+2", strength: "d4", vigor: "d8" },
+    skills: ["Psiônico d12+2", "Furtividade d10", "Intimidar d12", "Perceber d12"],
+    movement: "6 (Levitação)",
+    parry: 5,
+    toughness: "6",
+    size: -2,
+    abilities: [
+      { name: "Controle Mental Parasitário", description: "Gasta 2 PP para possuir o cérebro de um humanoide (teste oposto de Espírito -2)." },
+      { name: "Explosão Psíquica", description: "Causa 3d6 de dano mental direto ignorando armaduras físicas." }
+    ],
+    powers: "Marionete, Explosão Mental, Leitura de Mente, Ilusão.",
+    weapons: "Rajada Psíquica Concentrada (3d6, Ignora Armadura)",
+    history: "Entidade alienígena efémera que se prende à coluna vertebral de tripulantes, assumindo o controle total de suas ações e vozes.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-8",
+    name: "Mecha de Batalha Titânico",
+    race: "Veículo / Constructo",
+    archetype: "Colosso Mecanizado",
+    isWildCard: true,
+    rank: "Lendário",
+    imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d8", spirit: "d8", strength: "d12+8", vigor: "d12" },
+    skills: ["Atirar d12", "Atletismo d6", "Intimidar d12", "Lutar d10", "Perceber d8"],
+    movement: "8",
+    parry: 7,
+    toughness: "20 (8)",
+    size: 7,
+    abilities: [
+      { name: "Escudo de Partículas +8", description: "Barreira de energia recarregável que absorve 20 pontos de dano." },
+      { name: "Pisoteamento Devastador", description: "Esmaga unidades de infantaria no caminho com Força total." }
+    ],
+    weapons: "Canhão de Nêutrons Pesado (4d10, AP 8, Modelo de Explosão Grande), Espada de Íons Gigante (For+d12, AP 6)",
+    history: "Andador militar bípede de 12 metros armado com geradores de antimatéria. Usado na vanguarda de invasões planetárias.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
 
   // ==========================================
   // 🌿 HAVENWOOD

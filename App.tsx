@@ -144,7 +144,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden overflow-y-auto">
       
       {/* Ornate Top Header */}
       <header className="bg-stone-950/95 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden pt-safe">

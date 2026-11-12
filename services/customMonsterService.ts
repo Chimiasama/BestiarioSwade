@@ -1,7 +1,7 @@
 import { Monster, MonsterTemplate } from '../types';
 import { monsters as predefinedMonsters } from './monsterData';
 
-export const DB_STORAGE_KEY = 'swade_monsters_database_v2';
+export const DB_STORAGE_KEY = 'swade_monsters_database_v3';
 export const LEGACY_CUSTOM_KEY = 'customMonsters';
 export const FAVORITES_KEY = 'favoriteMonsters';
 export const DB_METADATA_KEY = 'swade_monsters_db_metadata';
@@ -108,6 +108,18 @@ export const initLocalMonsterDatabase = (): Monster[] => {
       }
     }
 
+    // Migration from v2 if present
+    const legacyV2 = localStorage.getItem('swade_monsters_database_v2');
+    let v2Monsters: Monster[] = [];
+    if (legacyV2) {
+      try {
+        const p2 = JSON.parse(legacyV2);
+        if (Array.isArray(p2)) v2Monsters = p2;
+      } catch (e) {
+        // ignore parse error
+      }
+    }
+
     // Seed for the first time: merge predefined and legacy custom monsters
     const legacyCustom = getCustomMonsters();
     const mergedMap = new Map<string, Monster>();
@@ -117,7 +129,13 @@ export const initLocalMonsterDatabase = (): Monster[] => {
       mergedMap.set(m.id, { ...m });
     });
 
-    // Add or override with existing custom monsters
+    // Preserve any custom monsters from v2 or legacy
+    v2Monsters.forEach(m => {
+      if (!mergedMap.has(m.id)) {
+        mergedMap.set(m.id, { ...m });
+      }
+    });
+
     legacyCustom.forEach(m => {
       mergedMap.set(m.id, { ...m });
     });
