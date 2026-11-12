@@ -1726,6 +1726,83 @@ const Bestiary: React.FC<{
               </button>
 
               <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Core Rules' ? 'all' : 'Core Rules')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Core Rules'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                📜 Básico SWADE
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Fantasia' ? 'all' : 'Compêndio de Fantasia')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Compêndio de Fantasia'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                🏰 Fantasia
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Horror' ? 'all' : 'Compêndio de Horror')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Compêndio de Horror'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                👁️ Horror
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Deadlands: O Oeste Estranho' ? 'all' : 'Deadlands: O Oeste Estranho')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Deadlands: O Oeste Estranho'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                🤠 Deadlands
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Pathfinder para Savage Worlds' ? 'all' : 'Pathfinder para Savage Worlds')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Pathfinder para Savage Worlds'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                🧙‍♂️ Pathfinder
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Sci-Fi' ? 'all' : 'Compêndio de Sci-Fi')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Compêndio de Sci-Fi'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                🚀 Sci-Fi
+              </button>
+
+              <button
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Arte da Guerra (ADG)' ? 'all' : 'Arte da Guerra (ADG)')}
+                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                  selectedSourcebookFilter === 'Arte da Guerra (ADG)'
+                    ? 'bg-amber-900/80 text-amber-200 border-amber-500'
+                    : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
+                }`}
+              >
+                ⚔️ Arte da Guerra
+              </button>
+
+              <button
                 onClick={() => setToughnessFilter(t => t === 'titanico' ? 'all' : 'titanico')}
                 className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
                   toughnessFilter === 'titanico'

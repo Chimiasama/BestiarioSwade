@@ -1,7 +1,9 @@
 import { Monster } from '../types';
 
 export const monsters: Monster[] = [
-  // --- Lendas Urbanas & Folclore Brasileiro ---
+  // ==========================================
+  // 🇧🇷 LENDAS BRASILEIRAS & FOLCLORE
+  // ==========================================
   {
     id: "1",
     name: "Loira do Banheiro",
@@ -132,8 +134,60 @@ export const monsters: Monster[] = [
     history: "A personificação do terror noturno. Ronda telhados de vilarejos e cidades durante a madrugada, espreitando pelas frestas para esmagar o fôlego dos desavisados.",
     sourcebook: "Lendas Brasileiras"
   },
+  {
+    id: "fol-br-5",
+    name: "Curupira",
+    race: "Espírito da Mata",
+    archetype: "Guardião da Floresta",
+    isWildCard: true,
+    rank: "Heroico",
+    imageUrl: "https://images.unsplash.com/photo-1511497584788-876761c11969?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d12", cunning: "d10", spirit: "d10", strength: "d10", vigor: "d10" },
+    skills: ["Atletismo d12", "Furtividade d12+2", "Lutar d10", "Perceber d12", "Sobrevivência d12+2", "Provocar d10"],
+    movement: "8",
+    parry: 7,
+    toughness: "7",
+    size: -1,
+    abilities: [
+      { name: "Pés Virados", description: "Suas pegadas apontam no sentido oposto ao seu movimento; rastreá-lo impõe penalidade de -4 no teste de Sobrevivência." },
+      { name: "Ilusão das Matas", description: "Cria assobios e ventania para desnortear caçadores gananciosos, fazendo-os se perderem para sempre." },
+      { name: "Comunicação com Feras", description: "Comanda animais e insetos da mata nativa para atacar invasores." }
+    ],
+    advantages: ["Ligeiro", "Terreno Predileto (Mata)", "Prontidão", "Reflexos de Combate"],
+    complications: ["Código de Honra (Defender a Natureza e Criaturas Pequenas)"],
+    weapons: "Montado em um Caititu ou Queixada selvagem, Golpe Físico (For+d6)",
+    history: "Entidade protetora das florestas brasileiras. Um anão de cabelos de fogo e pés virados para trás que pune impiedosamente caçadores que destroem as matas ou matam por ganância.",
+    sourcebook: "Lendas Brasileiras"
+  },
+  {
+    id: "fol-br-6",
+    name: "Saci-Pererê",
+    race: "Entidade Feérica",
+    archetype: "Espírito Travesso",
+    isWildCard: true,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d12+1", cunning: "d8", spirit: "d10", strength: "d4", vigor: "d8" },
+    skills: ["Atletismo d12", "Furtividade d12+2", "Ladinagem d10", "Perceber d10", "Provocar d12", "Atirar d8"],
+    movement: "8",
+    parry: 6,
+    toughness: "5",
+    size: -1,
+    abilities: [
+      { name: "Redemoinho de Vento", description: "Desloca-se dentro de um redemoinho de poeira e folhas. Pode se teletransportar até 12 quadros." },
+      { name: "Gorro Vermelho Mágico", description: "Seu gorro concede poderes sobrenaturais. Se removido, o Saci perde sua magia até recuperá-lo." },
+      { name: "Travessuras Profanas", description: "Trança crinas de cavalos, azeda o leite e esconde pertences causando Estado Distraído a todos ao redor." }
+    ],
+    advantages: ["Rápido", "Acrobata", "Esquiva Aprimorada"],
+    complications: ["Hábito (Fazer travessuras constantes)", "Perna Única (Compensada pela Magia)"],
+    weapons: "Cachimbo de barro com brasas arremessáveis (For+d4)",
+    history: "Menino negro de uma perna só que usa um gorro vermelho mágico e fuma cachimbo. Mestre dos ventos e das peças pregadas em viajantes nas fazendas do interior.",
+    sourcebook: "Lendas Brasileiras"
+  },
 
-  // --- Regras Básicas Savage Worlds (Core) ---
+  // ==========================================
+  // ⚔️ LIVRO BÁSICO (SWADE CORE RULES)
+  // ==========================================
   {
     id: "sw-1",
     name: "Soldado",
@@ -300,125 +354,10 @@ export const monsters: Monster[] = [
     history: "Monstruosidades carnívoras que espreitam sob pontes abandonadas e cavernas musgosas. Seus músculos se fecham instantaneamente sobre cortes e flechas.",
     sourcebook: "Core Rules"
   },
-  {
-    id: "sw-8",
-    name: "Orc",
-    race: "Humanoide",
-    archetype: "Saqueador Selvagem",
-    isWildCard: false,
-    rank: "Novato",
-    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d6", cunning: "d4", spirit: "d6", strength: "d8", vigor: "d8" },
-    skills: ["Atirar d6", "Atletismo d6", "Furtividade d6", "Intimidar d8", "Lutar d6", "Perceber d6"],
-    movement: "6",
-    parry: 5,
-    toughness: "8 (1)",
-    size: 1,
-    abilities: [
-      { name: "Infravisão", description: "Diminui pela metade penalidades de escuridão contra alvos quentes." }
-    ],
-    advantages: ["Brutamontes"],
-    weapons: "Cimitarra dentada (For+d8), Machadinha de arremesso (For+d6), Armadura de couro (+1)",
-    history: "Guerreiros belicosos de pele verde-escura e presas proeminentes. Nômades cruéis e organizados em clãs, conhecidos por sua ferocidade indomável.",
-    sourcebook: "Core Rules"
-  },
-  {
-    id: "sw-9",
-    name: "Elemental do Fogo",
-    race: "Elemental",
-    archetype: "Chama Viva",
-    isWildCard: false,
-    rank: "Experiente",
-    imageUrl: "https://images.unsplash.com/photo-1517594422361-5eeb8ae275a9?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d12+1", cunning: "d8", spirit: "d8", strength: "d4", vigor: "d6" },
-    skills: ["Atirar d8", "Atletismo d8", "Furtividade d6", "Lutar d10", "Perceber d6"],
-    movement: "6",
-    parry: 7,
-    toughness: "5",
-    abilities: [
-      { name: "Ataque de Chamas", description: "Projeta rajada de fogo em Modelo de Cone (3d6 de dano)." },
-      { name: "Corpo Elemental", description: "Imune a venenos e doenças; não respira; ignora 1 ponto de Ferimentos." },
-      { name: "Imunidade ao Calor", description: "Completamente imune a fogo e chamas." },
-      { name: "Toque Flamejante", description: "For+d6 com chance de inflamar as vestes do alvo." }
-    ],
-    weapons: "Golpe ardente de plasma ígneo (For+d6)",
-    history: "Uma coluna de fogo inteligente e dançante conjurada das forjas planares primordiais. Queima tudo o que toca com fúria elemental voraz.",
-    sourcebook: "Core Rules"
-  },
-  {
-    id: "sw-10",
-    name: "Verme Gigante",
-    race: "Besta",
-    archetype: "Devorador da Terra",
-    isWildCard: true,
-    rank: "Heroico",
-    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d6", cunning: "d6", spirit: "d10", strength: "d12+9", vigor: "d12" },
-    skills: ["Atletismo d6", "Furtividade d10", "Lutar d6", "Perceber d10"],
-    movement: "6",
-    parry: 5,
-    toughness: "21 (4)",
-    size: 9,
-    abilities: [
-      { name: "Armadura +4", description: "Placas queratinosas espessas como granito." },
-      { name: "Cavar 20 quadros", description: "Desliza sob solo e areia abrindo crateras colossais." },
-      { name: "Engolir Inteiro", description: "Com ampliação no ataque de mordida, engole presas de Tamanho 2 ou menor." },
-      { name: "Sentido Sísmico", description: "Sente vibrações de passos na terra a até 200 metros." },
-      { name: "Robusto", description: "Não sofre Ferimento ao ser Abalado duas vezes." }
-    ],
-    weapons: "Fauce circular de dentes concêntricos (For+d8)",
-    history: "Colossos subterrâneos que cruzam desertos e estepes remotas. Emergem em tremores catastróficos engolindo caravanas e gado inteiros.",
-    sourcebook: "Core Rules"
-  },
-  {
-    id: "sw-11",
-    name: "Minotauro",
-    race: "Humanoide",
-    archetype: "Guardião do Labirinto",
-    isWildCard: false,
-    rank: "Experiente",
-    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d8", cunning: "d6", spirit: "d8", strength: "d12+3", vigor: "d12" },
-    skills: ["Atletismo d8", "Furtividade d8", "Intimidar d12", "Lutar d10", "Perceber d10", "Persuadir d4"],
-    movement: "8",
-    parry: 7,
-    toughness: "12 (1)",
-    size: 3,
-    abilities: [
-      { name: "Chifrada Brutal", description: "For+d4; se mover pelo menos 3 quadros em carga, causa +4 de dano." },
-      { name: "Resiliente", description: "Pode sofrer 1 Ferimento antes da incapacitação." },
-      { name: "Sentido de Labirinto", description: "Nunca se perde em corredores subterrâneos." }
-    ],
-    advantages: ["Ligeiro"],
-    weapons: "Machado de Guerra Duplo (For+d10), Chifres Afiados (For+d4), Couro Reforçado (+1)",
-    history: "Criaturas imponentes de corpo musculoso humano e cabeça de touro selvagem. Guardiões impiedosos colocados no centro de criptas e masmorras labirínticas.",
-    sourcebook: "Core Rules"
-  },
-  {
-    id: "sw-12",
-    name: "Serpente Venenosa",
-    race: "Besta",
-    archetype: "Predador Peçonhento",
-    isWildCard: false,
-    rank: "Novato",
-    imageUrl: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d8", cunning: "d4", spirit: "d6", strength: "d4-2", vigor: "d6" },
-    skills: ["Atletismo d6", "Furtividade d8", "Lutar d8", "Perceber d12"],
-    movement: "4",
-    parry: 6,
-    toughness: "2",
-    size: -3,
-    abilities: [
-      { name: "Bote Rápido", description: "Ignora 2 pontos de penalidade de esquiva no primeiro turno de emboscada." },
-      { name: "Veneno Letal", description: "Vítima mordida deve rolar Vigor-2 ou sofrerá paralisia fulminante e 1 Ferimento direto." }
-    ],
-    advantages: ["Rápido"],
-    weapons: "Presas ocas com veneno neurotóxico (For+2)",
-    history: "Víbora camuflada entre folhas secas ou fendas de pedra. Pequena e silenciosa, sua toxina pode derrubar guerreiros experientes em minutos.",
-    sourcebook: "Core Rules"
-  },
 
-  // --- Bestiário Estendido de Fantasia ---
+  // ==========================================
+  // 🏰 COMPÊNDIO DE FANTASIA (FANTASY COMPANION)
+  // ==========================================
   {
     id: "ext-1",
     name: "Goblin",
@@ -440,7 +379,7 @@ export const monsters: Monster[] = [
     ],
     weapons: "Lança curta dentada (For+d4), Arco curto (2d6, Alcance 12/24/48)",
     history: "Criaturas vis e ardilosas que habitam minas abandonadas. Covardes no mano a mano, compensam fraquezas físicas com emboscadas venenosas e superioridade numérica.",
-    sourcebook: "Fantasy Bestiary"
+    sourcebook: "Compêndio de Fantasia"
   },
   {
     id: "ext-2",
@@ -463,7 +402,7 @@ export const monsters: Monster[] = [
     advantages: ["Varredura"],
     weapons: "Tronco / Clava Gigante (For+d8)",
     history: "Humanoides imensos de temperamento violento e pouca inteligência. Atuam como aríetes vivos em exércitos de invasão, devorando qualquer um que fique pelo caminho.",
-    sourcebook: "Fantasy Bestiary"
+    sourcebook: "Compêndio de Fantasia"
   },
   {
     id: "ext-3",
@@ -485,97 +424,11 @@ export const monsters: Monster[] = [
     ],
     weapons: "Toque drenador de almas (For+d4)",
     history: "Emanação sombria de alguém que morreu traído ou assassinado com rancor inextinguível. Desliza em silêncio absoluto para sugar o sopro de vida dos vivos.",
-    sourcebook: "Fantasy Bestiary"
-  },
-  {
-    id: "ext-4",
-    name: "Aranha Gigante",
-    race: "Besta",
-    archetype: "Predador Aracnídeo",
-    isWildCard: false,
-    rank: "Novato",
-    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d10", cunning: "d4", spirit: "d6", strength: "d10", vigor: "d8" },
-    skills: ["Atletismo d10", "Furtividade d10", "Lutar d8", "Perceber d8", "Atirar d10"],
-    movement: "8",
-    parry: 6,
-    toughness: "6",
-    size: 0,
-    abilities: [
-      { name: "Andar nas Paredes", description: "Move-se pelo teto e paredes com velocidade normal." },
-      { name: "Disparo de Teia", description: "Alcance 3/6/12; alvo enredado requer teste de Força-2 para se soltar." },
-      { name: "Veneno Paralisante", description: "Falha no Vigor causa paralisia por 1d6 rodadas." }
-    ],
-    weapons: "Quelíceras pontiagudas com veneno (For+d6)",
-    history: "Aracnídeos monstruosos do porte de cavalos que tecem labirintos de seda em florestas sombrias e ruínas esquecidas.",
-    sourcebook: "Fantasy Bestiary"
-  },
-  {
-    id: "ext-5",
-    name: "Lobo Atroz",
-    race: "Besta",
-    archetype: "Caçador de Alcateia",
-    isWildCard: false,
-    rank: "Novato",
-    imageUrl: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef6?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d8", cunning: "d6", spirit: "d6", strength: "d8", vigor: "d8" },
-    skills: ["Atletismo d8", "Furtividade d8", "Lutar d8", "Perceber d10", "Intimidar d8"],
-    movement: "10",
-    parry: 6,
-    toughness: "6",
-    abilities: [
-      { name: "Mordida Feroz", description: "For+d6." },
-      { name: "Derrubar", description: "Ampliação em Lutar derruba a presa no chão." },
-      { name: "Alcateia Coordenada", description: "Ganha +1 em rolagens de ataque para cada parceiro adjacente ao alvo." }
-    ],
-    advantages: ["Prontidão"],
-    weapons: "Mandíbula predatória (For+d6)",
-    history: "Ancestrais selvagens dos lobos modernos. Três vezes mais pesados e astutos, caçam em bandos coordenados capazes de cercar feras maiores que eles.",
-    sourcebook: "Fantasy Bestiary"
-  },
-  {
-    id: "ext-6",
-    name: "Bandido",
-    race: "Humano",
-    archetype: "Fora da Lei",
-    isWildCard: false,
-    rank: "Novato",
-    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d6", cunning: "d6", spirit: "d6", strength: "d6", vigor: "d6" },
-    skills: ["Atletismo d6", "Furtividade d6", "Intimidar d6", "Lutar d6", "Atirar d6", "Perceber d6", "Ladinagem d6"],
-    movement: "6",
-    parry: 5,
-    toughness: "6 (1)",
-    abilities: [],
-    weapons: "Espada Curta (For+d6), Besta Leve (2d6, AP 2), Armadura de Couro (+1)",
-    history: "Salteadores armados que espreitam curvas de estradas e passagens montanhosas. Preferem atacar viajantes em desvantagem e fugir com os despojos.",
-    sourcebook: "Fantasy Bestiary"
-  },
-  {
-    id: "ext-7",
-    name: "Basilisco",
-    race: "Besta Mágica",
-    archetype: "Réptil Petrificante",
-    isWildCard: true,
-    rank: "Veterano",
-    imageUrl: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d6", cunning: "d4", spirit: "d6", strength: "d8", vigor: "d8" },
-    skills: ["Atletismo d6", "Furtividade d6", "Lutar d8", "Perceber d10"],
-    movement: "6",
-    parry: 6,
-    toughness: "8 (2)",
-    abilities: [
-      { name: "Armadura +2", description: "Carapaça óssea escamada." },
-      { name: "Olhar Petrificante", description: "Contato visual direto força teste de Vigor-2 ou o alvo é petrificado." },
-      { name: "Mordida Venenosa", description: "For+d6 com veneno necrosante." }
-    ],
-    weapons: "Mordida tóxica (For+d6), Olhar de Pedra",
-    history: "Réptil de oito patas cercado por estátuas de aventureiros petrificados em agonia. Seu sopro murcha plantas e seu olhar sela destinos.",
-    sourcebook: "Fantasy Bestiary"
+    sourcebook: "Compêndio de Fantasia"
   },
   {
     id: "ext-8",
-    name: "Lich",
+    name: "Lich Ancestral",
     race: "Morto-Vivo",
     archetype: "Necromante Supremo",
     isWildCard: true,
@@ -596,56 +449,35 @@ export const monsters: Monster[] = [
     powers: "Raio Necrótico, Barreira Espiritual, Voo, Reanimar Mortos, Dissipar, Teleporte.",
     weapons: "Cajado de Ébano (For+d4), Toque da Morte (3d6)",
     history: "Feiticeiros que trocaram sua humanidade pela imortalidade profana. Comandam legiões de mortos a partir de seus tronos em criptas milenares.",
-    sourcebook: "Fantasy Bestiary"
+    sourcebook: "Compêndio de Fantasia"
   },
   {
-    id: "ext-9",
-    name: "Golem de Pedra",
-    race: "Constructo",
-    archetype: "Sentinela Implacável",
-    isWildCard: false,
-    rank: "Veterano",
-    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d4", cunning: "d4", spirit: "d8", strength: "d12+4", vigor: "d12" },
-    skills: ["Lutar d8", "Intimidar d10", "Perceber d4"],
-    movement: "4",
-    parry: 6,
-    toughness: "14 (4)",
-    size: 2,
-    abilities: [
-      { name: "Constructo", description: "+2 para se recuperar de Abalado; não respira; imune a veneno e doenças." },
-      { name: "Armadura de Pedra +4", description: "Blocos de granito maciço." },
-      { name: "Imunidade Arcana", description: "Imune a magias diretas que não afetem especificamente elementos de terra." }
-    ],
-    weapons: "Punhos titânicos de pedra (For+d8)",
-    history: "Estátuas monumentais entalhadas com runas de obediência. Guardiões incansáveis que jamais dormem, sentem dor ou negociam termos.",
-    sourcebook: "Fantasy Bestiary"
-  },
-  {
-    id: "ext-10",
-    name: "Grifo",
-    race: "Besta",
-    archetype: "Predador Aéreo",
-    isWildCard: false,
-    rank: "Experiente",
+    id: "fan-11",
+    name: "Quimera Mitológica",
+    race: "Besta Mágica",
+    archetype: "Monstro Tricefálico",
+    isWildCard: true,
+    rank: "Heroico",
     imageUrl: "https://images.unsplash.com/photo-1577493340887-b7bfff550145?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d8", cunning: "d6", spirit: "d8", strength: "d12", vigor: "d10" },
-    skills: ["Atletismo d8", "Lutar d10", "Perceber d12", "Furtividade d6"],
-    movement: "6",
+    attributes: { agility: "d8", cunning: "d6", spirit: "d8", strength: "d12+4", vigor: "d10" },
+    skills: ["Atletismo d8", "Intimidar d12", "Lutar d10", "Perceber d10"],
+    movement: "8",
     parry: 7,
-    toughness: "9",
+    toughness: "11 (2)",
     size: 2,
     abilities: [
-      { name: "Voo Veloz", description: "Movimentação em voo de 12 quadros." },
-      { name: "Mergulho Agressivo", description: "+4 de dano se descer em rasante de pelo menos 6 quadros." },
-      { name: "Frenesi", description: "Pode realizar dois ataques de garras no mesmo turno." }
+      { name: "Três Cabeças", description: "Realiza três ações independentes de ataque por turno sem penalidade de ações múltiplas." },
+      { name: "Sopro de Fogo", description: "A cabeça de bode expele chama concentrada em Modelo de Cone (3d6 de dano)." },
+      { name: "Cauda de Serpente", description: "Garras do leão (For+d6), Chifres do bode (For+d6) e Veneno Paralisante da cauda de víbora." }
     ],
-    weapons: "Bico de águia (For+d6) e Garras de leão (For+d6)",
-    history: "Nobre e territorial predador com asas e cabeça de águia imperial e corpo de leão. Nidifica em picos inóspitos defendendo seu território com ferocidade.",
-    sourcebook: "Fantasy Bestiary"
+    weapons: "Patas de Leão (For+d6), Chifres de Bode (For+d6), Cauda de Serpente (For+d4)",
+    history: "Abominação mítica composta por corpo e cabeça de leão, cabeça de bode brotando do dorso e cauda em forma de serpente peçonhenta.",
+    sourcebook: "Compêndio de Fantasia"
   },
 
-  // --- Lendas Mundiais & Horror ---
+  // ==========================================
+  // 👁️ COMPÊNDIO DE HORROR (HORROR COMPANION)
+  // ==========================================
   {
     id: "fol-1",
     name: "Banshee",
@@ -666,98 +498,379 @@ export const monsters: Monster[] = [
     ],
     weapons: "Grito Sônico Sobrenatural (2d6 em Cone)",
     history: "Alma de mulher que encontrou um fim trágico nas colinas enevoadas. Seu lamento dilacera a mente dos que o escutam, anunciando a chegada da morte.",
-    sourcebook: "Lendas Mundiais"
+    sourcebook: "Compêndio de Horror"
   },
   {
-    id: "fol-2",
-    name: "Baba Yaga",
-    race: "Humano",
-    archetype: "Bruxa da Floresta",
-    isWildCard: true,
-    rank: "Lendário",
-    imageUrl: "https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d6", cunning: "d12+2", spirit: "d12+1", strength: "d12+1", vigor: "d10" },
-    skills: ["Conjurar d12+2", "Ocultismo d12+2", "Intimidar d12", "Lutar d8", "Perceber d10", "Alquimia d12"],
-    movement: "6",
-    parry: 6,
-    toughness: "7",
-    abilities: [
-      { name: "Caldeirão Alquímico", description: "Prepara elixires e maldições que alteram a realidade." },
-      { name: "Cabana com Pés de Galinha", description: "Sua morada é um constructo vivo e protetor." },
-      { name: "Voo no Almofariz", description: "Navega pelos céus noturnos apagando seus rastros com uma vassoura de bétula." }
-    ],
-    powers: "Disfarce, Metamorfose, Raio Mágico, Maldição, Voo, Ilusão.",
-    weapons: "Cajado de Ossos (For+d6), Garras de Ferro (For+d4)",
-    history: "A enigmática bruxa das lendas eslavas. Mora nas profundezas da taiga em uma cabana que gira sobre patas de galinha, oscilando entre conselheira sábia e devoradora implacável.",
-    sourcebook: "Lendas Mundiais"
-  },
-  {
-    id: "fol-3",
-    name: "Wendigo",
-    race: "Espírito",
-    archetype: "Devorador Insaciável",
+    id: "horr-6",
+    name: "Monstro de Frankenstein",
+    race: "Constructo Aberração",
+    archetype: "Criatura de Retalhos",
     isWildCard: true,
     rank: "Heroico",
-    imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d10", cunning: "d8", spirit: "d10", strength: "d12+2", vigor: "d12" },
-    skills: ["Lutar d12", "Furtividade d12", "Rastrear d12", "Intimidar d12", "Perceber d10"],
-    movement: "10",
-    parry: 8,
-    toughness: "10 (2)",
-    size: 1,
+    imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d6", spirit: "d8", strength: "d12+3", vigor: "d12" },
+    skills: ["Atletismo d6", "Intimidar d12", "Lutar d10", "Perceber d6"],
+    movement: "6",
+    parry: 7,
+    toughness: "12 (2)",
+    size: 2,
     abilities: [
-      { name: "Pele Gélida +2", description: "Carne congelada resistente a cortes." },
-      { name: "Imunidade ao Frio", description: "Imune a temperaturas extremas de inverno." },
-      { name: "Fraqueza: Fogo", description: "+4 de dano proveniente de chamas." },
-      { name: "Fome Devoradora", description: "Regenera 1 Ferimento a cada rodada se estiver ao ar livre na neve." }
+      { name: "Pele Reconstituída +2", description: "Carne morta de múltiplos cadáveres suturados." },
+      { name: "Fúria do Elemento Elétrico", description: "Energizado por raios; ataques elétricos regeneram seus ferimentos." },
+      { name: "Medo (-2)", description: "Seu porte de 2,40m e suturas grotescas aterrorizam quem se aproxima." }
     ],
-    weapons: "Garras aduncas de gelo (For+d8)",
-    history: "O espírito da fome e da ganância extrema que assola os ermos boreais. Nascido do canibalismo no inverno, cresce a cada vítima devorada sem nunca saciar seu apetite macabro.",
-    sourcebook: "Lendas Mundiais"
+    advantages: ["Brutamontes", "Queixo de Ferro", "Vontade de Ferro"],
+    complications: ["Fraqueza: Fogo", "Feio (Maior)"],
+    weapons: "Punhos Devastadores de Aço (For+d6)",
+    history: "Criado em laboratório a partir de retalhos de defuntos e animado por descargas elétricas tempestuosas. Uma alma atormentada em busca de sentido e vingança.",
+    sourcebook: "Compêndio de Horror"
   },
   {
-    id: "fol-4",
-    name: "Múmia",
-    race: "Morto-Vivo",
-    archetype: "Guardião da Tumba",
+    id: "horr-7",
+    name: "Poltergeist",
+    race: "Espírito",
+    archetype: "Entidade Oculta",
     isWildCard: false,
     rank: "Experiente",
     imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d4", cunning: "d6", spirit: "d10", strength: "d12+1", vigor: "d10" },
-    skills: ["Lutar d10", "Intimidar d10", "Perceber d6"],
-    movement: "4",
-    parry: 7,
-    toughness: "9 (2)",
+    attributes: { agility: "d8", cunning: "d6", spirit: "d10", strength: "d4", vigor: "d8" },
+    skills: ["Furtividade d12", "Intimidar d10", "Atirar d10", "Perceber d8"],
+    movement: "6",
+    parry: 5,
+    toughness: "6",
     abilities: [
-      { name: "Podridão da Múmia", description: "Quem sofrer dano deve passar em Vigor ou contrai infecção necrótica." },
-      { name: "Fraqueza ao Fogo", description: "Tecidos secos e óleos de embalsamamento sofrem +2 de dano de fogo e inflamam facilmente." },
-      { name: "Morto-Vivo", description: "Resiliente, não respira, imune a venenos e doenças." }
+      { name: "Invisibilidade Permanente", description: "Não pode ser visto a olho nu; detectável apenas por magia ou oscilações térmicas." },
+      { name: "Telecinese Violenta", description: "Arremessa móveis, facas e louças contra invasores (dano 2d6, Alcance 6/12/24)." },
+      { name: "Manifestação Poltergeist", description: "Bate portas, apaga luzes e gela o ambiente gerando pânico constante." }
     ],
-    weapons: "Golpes pesados de sarcófago (For+d6) e Maldição do Faraó",
-    history: "Soberanos e sacerdotes embalsamados protegidos por encantamentos milenares. Despertam com passos arrastados para estrangular invasores de tumbas sagradas.",
-    sourcebook: "Lendas Mundiais"
+    weapons: "Projéteis Telecinéticos (2d6)",
+    history: "Um espírito zombeteiro e enfurecido preso a uma construção ou família. Manifesta sua presença arremessando móveis pesados e manipulando objetos com força invisível.",
+    sourcebook: "Compêndio de Horror"
   },
+
+  // ==========================================
+  // 🤠 DEADLANDS: O OESTE ESTRANHO
+  // ==========================================
   {
-    id: "fol-5",
-    name: "Súcubo / Íncubo",
-    race: "Demônio",
-    archetype: "Sedutor Infernal",
+    id: "dl-1",
+    name: "Pistoleiro Retornado (Harrowed)",
+    race: "Morto-Vivo",
+    archetype: "Caçador do Oeste",
     isWildCard: true,
     rank: "Veterano",
+    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d8", spirit: "d8", strength: "d8", vigor: "d10" },
+    skills: ["Atirar d12", "Atletismo d8", "Furtividade d8", "Intimidar d10", "Lutar d8", "Perceber d8", "Ladinagem d8"],
+    movement: "6",
+    parry: 6,
+    toughness: "9 (2)",
+    abilities: [
+      { name: "Morto-Vivo (Harrowed)", description: "+2 Resistência; não respira; imune a veneno/doenças. O Manitou interno pode tentar assumir o controle sob grande estresse." },
+      { name: "Olhor de Águia do Além", description: "Ignora 2 pontos de penalidade por distância ao disparar revólveres." }
+    ],
+    advantages: ["Saque Rápido", "Tiro Mortal", "Atirador de Elite", "Nervos de Aço"],
+    weapons: "Colt Peacemaker Duplo (2d6+1, Alcance 12/24/48, AP 1), Faca de Caça (For+d4)",
+    history: "Um fora-da-lei ou xerife que morreu no Deserto do Mojave mas retornou da sepultura habitado por um demônio manitou. Ele mantém sua mente humana, mas luta diariamente contra o demônio em seu peito.",
+    sourcebook: "Deadlands: O Oeste Estranho"
+  },
+  {
+    id: "dl-2",
+    name: "Cascavel do Deserto (Desert Rattler)",
+    race: "Besta Gigante",
+    archetype: "Verme dos Ermos",
+    isWildCard: true,
+    rank: "Lendário",
+    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d6", spirit: "d10", strength: "d12+8", vigor: "d12" },
+    skills: ["Lutar d8", "Furtividade d10", "Perceber d10", "Intimidar d12"],
+    movement: "6",
+    parry: 6,
+    toughness: "18 (4)",
+    size: 8,
+    abilities: [
+      { name: "Cavar 18 quadros", description: "Desloca-se sob as dunas e emerge sob diligências de mineração." },
+      { name: "Tentáculos de Fauce", description: "Possui 4 tentáculos tentaculares para agarrar presas antes de engoli-las." },
+      { name: "Armadura de Placas +4", description: "Pele queratinizada impenetrável por projéteis comuns." }
+    ],
+    weapons: "Mordida Colossal de Dentes Serrilhados (For+d8), Tentáculos Agarradores",
+    history: "Verme colossal de cem metros de comprimento que habita o subsolo do deserto de Utah e Nevada. Atraído pela vibração de locomotivas e passos de cavalos.",
+    sourcebook: "Deadlands: O Oeste Estranho"
+  },
+
+  // ==========================================
+  // 🧙‍♂️ PATHFINDER PARA SAVAGE WORLDS
+  // ==========================================
+  {
+    id: "pf-1",
+    name: "Rei Goblin de Brinestorm",
+    race: "Goblinóide",
+    archetype: "Chefe de Bando",
+    isWildCard: true,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d8", spirit: "d6", strength: "d6", vigor: "d8" },
+    skills: ["Atirar d8", "Atletismo d8", "Furtividade d10", "Intimidar d8", "Lutar d8", "Perceber d8", "Provocar d10"],
+    movement: "6",
+    parry: 7 (1),
+    toughness: "7 (2)",
+    size: -1,
+    abilities: [
+      { name: "Liderança Covarde", description: "Pode redirecionar ataques físicos contra ele para um capanga goblin adjacente." },
+      { name: "Ódio a Escrita", description: "Goblins de Golarion acreditam que a escrita rouba palavras da mente. Fica furioso com livros." }
+    ],
+    advantages: ["Comando", "Comando de Fogo", "Ligeiro"],
+    weapons: "Lâmina Corta-Cão (For+d6), Escudo Pequeno (+1 Aparar), Armadura de Couro Batido (+2)",
+    history: "Líder de tribo goblin nas terras de Varisia. Usa uma coroa feita de sucata e cães empalhados, governando através da esperteza e da tirania sobre seus capangas.",
+    sourcebook: "Pathfinder para Savage Worlds"
+  },
+  {
+    id: "pf-2",
+    name: "Diabo das Correntes (Kyton)",
+    race: "Demônio Planar",
+    archetype: "Torturador de Sombras",
+    isWildCard: true,
+    rank: "Heroico",
     imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
-    attributes: { agility: "d8", cunning: "d10", spirit: "d12", strength: "d8", vigor: "d8" },
-    skills: ["Persuadir d12+2", "Lutar d8", "Perceber d10", "Furtividade d8"],
+    attributes: { agility: "d10", cunning: "d8", spirit: "d10", strength: "d10", vigor: "d10" },
+    skills: ["Atletismo d10", "Furtividade d8", "Intimidar d12", "Lutar d12", "Perceber d10"],
+    movement: "6",
+    parry: 8,
+    toughness: "11 (4)",
+    abilities: [
+      { name: "Dança das Correntes", description: "Controla correntes animadas em um raio de 6 quadros; ataca com Alcance 3 (dano For+d8, AP 2)." },
+      { name: "Olhar aterrorizante", description: "Faz a vítima ver os rostos de seus entes queridos torturados nas correntes." },
+      { name: "Regeneração Planar", description: "Cura ferimentos se estiver em locais de penumbra ou escuridão." }
+    ],
+    advantages: ["Ataque Marcial", "Varredura Aprimorada"],
+    weapons: "Correntes Farpadas Animadas (For+d8, AP 2, Alcance 3)",
+    history: "Sádico habitante do plano de trevas. Coberto de suturas e correntes de ferro que se movem como serpentes sob seu comando telepático.",
+    sourcebook: "Pathfinder para Savage Worlds"
+  },
+
+  // ==========================================
+  // ⚔️ ARTE DA GUERRA (ADG)
+  // ==========================================
+  {
+    id: "adg-1",
+    name: "Ronin Sem Mestre",
+    race: "Humano",
+    archetype: "Espadachim Vagabundo",
+    isWildCard: true,
+    rank: "Veterano",
+    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d6", spirit: "d8", strength: "d8", vigor: "d8" },
+    skills: ["Atletismo d8", "Furtividade d8", "Intimidar d8", "Lutar d12", "Perceber d8", "Persuadir d4"],
+    movement: "6",
+    parry: 9 (1),
+    toughness: "7 (1)",
+    abilities: [
+      { name: "Técnica Iaijutsu", description: "Desenha a katana e ataca no mesmo movimento instantâneo com +2 de dano no primeiro turno." }
+    ],
+    advantages: ["Arma Predileta (Katana)", "Atacar Primeiro", "Contra-Ataque Aprimorado", "Nervos de Aço"],
+    weapons: "Katana de Aço dobrado (For+d8+1, AP 2), Wakizashi (For+d6), Quimono Reforçado (+1)",
+    history: "Um samurai desonrado após a queda de seu senhor feudal. Vaga pelas províncias vendendo sua lâmina por moedas ou um prato de arroz, mantendo um estrito código pessoal.",
+    sourcebook: "Arte da Guerra (ADG)"
+  },
+  {
+    id: "adg-2",
+    name: "Ninja Assassino das Sombras",
+    race: "Humano",
+    archetype: "Agente Furtivo",
+    isWildCard: false,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d10", cunning: "d8", spirit: "d6", strength: "d6", vigor: "d6" },
+    skills: ["Atirar d8", "Atletismo d10", "Furtividade d12", "Ladinagem d10", "Lutar d10", "Perceber d8"],
+    movement: "7",
+    parry: 7,
+    toughness: "5",
+    abilities: [
+      { name: "Bomba de Fumaça", description: "Cria cortina de fumaça preta Instantânea de Modelo Médio permitindo teste de Furtividade imediato." },
+      { name: "Veneno de Escorpião", description: "Sua kunai carrega toxina paralítica (teste de Vigor -2)." }
+    ],
+    advantages: ["Assassino", "Ligeiro", "Acrobata"],
+    weapons: "Ninjato (For+d6), Kunai Venenosa (For+d4, Alcance 3/6/12), Shurikens (2d4)",
+    history: "Guerreiro invisível treinado nas artes proibidas do ninjutsu. Move-se pelas vigas de madeira e telhados sem fazer um único ruído antes de desferir o golpe fatal.",
+    sourcebook: "Arte da Guerra (ADG)"
+  },
+
+  // ==========================================
+  // 🚀 COMPÊNDIO DE SCI-FI (SCI-FI COMPANION)
+  // ==========================================
+  {
+    id: "scifi-1",
+    name: "Xenomorfo Caçador",
+    race: "Predador Alienígena",
+    archetype: "Organismo Perfeito",
+    isWildCard: true,
+    rank: "Heroico",
+    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d12", cunning: "d8 (A)", spirit: "d10", strength: "d12+2", vigor: "d10" },
+    skills: ["Atletismo d12", "Furtividade d12+2", "Lutar d12", "Perceber d10", "Intimidar d10"],
+    movement: "10",
+    parry: 8,
+    toughness: "11 (4)",
+    size: 1,
+    abilities: [
+      { name: "Sangue Ácido", description: "Dano de corte ou perfuração faz espirrar ácido nos atacantes adjacentes (2d6 de dano contínuo)." },
+      { name: "Andar no Teto", description: "Desloca-se em tubulações e tetos sem penalidades de velocidade." },
+      { name: "Exoesqueleto Quiitinoso +4", description: "Carapaça negra absorvedora de impactos." }
+    ],
+    weapons: "Fauce Interna retrátil (For+d8, AP 4), Garras Quitinosa (For+d6), Cauda Espinhosa (For+d6, Alcance 2)",
+    history: "Organismo predador perfeito guiado por instinto de colmeia. Caça nas sombras de naves espaciais abandonadas e estações em quarentena.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+  {
+    id: "scifi-2",
+    name: "Ciborgue de Combate Heavy",
+    race: "Humano Cyber-Aprimorado",
+    archetype: "Soldado Pesado",
+    isWildCard: false,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d8", cunning: "d6", spirit: "d6", strength: "d12", vigor: "d10" },
+    skills: ["Atirar d10", "Atletismo d6", "Conhecimento Batalha d6", "Lutar d8", "Perceber d8"],
+    movement: "6",
+    parry: 6,
+    toughness: "12 (5)",
+    abilities: [
+      { name: "Placas de Plasteel +5", description: "Blindagem subcutânea integrada militar." },
+      { name: "Mira Óptica Tática", description: "Ignora penalidades por penumbra e fumaça." }
+    ],
+    advantages: ["Rock and Roll!", "Queixo de Ferro"],
+    weapons: "Fuzil de Plasma Pesado (3d8, AP 4, Alcance 24/48/96), Lança-Mísseis de Pulso (4d6 em Modelo de Explosão)",
+    history: "Veterano de guerras corporativas que teve 70% do corpo substituído por servo-motores e placas de blindagem pesada para combate espacial.",
+    sourcebook: "Compêndio de Sci-Fi"
+  },
+
+  // ==========================================
+  // 🌿 HAVENWOOD
+  // ==========================================
+  {
+    id: "hw-1",
+    name: "Guardião Povo-Fera (Leão)",
+    race: "Povo-Fera",
+    archetype: "Guerreiro Tribal",
+    isWildCard: true,
+    rank: "Veterano",
+    imageUrl: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef6?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d8", cunning: "d6", spirit: "d8", strength: "d10", vigor: "d10" },
+    skills: ["Atletismo d8", "Furtividade d6", "Intimidar d10", "Lutar d10", "Perceber d10", "Sobrevivência d8"],
+    movement: "8",
+    parry: 7,
+    toughness: "8 (1)",
+    size: 1,
+    abilities: [
+      { name: "Rugido Majestoso", description: "Test de Intimidar em Cone contra todos os inimigos." },
+      { name: "Fúria do Bando", description: "Recebe +1 no ataque para cada parceiro felino na cena." }
+    ],
+    advantages: ["Brutamontes", "Varredura", "Nervos de Aço"],
+    weapons: "Machado de Batalha Tribal (For+d8), Garras Retráteis (For+d4)",
+    history: "Nobre defensor do santuário felino nas terras de Havenwood. Comanda clãs de caçadores que protegem as árvores sagradas contra a contaminação externa.",
+    sourcebook: "Havenwood"
+  },
+
+  // ==========================================
+  // 💎 CRYSTAL HEART
+  // ==========================================
+  {
+    id: "ch-1",
+    name: "Agente com Coração de Cristal",
+    race: "Humanoide Modificado",
+    archetype: "Guardião de Cristal",
+    isWildCard: true,
+    rank: "Veterano",
+    imageUrl: "https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d8", cunning: "d8", spirit: "d10", strength: "d8", vigor: "d8" },
+    skills: ["Atirar d8", "Atletismo d8", "Foco d10", "Lutar d8", "Ocultismo d8", "Perceber d8"],
     movement: "6",
     parry: 6,
     toughness: "8 (2)",
     abilities: [
-      { name: "Armadura Demoníaca +2", description: "Pele mágica lustrosa." },
-      { name: "Beijo Drenante", description: "Drena vitalidade e Força de Vontade de alvos desarmados ou seduzidos." },
-      { name: "Feitiço de Fascinação", description: "Conjura Marionete ou Confusão usando Persuasão." },
-      { name: "Voo Noturno", description: "Asas de morcego retráteis (Movimentação 10 em voo)." }
+      { name: "Ressoar Prismático", description: "Seu coração de cristal canaliza projéteis de energia colorida (dano 2d8, AP 2)." },
+      { name: "Barreira de Quartzo", description: "Projeta escudo de força translúcida concedendo +2 de Resistência a aliados." }
     ],
-    weapons: "Garras veladas (For+d4), Beijo Drenante",
-    history: "Demônios manipuladores que assumem aparências hipnóticas para corromper heróis, nobres e clérigos, drenando suas almas enquanto os arrastam à perdição.",
-    sourcebook: "Lendas Mundiais"
+    advantages: ["AA Dom", "Sintonização de Cristal", "Focado"],
+    powers: "Raio de Luz, Barreira de Cristal, Curar, Velocidade.",
+    weapons: "Lâmina Prismática (For+d8, AP 2), Rajada de Cristal (2d8)",
+    history: "Agente da Organização Syn que substituiu seu coração biológico por um artefato de cristal ancestral, ganhando controle sobre magias prismáticas.",
+    sourcebook: "Crystal Heart"
+  },
+
+  // ==========================================
+  // ⚙️ CIDADE DO SOL & VAPOR (STEAMPUNK)
+  // ==========================================
+  {
+    id: "csv-1",
+    name: "Autômaton a Vapor de Combate",
+    race: "Constructo Steampunk",
+    archetype: "Sentinela Mecânica",
+    isWildCard: false,
+    rank: "Experiente",
+    imageUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d4", cunning: "d4", spirit: "d6", strength: "d12+2", vigor: "d12" },
+    skills: ["Atirar d8", "Intimidar d10", "Lutar d8", "Perceber d6"],
+    movement: "4",
+    parry: 6,
+    toughness: "13 (5)",
+    size: 2,
+    abilities: [
+      { name: "Caldeira de Alta Pressão", description: "Se severamente danificado, expele vapor escaldante em todos ao redor (2d6 de dano de calor)." },
+      { name: "Blindagem de Latão Rivotado +5", description: "Impenetrável a pistolas de pequeno calibre." },
+      { name: "Constructo a Vapor", description: "+2 para recuperar de Abalado; imune a veneno e doenças." }
+    ],
+    weapons: "Metralhadora Gatling a Vapor (2d8, Alcance 16/32/64), Punho Hidráulico (For+d8)",
+    history: "Colosso de bronze e latão movido a pistões e caldeira de carvão. Patrulha os distritos industriais da Cidade do Sol & Vapor sob ordens dos barões das máquinas.",
+    sourcebook: "Cidade do Sol & Vapor"
+  },
+
+  // ==========================================
+  // 🍸 WISEGUYS
+  // ==========================================
+  {
+    id: "wg-1",
+    name: "Capanga da Máfia de Las Vegas",
+    race: "Humano",
+    archetype: "Gângster Urbano",
+    isWildCard: false,
+    rank: "Novato",
+    imageUrl: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d6", spirit: "d6", strength: "d6", vigor: "d6" },
+    skills: ["Atirar d8", "Atletismo d6", "Dirigir d6", "Intimidar d6", "Lutar d6", "Perceber d6", "Ladinagem d6"],
+    movement: "6",
+    parry: 5,
+    toughness: "6 (1)",
+    advantages: ["Conexões (Família Mafiosa)"],
+    weapons: "Submetralhadora Thompson (2d6+1, Alcance 12/24/48, CdT 3), Soco Inglês (For+d4), Sobretudo Reforçado (+1)",
+    history: "Capanga leal da Família Mafiosa que opera nos cassinos e becos escuros de Las Vegas. Especialista em cobrança de dívidas e tiroteios de passagem.",
+    sourcebook: "Wiseguys"
+  },
+
+  // ==========================================
+  // ⚡ COMPÊNDIO DE SUPERPODERES
+  // ==========================================
+  {
+    id: "sp-1",
+    name: "Supervilão Telecinético",
+    race: "Meta-Humano",
+    archetype: "Conjurador de Força",
+    isWildCard: true,
+    rank: "Heroico",
+    imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+    attributes: { agility: "d6", cunning: "d10", spirit: "d12", strength: "d4", vigor: "d8" },
+    skills: ["Foco d12+1", "Intimidar d10", "Perceber d8", "Persuadir d8"],
+    movement: "6",
+    parry: 5,
+    toughness: "11 (5)",
+    abilities: [
+      { name: "Campo Telecinético Defensivo +5", description: "Projeta armadura invisível de força mental." },
+      { name: "Arremesso Telecinético Colossal", description: "Ergue veículos e contêineres e arremessa com Força d12+4 equivalente (3d8 de dano)." },
+      { name: "Voo Mental", description: "Levita a si mesmo com Movimentação 12 no ar." }
+    ],
+    advantages: ["Superpoderes (Nível 4)", "Mestre da Mente"],
+    powers: "Telecinese, Campo de Força, Voo, Explosão Mental.",
+    weapons: "Impacto Telecinético Concentrado (3d6), Arremesso de Veículos (3d8)",
+    history: "Meta-humano cuja mente desperta consegue erguer toneladas sem desferir um único soco. Busca dominar a cidade subjugando heróis com escudos impenetráveis.",
+    sourcebook: "Compêndio de Superpoderes"
   }
 ];

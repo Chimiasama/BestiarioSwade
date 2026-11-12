@@ -92,6 +92,18 @@ export const initLocalMonsterDatabase = (): Monster[] => {
     if (storedDb) {
       const parsed = JSON.parse(storedDb);
       if (Array.isArray(parsed) && parsed.length > 0) {
+        // Automatically sync any new predefined monsters into localStorage
+        const existingIds = new Set(parsed.map((m: Monster) => m.id));
+        let addedNew = false;
+        predefinedMonsters.forEach(pm => {
+          if (!existingIds.has(pm.id)) {
+            parsed.push({ ...pm });
+            addedNew = true;
+          }
+        });
+        if (addedNew) {
+          saveAllLocalMonsters(parsed);
+        }
         return parsed;
       }
     }
