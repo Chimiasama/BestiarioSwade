@@ -151,10 +151,15 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex flex-nowrap justify-between items-center gap-2 sm:gap-4">
           
           {/* Logo / Branding */}
-          <div className="flex items-center gap-2.5 sm:gap-3 cursor-pointer min-w-0" onClick={() => setView('bestiary')}>
-            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-gradient-to-br from-amber-600 via-amber-800 to-amber-950 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center border border-amber-500/40">
+          <button
+            type="button"
+            onClick={() => setView('bestiary')}
+            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer min-w-[48px] min-h-[48px] px-1 py-1 -ml-1 rounded-xl text-left overflow-hidden hover:bg-stone-900/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            aria-label="Voltar para o início do Bestiário de Lendas"
+          >
+            <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-amber-600 via-amber-800 to-amber-950 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center border border-amber-500/40">
               <div className="w-full h-full bg-stone-950 rounded-[10px] flex items-center justify-center text-amber-400">
-                <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Flame className="w-5 h-5" />
               </div>
             </div>
             <div className="min-w-0">
@@ -174,46 +179,49 @@ const App: React.FC = () => {
                 Compêndio Savage Worlds • "Rápido! Furioso! Divertido!"
               </p>
             </div>
-          </div>
+          </button>
 
           {/* Quick Dice Roller Toolbar in Header */}
-          <div className="hidden lg:flex items-center gap-1.5 bg-stone-900/80 px-3 py-1.5 rounded-xl border border-stone-800 text-xs shrink-0">
-            <span className="text-[11px] text-stone-400 font-cinzel mr-1 flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1.5 bg-stone-900/80 px-2.5 py-1 rounded-xl border border-stone-800 text-xs shrink-0">
+            <span className="text-[11px] text-stone-400 font-cinzel mr-1 hidden 2xl:flex items-center gap-1">
               <Dices className="w-3.5 h-3.5 text-amber-500" />
               Rolador Rápido:
             </span>
             {[4, 6, 8, 10, 12].map((sides) => (
               <button
                 key={sides}
+                type="button"
                 onClick={() => handleQuickDieRoll(sides)}
-                className="px-2 py-0.5 rounded bg-stone-950 hover:bg-amber-950/70 border border-stone-800 hover:border-amber-600 text-stone-200 font-mono-dice transition-colors font-bold text-xs"
+                className="min-w-[48px] min-h-[48px] px-2 py-1 rounded-lg bg-stone-950 hover:bg-amber-950/70 border border-stone-800 hover:border-amber-600 text-stone-200 font-mono-dice transition-colors font-bold text-xs flex items-center justify-center"
                 title={`Rolar d${sides} com Ases${quickWildCard ? ' (+ Dado Selvagem d6)' : ''}`}
               >
                 d{sides}
               </button>
             ))}
-            <label className="flex items-center gap-1 ml-2 text-[11px] text-stone-400 cursor-pointer">
+            <label className="min-w-[48px] min-h-[48px] px-2 flex items-center gap-1.5 ml-1 text-[11px] text-stone-400 hover:text-stone-200 cursor-pointer rounded-lg transition-colors">
               <input
                 type="checkbox"
                 checked={quickWildCard}
                 onChange={(e) => setQuickWildCard(e.target.checked)}
-                className="w-3.5 h-3.5 rounded border-stone-700 text-amber-600 cursor-pointer"
+                className="w-4 h-4 rounded border-stone-700 text-amber-600 cursor-pointer shrink-0"
               />
-              <span className="font-cinzel">Dado Selvagem</span>
+              <span className="font-cinzel whitespace-nowrap">Dado Selvagem</span>
             </label>
           </div>
 
           {/* Navigation & Help */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Player View / Fog of War Toggle */}
             <button
+              type="button"
               onClick={() => setPlayerViewMode(!playerViewMode)}
-              className={`min-h-[40px] min-w-[40px] px-2.5 py-2 rounded-lg border transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
+              className={`min-h-[48px] min-w-[48px] px-3 py-2 rounded-lg border transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
                 playerViewMode
                   ? 'bg-blue-950/80 border-blue-500/80 text-blue-300 font-bold'
                   : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
               }`}
               title={playerViewMode ? 'Modo Jogador Ativo (Segredos e Lore do Mestre Ocultos)' : 'Alternar Modo Jogador / Névoa de Guerra'}
+              aria-label={playerViewMode ? 'Desativar Modo Jogador' : 'Ativar Modo Jogador'}
             >
               {playerViewMode ? <EyeOff className="w-4 h-4 text-blue-400 shrink-0" /> : <Eye className="w-4 h-4 text-amber-400 shrink-0" />}
               <span className="hidden sm:inline font-cinzel">
@@ -221,9 +229,11 @@ const App: React.FC = () => {
               </span>
             </button>
             <button
+              type="button"
               onClick={() => setShowThemeModal(true)}
-              className="min-h-[40px] min-w-[40px] px-2.5 py-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
+              className="min-h-[48px] min-w-[48px] px-3 py-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
               title="Mudar Tema, Cores e Fontes do Grimório"
+              aria-label="Mudar Tema, Cores e Fontes do Grimório"
             >
               <Palette className="w-4 h-4 text-amber-400 shrink-0" />
               <span className="hidden sm:inline font-cinzel font-bold">Tema</span>
@@ -231,8 +241,9 @@ const App: React.FC = () => {
 
             {!isNativeApp && (
               <button
+                type="button"
                 onClick={toggleFullscreen}
-                className={`min-h-[40px] min-w-[40px] px-2.5 py-2 rounded-lg border transition-all text-xs hidden sm:flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
+                className={`min-h-[48px] min-w-[48px] px-3 py-2 rounded-lg border transition-all text-xs hidden sm:flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
                   isFullscreen
                     ? 'bg-amber-950/70 border-amber-500/80 text-amber-300'
                     : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
@@ -255,9 +266,11 @@ const App: React.FC = () => {
             )}
 
             <button
+              type="button"
               onClick={() => setShowRulesModal(true)}
-              className="min-h-[40px] min-w-[40px] px-2.5 py-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center justify-center gap-1 whitespace-nowrap"
+              className="min-h-[48px] min-w-[48px] px-3 py-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center justify-center gap-1.5 whitespace-nowrap"
               title="Guia Rápido de Regras SWADE"
+              aria-label="Guia Rápido de Regras SWADE"
             >
               <HelpCircle className="w-4 h-4 shrink-0" />
               <span className="hidden md:inline font-cinzel">Regras SWADE</span>

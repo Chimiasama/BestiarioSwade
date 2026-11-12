@@ -131,7 +131,7 @@ export const initLocalMonsterDatabase = (): Monster[] => {
 
     // Preserve any custom monsters from v2 or legacy
     v2Monsters.forEach(m => {
-      if (!mergedMap.has(m.id)) {
+      if (m && m.id && !mergedMap.has(m.id)) {
         mergedMap.set(m.id, { ...m });
       }
     });

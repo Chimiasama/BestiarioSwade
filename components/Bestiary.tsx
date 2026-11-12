@@ -11,7 +11,7 @@ import {
   resetDatabaseToDefaults
 } from '../services/customMonsterService';
 import { Monster, DiceRollResult } from '../types';
-import { generatePdf } from '../services/pdfService';
+import { generatePdf, PdfTemplate, PdfTheme } from '../services/pdfService';
 import { rollTrait, rollDamage, parseWeaponAttacks } from '../services/diceService';
 import { DiceRollerModal } from './DiceRollerModal';
 import { EncounterBuilderModal } from './EncounterBuilderModal';
@@ -64,7 +64,6 @@ import {
 
 export const FALLBACK_MONSTER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' width='400' height='300'%3E%3Crect width='400' height='300' fill='%231c1917'/%3E%3Cpath d='M200 60 L240 120 L310 130 L260 180 L270 250 L200 210 L130 250 L140 180 L90 130 L160 120 Z' fill='%23d97706' fill-opacity='0.25' stroke='%23d97706' stroke-width='3'/%3E%3Ccircle cx='200' cy='155' r='45' fill='%23292524' stroke='%23f59e0b' stroke-width='2'/%3E%3Cpath d='M185 150 Q200 130 215 150 Q200 185 185 150' fill='%23f59e0b'/%3E%3Ctext x='200' y='275' font-family='sans-serif' font-size='14' font-weight='bold' fill='%23a8a29e' text-anchor='middle'%3ESWADE BESTIARY%3C/text%3E%3C/svg%3E";
 
-type PdfTemplate = 'simple' | 'complete' | 'card';
 type DisplayMode = 'alphabetical' | 'cards' | 'table' | 'by-race';
 
 // Helper to extract clean initial letter (ignoring accents)
@@ -101,63 +100,136 @@ const getDieBadgeClass = (dieStr: string) => {
   return 'bg-stone-800 text-stone-300 border-stone-600 hover:bg-stone-700';
 };
 
-// Print Modal with rich preview explanations
+// Print Modal with theme & favorites support
 const PrintModal: React.FC<{ 
   isOpen: boolean; 
   onClose: () => void; 
-  onPrint: (template: PdfTemplate) => void;
+  onPrint: (template: PdfTemplate, options: { theme: PdfTheme; onlyFavorites: boolean }) => void;
   isPrinting: boolean;
   totalMonsters: number;
-}> = ({ isOpen, onClose, onPrint, isPrinting, totalMonsters }) => {
+  favoriteCount: number;
+}> = ({ isOpen, onClose, onPrint, isPrinting, totalMonsters, favoriteCount }) => {
+  const [pdfTheme, setPdfTheme] = useState<PdfTheme>('parchment');
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
+
   if (!isOpen) return null;
+
+  const activeCount = onlyFavorites ? favoriteCount : totalMonsters;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
-      <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-8 rounded-xl shadow-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20">
+      <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-7 rounded-xl shadow-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20">
         <div className="flex justify-between items-center mb-4 pb-2 border-b border-stone-800">
           <div className="flex items-center gap-2">
             <Printer className="w-6 h-6 text-amber-500" />
-            <h2 className="font-cinzel text-xl font-bold text-amber-300">Imprimir Bestiário</h2>
+            <h2 className="font-cinzel text-lg sm:text-xl font-bold text-amber-300">Imprimir Bestiário em PDF</h2>
           </div>
-          <button onClick={onClose} className="text-stone-400 hover:text-white">
+          <button onClick={onClose} className="text-stone-400 hover:text-white min-h-[40px] min-w-[40px] flex items-center justify-center">
             <X className="w-5 h-5" />
           </button>
         </div>
-        <p className="text-stone-400 text-sm mb-6">
-          Selecione o formato para gerar o PDF ({totalMonsters} criatura{totalMonsters === 1 ? '' : 's'} selecionada{totalMonsters === 1 ? '' : 's'}):
+
+        {/* Scope Selector (Selection vs Favorites) */}
+        {favoriteCount > 0 && (
+          <div className="mb-4">
+            <span className="text-[11px] font-cinzel font-bold uppercase tracking-wider text-stone-400 block mb-1.5">
+              Criaturas a Exportar
+            </span>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setOnlyFavorites(false)}
+                className={`min-h-[40px] px-3 py-2 rounded-lg border text-xs font-cinzel font-bold transition-all ${
+                  !onlyFavorites
+                    ? 'bg-amber-950/90 border-amber-500 text-amber-300'
+                    : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
+                }`}
+              >
+                Lista Atual ({totalMonsters})
+              </button>
+              <button
+                type="button"
+                onClick={() => setOnlyFavorites(true)}
+                className={`min-h-[40px] px-3 py-2 rounded-lg border text-xs font-cinzel font-bold flex items-center justify-center gap-1.5 transition-all ${
+                  onlyFavorites
+                    ? 'bg-amber-950/90 border-amber-500 text-amber-300'
+                    : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
+                }`}
+              >
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                Favoritos ({favoriteCount})
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Style Selector */}
+        <div className="mb-4">
+          <span className="text-[11px] font-cinzel font-bold uppercase tracking-wider text-stone-400 block mb-1.5">
+            Estilo do Documento
+          </span>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setPdfTheme('parchment')}
+              className={`min-h-[42px] px-3 py-2 rounded-lg border text-xs font-cinzel font-bold transition-all ${
+                pdfTheme === 'parchment'
+                  ? 'bg-amber-950/90 border-amber-500 text-amber-200'
+                  : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
+              }`}
+            >
+              Pergaminho (Impressão)
+            </button>
+            <button
+              type="button"
+              onClick={() => setPdfTheme('grimorio')}
+              className={`min-h-[42px] px-3 py-2 rounded-lg border text-xs font-cinzel font-bold transition-all ${
+                pdfTheme === 'grimorio'
+                  ? 'bg-amber-950/90 border-amber-500 text-amber-200'
+                  : 'bg-stone-950 border-stone-800 text-stone-400 hover:text-stone-200'
+              }`}
+            >
+              Grimório Sombrio
+            </button>
+          </div>
+        </div>
+
+        <p className="text-stone-400 text-xs mb-3">
+          Escolha o formato do PDF ({activeCount} criatura{activeCount === 1 ? '' : 's'}):
         </p>
-        <div className="space-y-3">
+
+        <div className="space-y-2.5">
           <button
-            onClick={() => onPrint('complete')}
-            disabled={isPrinting}
-            className="w-full text-left p-4 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group"
+            onClick={() => onPrint('complete', { theme: pdfTheme, onlyFavorites })}
+            disabled={isPrinting || activeCount === 0}
+            className="w-full text-left p-3.5 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group disabled:opacity-50"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300">Fichas Completas (Grimório A4)</h3>
+              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300 text-sm">Fichas Completas (Grimório A4)</h3>
               <BookOpen className="w-4 h-4 text-amber-400" />
             </div>
             <p className="text-xs text-stone-400 mt-1">Página inteira por criatura com arte, atributos, perícias e lenda.</p>
           </button>
 
           <button
-            onClick={() => onPrint('card')}
-            disabled={isPrinting}
-            className="w-full text-left p-4 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group"
+            onClick={() => onPrint('card', { theme: pdfTheme, onlyFavorites })}
+            disabled={isPrinting || activeCount === 0}
+            className="w-full text-left p-3.5 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group disabled:opacity-50"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300">Cartas de Batalha (Tarô)</h3>
+              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300 text-sm">Cartas de Batalha (Tarô)</h3>
               <Layers className="w-4 h-4 text-amber-400" />
             </div>
             <p className="text-xs text-stone-400 mt-1">Cartas frente e verso (70x120mm) prontas para recortar e jogar na mesa.</p>
           </button>
 
           <button
-            onClick={() => onPrint('simple')}
-            disabled={isPrinting}
-            className="w-full text-left p-4 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group"
+            onClick={() => onPrint('simple', { theme: pdfTheme, onlyFavorites })}
+            disabled={isPrinting || activeCount === 0}
+            className="w-full text-left p-3.5 bg-stone-800/80 hover:bg-stone-700 border border-stone-700 rounded-lg transition-colors group disabled:opacity-50"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300">Lista Rápida do Mestre</h3>
+              <h3 className="font-cinzel font-bold text-amber-200 group-hover:text-amber-300 text-sm">Lista Rápida do Mestre</h3>
               <Printer className="w-4 h-4 text-amber-400" />
             </div>
             <p className="text-xs text-stone-400 mt-1">Tabela compacta com nomes e estatísticas essenciais de combate.</p>
@@ -165,11 +237,299 @@ const PrintModal: React.FC<{
         </div>
 
         {isPrinting && (
-          <div className="text-center text-amber-400 mt-6 flex items-center justify-center gap-2 text-sm font-medium animate-pulse">
+          <div className="text-center text-amber-400 mt-5 flex items-center justify-center gap-2 text-sm font-medium animate-pulse">
             <Sparkles className="w-4 h-4 animate-spin" />
-            Gerando documento PDF, aguarde...
+            Gerando documento PDF estilizado, aguarde...
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+// Dedicated Styled PDF Export Modal for a Single Viewed Monster
+const SingleMonsterPdfModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  monster: Monster;
+  isFavorite: boolean;
+  defaultHideSecrets: boolean;
+}> = ({ isOpen, onClose, monster, isFavorite, defaultHideSecrets }) => {
+  const [format, setFormat] = useState<'complete' | 'card'>('complete');
+  const [pdfTheme, setPdfTheme] = useState<PdfTheme>('parchment');
+  const [hideSecrets, setHideSecrets] = useState(defaultHideSecrets);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportStatus, setExportStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setHideSecrets(defaultHideSecrets);
+      setExportStatus(null);
+    }
+  }, [isOpen, defaultHideSecrets, monster.id]);
+
+  if (!isOpen) return null;
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    setExportStatus(null);
+    try {
+      const result = await generatePdf([monster], format, {
+        theme: pdfTheme,
+        hideSecrets,
+      });
+      if (result.success) {
+        setExportStatus({
+          type: 'success',
+          message: `PDF "${result.fileName}" gerado com sucesso (${result.pageCount} ${result.pageCount === 1 ? 'página' : 'páginas'})!`,
+        });
+      } else {
+        setExportStatus({
+          type: 'error',
+          message: result.error || 'Falha ao gerar o arquivo PDF.',
+        });
+      }
+    } catch (err: any) {
+      setExportStatus({
+        type: 'error',
+        message: err?.message || 'Erro inesperado ao exportar PDF.',
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+      <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-6 rounded-xl shadow-2xl max-w-lg w-full max-h-[92dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20 space-y-4">
+        <div className="flex items-start justify-between gap-3 pb-3 border-b border-stone-800">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <Printer className="w-5 h-5 text-amber-400 shrink-0" />
+              <h2 className="font-cinzel text-lg sm:text-xl font-bold text-amber-300 truncate">
+                Exportar Ficha em PDF
+              </h2>
+            </div>
+            <p className="text-xs text-stone-400 mt-1 flex items-center gap-1.5 flex-wrap">
+              <span className="font-semibold text-stone-200">{monster.name}</span>
+              <span>•</span>
+              <span>{monster.sourcebook}</span>
+              {isFavorite && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-950 border border-amber-700 text-amber-300 text-[10px] font-cinzel font-bold">
+                  <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
+                  Favorito
+                </span>
+              )}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg text-stone-400 hover:text-white hover:bg-stone-800"
+            aria-label="Fechar janela de exportação PDF"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Live Miniature Visual Preview */}
+        <div
+          className="rounded-xl p-3.5 border transition-colors"
+          style={
+            pdfTheme === 'parchment'
+              ? {
+                  backgroundColor: '#f7f0e2',
+                  borderColor: '#8c5828',
+                  color: '#1f140c',
+                }
+              : {
+                  backgroundColor: '#0c0a09',
+                  borderColor: '#92400e',
+                  color: '#f5f5f4',
+                }
+          }
+        >
+          <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b" style={{ borderColor: pdfTheme === 'parchment' ? '#d3bc96' : '#332b24' }}>
+            <div className="min-w-0">
+              <div
+                className="font-cinzel font-bold text-sm truncate"
+                style={{ color: pdfTheme === 'parchment' ? '#6b1d12' : '#fde68a' }}
+              >
+                {monster.name}
+              </div>
+              <div
+                className="font-crimson italic text-xs truncate"
+                style={{ color: pdfTheme === 'parchment' ? '#664933' : '#a8a29e' }}
+              >
+                {monster.archetype} • {monster.race}
+              </div>
+            </div>
+            <span
+              className="font-cinzel text-[9px] font-bold px-2 py-0.5 rounded shrink-0"
+              style={
+                pdfTheme === 'parchment'
+                  ? { backgroundColor: '#7f1d1d', color: '#fef3c7' }
+                  : { backgroundColor: '#d97706', color: '#0c0a09' }
+              }
+            >
+              {format === 'complete' ? 'A4 COMPLETO' : 'CARTA 70×120mm'}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center font-mono-dice text-[11px]">
+            <div className="rounded py-1" style={{ backgroundColor: pdfTheme === 'parchment' ? '#fffaf0' : '#141210' }}>
+              Aparar: <strong>{monster.parry}</strong>
+            </div>
+            <div className="rounded py-1" style={{ backgroundColor: pdfTheme === 'parchment' ? '#fffaf0' : '#141210' }}>
+              Resist.: <strong>{monster.toughness}</strong>
+            </div>
+            <div className="rounded py-1" style={{ backgroundColor: pdfTheme === 'parchment' ? '#fffaf0' : '#141210' }}>
+              Mov.: <strong>{monster.movement}</strong>
+            </div>
+          </div>
+        </div>
+
+        {/* Format Selection */}
+        <div className="space-y-1.5">
+          <span className="text-[11px] font-cinzel font-bold uppercase tracking-wider text-stone-400 block">
+            1. Formato da Impressão
+          </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onClick={() => setFormat('complete')}
+              className={`min-h-[48px] text-left p-3 rounded-xl border transition-all ${
+                format === 'complete'
+                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 ring-1 ring-amber-500/40'
+                  : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
+              }`}
+            >
+              <div className="flex items-center justify-between font-cinzel text-xs font-bold">
+                <span>Ficha Completa (A4)</span>
+                <BookOpen className="w-4 h-4 text-amber-400" />
+              </div>
+              <p className="text-[11px] text-stone-400 mt-1">
+                Perfil completo ilustrado para pasta do Mestre ou impressão A4.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setFormat('card')}
+              className={`min-h-[48px] text-left p-3 rounded-xl border transition-all ${
+                format === 'card'
+                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 ring-1 ring-amber-500/40'
+                  : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
+              }`}
+            >
+              <div className="flex items-center justify-between font-cinzel text-xs font-bold">
+                <span>Carta de Mesa (Tarô)</span>
+                <Layers className="w-4 h-4 text-amber-400" />
+              </div>
+              <p className="text-[11px] text-stone-400 mt-1">
+                2 páginas (70×120mm frente e verso) para recortar ou escudo.
+              </p>
+            </button>
+          </div>
+        </div>
+
+        {/* Visual Style Selection */}
+        <div className="space-y-1.5">
+          <span className="text-[11px] font-cinzel font-bold uppercase tracking-wider text-stone-400 block">
+            2. Estilo Visual do Documento
+          </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onClick={() => setPdfTheme('parchment')}
+              className={`min-h-[48px] text-left p-3 rounded-xl border transition-all ${
+                pdfTheme === 'parchment'
+                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 ring-1 ring-amber-500/40'
+                  : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
+              }`}
+            >
+              <div className="font-cinzel text-xs font-bold">Pergaminho Clássico</div>
+              <p className="text-[11px] text-stone-400 mt-0.5">
+                Fundo claro creme; ideal para impressora e leitura física.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setPdfTheme('grimorio')}
+              className={`min-h-[48px] text-left p-3 rounded-xl border transition-all ${
+                pdfTheme === 'grimorio'
+                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 ring-1 ring-amber-500/40'
+                  : 'bg-stone-950 border-stone-800 text-stone-300 hover:border-stone-700'
+              }`}
+            >
+              <div className="font-cinzel text-xs font-bold">Grimório Sombrio</div>
+              <p className="text-[11px] text-stone-400 mt-0.5">
+                Obsidiana com detalhes dourados; ideal para uso digital.
+              </p>
+            </button>
+          </div>
+        </div>
+
+        {/* Hide Secrets Toggle */}
+        <label className="flex items-center justify-between gap-3 p-3 rounded-xl bg-stone-950 border border-stone-800 cursor-pointer min-h-[48px]">
+          <div className="flex items-center gap-2 text-xs text-stone-300">
+            <EyeOff className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>Ocultar História / Lenda (Versão para Jogadores)</span>
+          </div>
+          <input
+            type="checkbox"
+            checked={hideSecrets}
+            onChange={(e) => setHideSecrets(e.target.checked)}
+            className="w-4 h-4 rounded border-stone-700 text-amber-600 focus:ring-amber-500 cursor-pointer"
+          />
+        </label>
+
+        {/* Feedback Banner */}
+        {exportStatus && (
+          <div
+            className={`p-3 rounded-lg border text-xs flex items-start gap-2 ${
+              exportStatus.type === 'success'
+                ? 'bg-emerald-950/60 border-emerald-700 text-emerald-300'
+                : 'bg-red-950/60 border-red-700 text-red-300'
+            }`}
+          >
+            {exportStatus.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" />
+            ) : (
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
+            )}
+            <span>{exportStatus.message}</span>
+          </div>
+        )}
+
+        {/* Footer Actions */}
+        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2.5 pt-2 border-t border-stone-800">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full sm:w-auto min-h-[44px] px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-cinzel font-semibold border border-stone-700"
+          >
+            Fechar
+          </button>
+          <button
+            type="button"
+            onClick={handleExport}
+            disabled={isExporting}
+            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-lg bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white text-xs font-cinzel font-bold shadow-lg flex items-center justify-center gap-2 disabled:opacity-60"
+          >
+            {isExporting ? (
+              <>
+                <Sparkles className="w-4 h-4 animate-spin" />
+                <span>Gerando PDF...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                <span>Baixar PDF Estilizado</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -188,7 +548,7 @@ const MonsterDetail: React.FC<{
   onRollDamage?: (title: string, formula: string, strengthDie: string) => void;
   isPlayerView?: boolean;
 }> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll, onRollDamage, isPlayerView = false }) => {
-  const [isPrinting, setIsPrinting] = useState(false);
+  const [showExportPdfModal, setShowExportPdfModal] = useState(false);
   const [isShaken, setIsShaken] = useState(false);
   const [wounds, setWounds] = useState(0);
   const [fatigue, setFatigue] = useState(0);
@@ -199,12 +559,6 @@ const MonsterDetail: React.FC<{
     navigator.clipboard.writeText(text);
     setCopiedDiscord(true);
     setTimeout(() => setCopiedDiscord(false), 2500);
-  };
-
-  const handlePrint = async () => {
-    setIsPrinting(true);
-    await generatePdf([monster], 'complete');
-    setIsPrinting(false);
   };
 
   // Handle skill click for roll
@@ -285,12 +639,12 @@ const MonsterDetail: React.FC<{
           </button>
 
           <button
-            onClick={handlePrint}
-            disabled={isPrinting}
-            className="min-h-[40px] flex items-center gap-1.5 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white px-3 py-2 rounded-lg font-cinzel text-xs font-bold transition-all shadow-md whitespace-nowrap"
+            onClick={() => setShowExportPdfModal(true)}
+            className="min-h-[44px] flex items-center gap-1.5 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white px-3.5 py-2 rounded-lg font-cinzel text-xs font-bold transition-all shadow-md whitespace-nowrap"
+            title="Exportar ficha deste monstro para documento PDF estilizado"
           >
             <Printer className="w-4 h-4" />
-            <span>{isPrinting ? 'Gerando...' : 'Exportar Ficha'}</span>
+            <span>Exportar PDF</span>
           </button>
         </div>
       </div>
@@ -590,6 +944,15 @@ const MonsterDetail: React.FC<{
         </div>
 
       </div>
+
+      {/* Styled Single Monster PDF Export Modal */}
+      <SingleMonsterPdfModal
+        isOpen={showExportPdfModal}
+        onClose={() => setShowExportPdfModal(false)}
+        monster={monster}
+        isFavorite={isFavorite}
+        defaultHideSecrets={isPlayerView}
+      />
     </div>
   );
 };
@@ -1291,15 +1654,32 @@ const Bestiary: React.FC<{
   }, [currentDisplayedMonsters]);
 
   // Print handler
-  const handlePrintCollection = async (template: PdfTemplate) => {
-    if (currentDisplayedMonsters.length === 0) {
-      alert("Nenhum monstro na lista atual para imprimir.");
+  const handlePrintCollection = async (
+    template: PdfTemplate,
+    options: { theme: PdfTheme; onlyFavorites: boolean }
+  ) => {
+    const targetMonsters = options.onlyFavorites
+      ? allMonsters.filter((m) => favoriteIds.includes(m.id))
+      : currentDisplayedMonsters;
+
+    if (targetMonsters.length === 0) {
+      setShowPrintModal(false);
       return;
     }
+
     setIsPrinting(true);
-    await generatePdf(currentDisplayedMonsters, template);
-    setIsPrinting(false);
-    setShowPrintModal(false);
+    try {
+      await generatePdf(targetMonsters, template, {
+        theme: options.theme,
+        hideSecrets: isPlayerView,
+        fileName: options.onlyFavorites
+          ? `bestiario-favoritos-${template}.pdf`
+          : undefined,
+      });
+    } finally {
+      setIsPrinting(false);
+      setShowPrintModal(false);
+    }
   };
 
   // If a monster detail is selected
@@ -2301,6 +2681,7 @@ const Bestiary: React.FC<{
         onPrint={handlePrintCollection}
         isPrinting={isPrinting}
         totalMonsters={currentDisplayedMonsters.length}
+        favoriteCount={favoriteIds.length}
       />
 
       {/* SWADE Encounter Builder Modal */}
