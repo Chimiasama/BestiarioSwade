@@ -60,6 +60,7 @@ export const CompleteSheet: React.FC<{ monster: Monster }> = ({ monster }) => (
         <img
           src={monster.imageUrl}
           alt={monster.name}
+          referrerPolicy="no-referrer"
           className="w-full h-56 object-cover rounded-lg border border-amber-900/60 shadow-md"
           crossOrigin="anonymous"
         />
@@ -162,6 +163,7 @@ export const MonsterCardFront: React.FC<{ monster: Monster }> = ({ monster }) =>
     <img
       src={monster.imageUrl}
       alt={monster.name}
+      referrerPolicy="no-referrer"
       className="w-full h-3/5 object-cover"
       crossOrigin="anonymous"
     />

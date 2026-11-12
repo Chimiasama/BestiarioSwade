@@ -355,22 +355,22 @@ const MonsterCreator: React.FC<{
   const canSave = monster.name.trim() !== '';
 
   return (
-    <div className="max-w-5xl mx-auto bg-stone-950 border border-amber-900/50 rounded-xl shadow-2xl p-6 sm:p-8 text-stone-200 ring-1 ring-amber-500/20">
+    <div className="max-w-5xl mx-auto bg-stone-950 border border-amber-900/50 rounded-xl shadow-2xl p-3.5 sm:p-6 md:p-8 text-stone-200 ring-1 ring-amber-500/20">
       
       {/* Top Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-stone-800 mb-6">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-stone-800 mb-5 sm:mb-6">
+        <div className="min-w-0">
           {onCancel && (
             <button
               onClick={onCancel}
               type="button"
-              className="flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-cinzel mb-2"
+              className="flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-cinzel mb-2 min-h-[36px]"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               Cancelar e Voltar
             </button>
           )}
-          <h2 className="font-cinzel text-2xl sm:text-3xl font-extrabold text-amber-200 tracking-wide">
+          <h2 className="font-cinzel text-xl sm:text-3xl font-extrabold text-amber-200 tracking-wide">
             {monsterToEdit ? 'Editar Monstro' : 'Forja de Lendas (Criador SWADE)'}
           </h2>
           <p className="text-xs text-stone-400 font-crimson italic">
@@ -379,7 +379,7 @@ const MonsterCreator: React.FC<{
         </div>
 
         {/* Wild Card Switch Toggle */}
-        <div className="flex items-center gap-2 bg-stone-900 p-2.5 rounded-lg border border-stone-800">
+        <div className="flex items-center gap-2 bg-stone-900 px-3 py-2.5 rounded-lg border border-stone-800 self-start sm:self-auto shrink-0 min-h-[42px]">
           <input
             type="checkbox"
             id="wildCardToggle"
@@ -416,6 +416,7 @@ const MonsterCreator: React.FC<{
                 <img
                   src={imagePreview}
                   alt="Pré-visualização"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
               ) : (
@@ -424,7 +425,7 @@ const MonsterCreator: React.FC<{
                     <ImageIcon className="w-6 h-6" />
                   </div>
                   <p className="text-xs font-cinzel font-bold text-stone-300">Carregar Imagem / Arte</p>
-                  <p className="text-[11px] text-stone-500 mt-1">Clique para selecionar do computador</p>
+                  <p className="text-[11px] text-stone-500 mt-1">Toque para escolher da galeria ou arquivo</p>
                 </div>
               )}
             </div>
@@ -436,12 +437,12 @@ const MonsterCreator: React.FC<{
                 placeholder="Ou cole a URL da imagem..."
                 value={imageUrlInput}
                 onChange={(e) => setImageUrlInput(e.target.value)}
-                className="flex-1 bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-3 text-xs text-stone-200 placeholder-stone-500 focus:ring-1 focus:ring-amber-500"
+                className="flex-1 min-h-[40px] bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-xs text-stone-200 placeholder-stone-500 focus:ring-1 focus:ring-amber-500"
               />
               <button
                 type="button"
                 onClick={handleApplyUrlImage}
-                className="bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs px-3 py-1.5 rounded-lg border border-stone-700 font-cinzel"
+                className="min-h-[40px] bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs px-3.5 py-2 rounded-lg border border-stone-700 font-cinzel shrink-0"
               >
                 Aplicar
               </button>
@@ -453,7 +454,7 @@ const MonsterCreator: React.FC<{
                 <span>Retratos Sugeridos (1 Clique):</span>
                 <span className="text-[10px] text-stone-500">{PRESET_PORTRAITS.length} opções</span>
               </div>
-              <div className="grid grid-cols-4 gap-1.5 max-h-28 overflow-y-auto pr-1">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-36 overflow-y-auto pr-1">
                 {PRESET_PORTRAITS.map((preset) => (
                   <button
                     key={preset.name}
@@ -463,14 +464,14 @@ const MonsterCreator: React.FC<{
                       setImageFile(null);
                       setMonster(prev => ({ ...prev, imageUrl: preset.url }));
                     }}
-                    className="relative group rounded overflow-hidden border border-stone-700 hover:border-amber-500 transition-all h-10 w-full"
+                    className="relative group rounded overflow-hidden border border-stone-700 hover:border-amber-500 transition-all h-12 sm:h-10 w-full"
                     title={preset.name}
                   >
                     <img
                       src={preset.url}
                       alt={preset.name}
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                      crossOrigin="anonymous"
                     />
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                     <span className="absolute bottom-0 inset-x-0 bg-black/80 text-[8px] text-stone-300 text-center truncate px-0.5 font-cinzel">
@@ -773,12 +774,12 @@ const MonsterCreator: React.FC<{
         </div>
 
         {/* Submit & Actions */}
-        <div className="pt-4 border-t border-stone-800 flex items-center justify-end gap-3">
+        <div className="pt-4 border-t border-stone-800 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2.5 sm:gap-3">
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="bg-stone-900 hover:bg-stone-800 text-stone-300 font-cinzel text-sm py-2.5 px-5 rounded-lg border border-stone-700"
+              className="w-full sm:w-auto min-h-[44px] bg-stone-900 hover:bg-stone-800 text-stone-300 font-cinzel text-sm py-2.5 px-5 rounded-lg border border-stone-700"
             >
               Cancelar
             </button>
@@ -786,7 +787,7 @@ const MonsterCreator: React.FC<{
           <button
             type="submit"
             disabled={!canSave || isGeneratingStory}
-            className="bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white font-cinzel font-bold text-sm py-2.5 px-8 rounded-lg shadow-xl shadow-red-950/50 transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+            className="w-full sm:w-auto min-h-[44px] bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white font-cinzel font-bold text-sm py-2.5 px-8 rounded-lg shadow-xl shadow-red-950/50 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             <Save className="w-4 h-4" />
             {monsterToEdit ? 'Atualizar Monstro' : 'Gravar Monstro no Bestiário'}

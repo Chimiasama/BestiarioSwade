@@ -161,26 +161,26 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div className="bg-stone-950 border border-amber-900/60 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden ring-1 ring-amber-500/20">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
+      <div className="bg-stone-950 border border-amber-900/60 rounded-2xl max-w-3xl w-full max-h-[90dvh] flex flex-col shadow-2xl overflow-hidden ring-1 ring-amber-500/20">
         
         {/* Modal Header */}
-        <div className="bg-stone-900/90 border-b border-stone-800 p-4 sm:px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-red-950/80 border border-red-800/80 rounded-lg text-red-400">
+        <div className="bg-stone-900/90 border-b border-stone-800 p-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="p-2 bg-red-950/80 border border-red-800/80 rounded-lg text-red-400 shrink-0">
               <Swords className="w-5 h-5" />
             </div>
-            <div>
-              <h2 className="font-cinzel text-xl font-bold text-amber-200">Gerador & Banco de Encontros SWADE</h2>
-              <p className="text-xs text-stone-400">Balanceamento e preparação de batalhas para a campanha</p>
+            <div className="min-w-0">
+              <h2 className="font-cinzel text-base sm:text-xl font-bold text-amber-200 truncate">Gerador & Banco de Encontros SWADE</h2>
+              <p className="text-xs text-stone-400 truncate">Balanceamento e preparação de batalhas para a campanha</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ml-auto">
             {/* Tab switch */}
             <button
               onClick={() => setActiveTab('generator')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold transition-all ${
+              className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold transition-all whitespace-nowrap ${
                 activeTab === 'generator'
                   ? 'bg-amber-600 text-stone-950 shadow'
                   : 'bg-stone-900 text-stone-400 border border-stone-800'
@@ -190,7 +190,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('saved')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'saved'
                   ? 'bg-amber-600 text-stone-950 shadow'
                   : 'bg-stone-900 text-stone-400 border border-stone-800'
@@ -202,7 +202,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
 
             <button
               onClick={onClose}
-              className="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors ml-2"
+              className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -331,6 +331,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
                       <img
                         src={monster.imageUrl}
                         alt={monster.name}
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         crossOrigin="anonymous"
                         onError={(e) => {

@@ -611,7 +611,7 @@ export const monsters: Monster[] = [
     attributes: { agility: "d10", cunning: "d8", spirit: "d6", strength: "d6", vigor: "d8" },
     skills: ["Atirar d8", "Atletismo d8", "Furtividade d10", "Intimidar d8", "Lutar d8", "Perceber d8", "Provocar d10"],
     movement: "6",
-    parry: 7 (1),
+    parry: 7,
     toughness: "7 (2)",
     size: -1,
     abilities: [
@@ -661,7 +661,7 @@ export const monsters: Monster[] = [
     attributes: { agility: "d10", cunning: "d6", spirit: "d8", strength: "d8", vigor: "d8" },
     skills: ["Atletismo d8", "Furtividade d8", "Intimidar d8", "Lutar d12", "Perceber d8", "Persuadir d4"],
     movement: "6",
-    parry: 9 (1),
+    parry: 9,
     toughness: "7 (1)",
     abilities: [
       { name: "Técnica Iaijutsu", description: "Desenha a katana e ataca no mesmo movimento instantâneo com +2 de dano no primeiro turno." }
@@ -840,6 +840,7 @@ export const monsters: Monster[] = [
     movement: "6",
     parry: 5,
     toughness: "6 (1)",
+    abilities: [],
     advantages: ["Conexões (Família Mafiosa)"],
     weapons: "Submetralhadora Thompson (2d6+1, Alcance 12/24/48, CdT 3), Soco Inglês (For+d4), Sobretudo Reforçado (+1)",
     history: "Capanga leal da Família Mafiosa que opera nos cassinos e becos escuros de Las Vegas. Especialista em cobrança de dívidas e tiroteios de passagem.",

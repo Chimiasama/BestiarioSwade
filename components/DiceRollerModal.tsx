@@ -128,11 +128,11 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-2.5 sm:p-4 animate-in fade-in duration-200"
       style={{ backgroundColor: 'var(--modal-backdrop)' }}
     >
       <div 
-        className="rounded-xl shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col p-5 sm:p-6 relative overflow-hidden border transition-colors duration-200"
+        className="rounded-xl shadow-2xl max-w-lg w-full max-h-[92dvh] flex flex-col p-4 sm:p-6 relative overflow-hidden border transition-colors duration-200"
         style={{
           backgroundColor: 'var(--bg-surface)',
           borderColor: 'var(--border-accent)',

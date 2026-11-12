@@ -28,6 +28,9 @@ const App: React.FC = () => {
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [playerViewMode, setPlayerViewMode] = useState(false);
+  const isNativeApp =
+    typeof window !== 'undefined' &&
+    Boolean((window as any).Capacitor?.isNativePlatform?.());
 
   // Monitor fullscreen change events (e.g. user pressed Esc or F11)
   useEffect(() => {
@@ -141,29 +144,29 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden">
       
       {/* Ornate Top Header */}
-      <header className="bg-stone-950/90 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <header className="bg-stone-950/95 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden pt-safe">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex flex-nowrap justify-between items-center gap-2 sm:gap-4">
           
           {/* Logo / Branding */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setView('bestiary')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-600 via-amber-800 to-amber-950 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center border border-amber-500/40">
+          <div className="flex items-center gap-2.5 sm:gap-3 cursor-pointer min-w-0" onClick={() => setView('bestiary')}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-gradient-to-br from-amber-600 via-amber-800 to-amber-950 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center border border-amber-500/40">
               <div className="w-full h-full bg-stone-950 rounded-[10px] flex items-center justify-center text-amber-400">
-                <Flame className="w-5 h-5" />
+                <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div>
-              <h1 className="font-cinzel text-xl sm:text-2xl font-black text-amber-200 tracking-wide flex items-center gap-2">
-                Bestiário de Lendas
-                <span className="text-[10px] bg-amber-950/90 text-amber-400 border border-amber-700/60 px-2 py-0.5 rounded font-mono font-bold tracking-normal hidden sm:inline">
+            <div className="min-w-0">
+              <h1 className="font-cinzel text-base sm:text-2xl font-black text-amber-200 tracking-wide flex items-center gap-1.5 sm:gap-2 truncate">
+                <span className="truncate">Bestiário de Lendas</span>
+                <span className="text-[10px] bg-amber-950/90 text-amber-400 border border-amber-700/60 px-2 py-0.5 rounded font-mono font-bold tracking-normal hidden sm:inline shrink-0">
                   SWADE
                 </span>
                 {!isOnline && (
-                  <span className="text-[10px] bg-amber-900/90 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full font-mono font-bold tracking-normal flex items-center gap-1 shadow-sm">
+                  <span className="text-[10px] bg-amber-900/90 text-amber-300 border border-amber-600 px-1.5 py-0.5 rounded-full font-mono font-bold tracking-normal flex items-center gap-1 shadow-sm shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-                    OFFLINE
+                    <span className="hidden xs:inline">OFFLINE</span>
                   </span>
                 )}
               </h1>
@@ -174,7 +177,7 @@ const App: React.FC = () => {
           </div>
 
           {/* Quick Dice Roller Toolbar in Header */}
-          <div className="hidden lg:flex items-center gap-1.5 bg-stone-900/80 px-3 py-1.5 rounded-xl border border-stone-800 text-xs">
+          <div className="hidden lg:flex items-center gap-1.5 bg-stone-900/80 px-3 py-1.5 rounded-xl border border-stone-800 text-xs shrink-0">
             <span className="text-[11px] text-stone-400 font-cinzel mr-1 flex items-center gap-1">
               <Dices className="w-3.5 h-3.5 text-amber-500" />
               Rolador Rápido:
@@ -201,60 +204,62 @@ const App: React.FC = () => {
           </div>
 
           {/* Navigation & Help */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Player View / Fog of War Toggle */}
             <button
               onClick={() => setPlayerViewMode(!playerViewMode)}
-              className={`p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5 shadow-sm ${
+              className={`min-h-[40px] min-w-[40px] px-2.5 py-2 rounded-lg border transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
                 playerViewMode
                   ? 'bg-blue-950/80 border-blue-500/80 text-blue-300 font-bold'
                   : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
               }`}
               title={playerViewMode ? 'Modo Jogador Ativo (Segredos e Lore do Mestre Ocultos)' : 'Alternar Modo Jogador / Névoa de Guerra'}
             >
-              {playerViewMode ? <EyeOff className="w-4 h-4 text-blue-400" /> : <Eye className="w-4 h-4 text-amber-400" />}
+              {playerViewMode ? <EyeOff className="w-4 h-4 text-blue-400 shrink-0" /> : <Eye className="w-4 h-4 text-amber-400 shrink-0" />}
               <span className="hidden sm:inline font-cinzel">
                 {playerViewMode ? 'Modo Jogador' : 'Visão Mestre'}
               </span>
             </button>
             <button
               onClick={() => setShowThemeModal(true)}
-              className="p-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center gap-1.5 shadow-sm"
+              className="min-h-[40px] min-w-[40px] px-2.5 py-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
               title="Mudar Tema, Cores e Fontes do Grimório"
             >
-              <Palette className="w-4 h-4 text-amber-400" />
+              <Palette className="w-4 h-4 text-amber-400 shrink-0" />
               <span className="hidden sm:inline font-cinzel font-bold">Tema</span>
             </button>
 
-            <button
-              onClick={toggleFullscreen}
-              className={`p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5 shadow-sm ${
-                isFullscreen
-                  ? 'bg-amber-950/70 border-amber-500/80 text-amber-300'
-                  : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
-              }`}
-              title={isFullscreen ? 'Sair da Tela Cheia (Esc ou clique)' : 'Modo Tela Cheia (Focar no Compêndio)'}
-              aria-label={isFullscreen ? 'Sair da Tela Cheia' : 'Modo Tela Cheia'}
-            >
-              {isFullscreen ? (
-                <>
-                  <Minimize className="w-4 h-4 text-amber-400" />
-                  <span className="hidden sm:inline font-cinzel font-bold">Normal</span>
-                </>
-              ) : (
-                <>
-                  <Maximize className="w-4 h-4 text-amber-400" />
-                  <span className="hidden sm:inline font-cinzel font-bold">Tela Cheia</span>
-                </>
-              )}
-            </button>
+            {!isNativeApp && (
+              <button
+                onClick={toggleFullscreen}
+                className={`min-h-[40px] min-w-[40px] px-2.5 py-2 rounded-lg border transition-all text-xs hidden sm:flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
+                  isFullscreen
+                    ? 'bg-amber-950/70 border-amber-500/80 text-amber-300'
+                    : 'bg-stone-900/90 border-stone-800 hover:border-amber-600/70 text-stone-300 hover:text-amber-300'
+                }`}
+                title={isFullscreen ? 'Sair da Tela Cheia (Esc ou clique)' : 'Modo Tela Cheia (Focar no Compêndio)'}
+                aria-label={isFullscreen ? 'Sair da Tela Cheia' : 'Modo Tela Cheia'}
+              >
+                {isFullscreen ? (
+                  <>
+                    <Minimize className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span className="hidden md:inline font-cinzel font-bold">Normal</span>
+                  </>
+                ) : (
+                  <>
+                    <Maximize className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span className="hidden md:inline font-cinzel font-bold">Tela Cheia</span>
+                  </>
+                )}
+              </button>
+            )}
 
             <button
               onClick={() => setShowRulesModal(true)}
-              className="p-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1"
+              className="min-h-[40px] min-w-[40px] px-2.5 py-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center justify-center gap-1 whitespace-nowrap"
               title="Guia Rápido de Regras SWADE"
             >
-              <HelpCircle className="w-4 h-4" />
+              <HelpCircle className="w-4 h-4 shrink-0" />
               <span className="hidden md:inline font-cinzel">Regras SWADE</span>
             </button>
           </div>
@@ -263,7 +268,7 @@ const App: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
+      <main className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
         {view === 'bestiary' ? (
           <Bestiary
             onEditMonster={handleEditMonster}
@@ -280,7 +285,7 @@ const App: React.FC = () => {
       </main>
 
       {/* Thematic Footer */}
-      <footer className="bg-stone-950 border-t border-stone-900 py-6 text-center text-xs text-stone-500 font-crimson no-print space-y-1">
+      <footer className="bg-stone-950 border-t border-stone-900 py-5 sm:py-6 px-4 text-center text-xs text-stone-500 font-crimson no-print space-y-1 pb-safe">
         <p className="font-cinzel text-stone-400">
           Bestiário de Lendas • Savage Worlds Edição Aventura (SWADE)
         </p>

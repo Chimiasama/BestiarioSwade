@@ -112,8 +112,8 @@ const PrintModal: React.FC<{
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-stone-900 border border-amber-900/50 p-6 sm:p-8 rounded-xl shadow-2xl max-w-md w-full text-stone-200 ring-1 ring-amber-500/20">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+      <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-8 rounded-xl shadow-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20">
         <div className="flex justify-between items-center mb-4 pb-2 border-b border-stone-800">
           <div className="flex items-center gap-2">
             <Printer className="w-6 h-6 text-amber-500" />
@@ -220,19 +220,19 @@ const MonsterDetail: React.FC<{
     <div className="bg-stone-950 border border-stone-800 rounded-xl shadow-2xl overflow-hidden ring-1 ring-amber-900/30">
       
       {/* Top Bar with Navigation & Actions */}
-      <div className="bg-stone-900/90 border-b border-stone-800 p-4 sm:px-6 flex flex-wrap justify-between items-center gap-4">
+      <div className="bg-stone-900/90 border-b border-stone-800 p-3 sm:px-6 flex flex-wrap justify-between items-center gap-3">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-amber-400 hover:text-amber-300 font-cinzel font-semibold text-sm transition-colors"
+          className="flex items-center gap-2 text-amber-400 hover:text-amber-300 font-cinzel font-semibold text-sm transition-colors min-h-[40px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar ao Compêndio
         </button>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5">
           <button
             onClick={() => onToggleFavorite(monster.id)}
-            className={`p-2 rounded-lg border transition-colors flex items-center gap-1.5 text-xs font-semibold ${
+            className={`min-h-[40px] px-2.5 py-2 rounded-lg border transition-colors flex items-center gap-1.5 text-xs font-semibold ${
               isFavorite
                 ? 'bg-amber-950/80 text-amber-300 border-amber-600/80 hover:bg-amber-900 shadow-sm'
                 : 'bg-stone-800 text-stone-400 border-stone-700 hover:text-stone-200'
@@ -246,7 +246,7 @@ const MonsterDetail: React.FC<{
           {/* Local storage management actions for this creature */}
           <button
             onClick={() => onEdit(monster)}
-            className="p-2 bg-stone-800 hover:bg-stone-700 text-amber-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
+            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
             title="Editar ficha deste monstro no armazenamento local"
           >
             <Edit className="w-4 h-4" />
@@ -255,7 +255,7 @@ const MonsterDetail: React.FC<{
 
           <button
             onClick={() => onDuplicate(monster)}
-            className="p-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
+            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
             title="Duplicar monstro para criar uma variante personalizada no banco local"
           >
             <Copy className="w-4 h-4" />
@@ -268,7 +268,7 @@ const MonsterDetail: React.FC<{
                 onDelete(monster.id);
               }
             }}
-            className="p-2 bg-stone-800 hover:bg-red-950 text-stone-400 hover:text-red-400 border border-stone-700 hover:border-red-800 rounded-lg transition-colors text-xs font-semibold"
+            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-red-950 text-stone-400 hover:text-red-400 border border-stone-700 hover:border-red-800 rounded-lg transition-colors text-xs font-semibold flex items-center gap-1.5"
             title="Excluir este monstro do armazenamento local"
           >
             <Trash2 className="w-4 h-4" />
@@ -277,7 +277,7 @@ const MonsterDetail: React.FC<{
 
           <button
             onClick={handleCopyDiscord}
-            className="p-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
+            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
             title="Copiar Ficha formatada em Markdown para Discord / Roll20 / Foundry"
           >
             {copiedDiscord ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-amber-400" />}
@@ -287,7 +287,7 @@ const MonsterDetail: React.FC<{
           <button
             onClick={handlePrint}
             disabled={isPrinting}
-            className="flex items-center gap-1.5 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white px-3 py-2 rounded-lg font-cinzel text-xs font-bold transition-all shadow-md"
+            className="min-h-[40px] flex items-center gap-1.5 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white px-3 py-2 rounded-lg font-cinzel text-xs font-bold transition-all shadow-md whitespace-nowrap"
           >
             <Printer className="w-4 h-4" />
             <span>{isPrinting ? 'Gerando...' : 'Exportar Ficha'}</span>
@@ -307,8 +307,8 @@ const MonsterDetail: React.FC<{
               <img
                 src={monster.imageUrl}
                 alt={monster.name}
-                className="w-full h-72 sm:h-84 object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+                className="w-full h-64 sm:h-84 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 onError={(e) => {
                   e.currentTarget.src = FALLBACK_MONSTER_IMAGE;
                 }}
@@ -340,35 +340,35 @@ const MonsterDetail: React.FC<{
           <div className="md:col-span-8 space-y-4">
             <div>
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="font-cinzel text-3xl sm:text-5xl font-extrabold text-amber-200 tracking-wide">
+                <h1 className="font-cinzel text-2xl sm:text-5xl font-extrabold text-amber-200 tracking-wide">
                   {monster.name}
                 </h1>
               </div>
-              <p className="text-stone-400 font-crimson text-lg italic mt-1">
+              <p className="text-stone-400 font-crimson text-base sm:text-lg italic mt-1">
                 {monster.archetype} • Raça: {monster.race}
               </p>
             </div>
 
             {/* Quick Combat Vital Stats Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-stone-900/90 p-4 rounded-xl border border-stone-800">
-              <div className="text-center border-r border-stone-800 last:border-0">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-stone-900/90 p-3 sm:p-4 rounded-xl border border-stone-800">
+              <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
                 <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Aparar (Parry)</div>
-                <div className="font-cinzel text-2xl font-bold text-amber-300">{monster.parry}</div>
+                <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">{monster.parry}</div>
               </div>
-              <div className="text-center border-r border-stone-800 last:border-0">
+              <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
                 <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Resistência</div>
-                <div className="font-cinzel text-2xl font-bold text-amber-300">{monster.toughness}</div>
+                <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">{monster.toughness}</div>
               </div>
-              <div className="text-center border-r border-stone-800 last:border-0">
+              <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
                 <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Movimentação</div>
-                <div className="font-cinzel text-2xl font-bold text-amber-300 flex items-center justify-center gap-1">
+                <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice flex items-center justify-center gap-1">
                   <Footprints className="w-4 h-4 text-stone-400" />
                   {monster.movement}
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0">
                 <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Tamanho</div>
-                <div className="font-cinzel text-2xl font-bold text-amber-300">
+                <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">
                   {monster.size !== undefined ? (monster.size > 0 ? `+${monster.size}` : monster.size) : '0'}
                 </div>
               </div>
@@ -622,8 +622,8 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
         <img
           src={monster.imageUrl}
           alt={monster.name}
+          referrerPolicy="no-referrer"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          crossOrigin="anonymous"
           onError={(e) => {
             e.currentTarget.src = FALLBACK_MONSTER_IMAGE;
           }}
@@ -650,7 +650,7 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
             e.stopPropagation();
             onToggleFav(monster.id);
           }}
-          className={`absolute top-2.5 right-2.5 p-1.5 rounded-full backdrop-blur-md transition-all duration-200 z-10 ${
+          className={`absolute top-2 right-2 min-h-[38px] min-w-[38px] flex items-center justify-center rounded-full backdrop-blur-md transition-all duration-200 z-10 ${
             isFav
               ? 'bg-amber-950/90 text-amber-400 border border-amber-500 shadow-md shadow-amber-950/60 scale-105'
               : 'bg-stone-950/70 text-stone-400 hover:text-amber-300 hover:bg-stone-900 border border-stone-700/80 hover:border-amber-500/60'
@@ -692,14 +692,14 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
         </div>
 
         {/* Quick Dice Roll Badges (Agilidade & Força) */}
-        <div className="flex items-center justify-between pt-1 border-t border-stone-800/80 text-xs">
+        <div className="flex items-center justify-between pt-1.5 border-t border-stone-800/80 text-xs gap-1.5">
           <div className="flex items-center gap-1.5">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onRoll(`${monster.name} - Agilidade`, monster.attributes.agility, !!monster.isWildCard);
               }}
-              className="text-[11px] px-2 py-0.5 bg-stone-950 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded text-stone-300 font-mono-dice transition-colors"
+              className="text-[11px] px-2.5 py-1.5 min-h-[34px] bg-stone-950 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded-md text-stone-300 font-mono-dice transition-colors whitespace-nowrap"
               title="Rolar Agilidade"
             >
               Agil {monster.attributes.agility}
@@ -709,27 +709,27 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
                 e.stopPropagation();
                 onRoll(`${monster.name} - Força`, monster.attributes.strength, !!monster.isWildCard);
               }}
-              className="text-[11px] px-2 py-0.5 bg-stone-950 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded text-stone-300 font-mono-dice transition-colors"
+              className="text-[11px] px-2.5 py-1.5 min-h-[34px] bg-stone-950 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded-md text-stone-300 font-mono-dice transition-colors whitespace-nowrap"
               title="Rolar Força"
             >
               For {monster.attributes.strength}
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onCopyDiscord(monster);
               }}
-              className="p-1 text-stone-500 hover:text-amber-400 rounded hover:bg-stone-800 transition-colors"
+              className="min-h-[34px] min-w-[34px] flex items-center justify-center text-stone-500 hover:text-amber-400 rounded-md hover:bg-stone-800 transition-colors"
               title="Copiar Ficha rápida (Discord / VTT)"
             >
               <Copy className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => onSelect(monster)}
-              className="font-cinzel text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-0.5"
+              className="min-h-[34px] px-2 font-cinzel text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-0.5 whitespace-nowrap"
             >
               Ficha →
             </button>
@@ -761,8 +761,8 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
           <img
             src={monster.imageUrl}
             alt={monster.name}
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-            crossOrigin="anonymous"
             onError={(e) => {
               e.currentTarget.src = FALLBACK_MONSTER_IMAGE;
             }}
@@ -1331,23 +1331,23 @@ const Bestiary: React.FC<{
     <div className="space-y-6">
       
       {/* Navigation Sub-Bar (Grimório / Compêndio / Mesa do Mestre) */}
-      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-wrap justify-between items-center gap-3 backdrop-blur-md max-w-full overflow-x-hidden">
+      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2.5 sm:gap-3 backdrop-blur-md max-w-full overflow-x-hidden">
         
         {/* Tab Switcher */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 max-w-full">
+        <div className="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 w-full lg:w-auto">
           <button
             onClick={() => {
               setActiveTab('books');
               setSelectedBook(null);
             }}
-            className={`px-3 py-2 rounded-lg font-cinzel text-xs sm:text-sm font-bold flex items-center gap-2 transition-all ${
+            className={`px-2 sm:px-3 py-2 min-h-[42px] rounded-lg font-cinzel text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap ${
               activeTab === 'books' && !selectedBook
                 ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30'
-                : 'text-stone-300 hover:bg-stone-800'
+                : 'bg-stone-900/60 sm:bg-transparent text-stone-300 hover:bg-stone-800 border border-stone-800/70 sm:border-0'
             }`}
           >
-            <BookOpen className="w-4 h-4" />
-            <span>Por Tomos</span>
+            <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+            <span className="truncate">Por Tomos</span>
           </button>
 
           <button
@@ -1355,14 +1355,17 @@ const Bestiary: React.FC<{
               setActiveTab('all');
               setSelectedBook(null);
             }}
-            className={`px-3 py-2 rounded-lg font-cinzel text-xs sm:text-sm font-bold flex items-center gap-2 transition-all ${
+            className={`px-2 sm:px-3 py-2 min-h-[42px] rounded-lg font-cinzel text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap ${
               activeTab === 'all'
                 ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30'
-                : 'text-stone-300 hover:bg-stone-800'
+                : 'bg-stone-900/60 sm:bg-transparent text-stone-300 hover:bg-stone-800 border border-stone-800/70 sm:border-0'
             }`}
           >
-            <Layers className="w-4 h-4" />
-            <span>Compêndio Geral ({allMonsters.length})</span>
+            <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+            <span className="truncate">
+              <span className="sm:hidden">Todos</span>
+              <span className="hidden sm:inline">Compêndio Geral</span> ({allMonsters.length})
+            </span>
           </button>
 
           <button
@@ -1370,19 +1373,19 @@ const Bestiary: React.FC<{
               setActiveTab('favorites');
               setSelectedBook(null);
             }}
-            className={`px-3 py-2 rounded-lg font-cinzel text-xs sm:text-sm font-bold flex items-center gap-2 transition-all ${
+            className={`px-2 sm:px-3 py-2 min-h-[42px] rounded-lg font-cinzel text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap ${
               activeTab === 'favorites'
                 ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-stone-950 shadow-md shadow-amber-500/30'
-                : 'text-stone-300 hover:bg-stone-800'
+                : 'bg-stone-900/60 sm:bg-transparent text-stone-300 hover:bg-stone-800 border border-stone-800/70 sm:border-0'
             }`}
           >
-            <Star className={`w-4 h-4 ${activeTab === 'favorites' ? 'fill-stone-950 text-stone-950' : 'fill-amber-400 text-amber-400'}`} />
-            <span>Favoritos ({favoriteIds.length})</span>
+            <Star className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${activeTab === 'favorites' ? 'fill-stone-950 text-stone-950' : 'fill-amber-400 text-amber-400'}`} />
+            <span className="truncate">Favoritos ({favoriteIds.length})</span>
           </button>
         </div>
 
         {/* Global Action Tools (Import/Export JSON, Print, New Monster) */}
-        <div className="flex flex-wrap items-center gap-2 max-w-full">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar sm:flex-wrap w-full lg:w-auto pb-0.5 sm:pb-0">
           {/* Backup Import/Export */}
           <input
             type="file"
@@ -1392,17 +1395,45 @@ const Bestiary: React.FC<{
             className="hidden"
           />
 
+          <button
+            onClick={showCreator}
+            className="px-3 py-2 min-h-[40px] bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-cinzel font-bold text-xs rounded-lg shadow-md transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap sm:order-last"
+          >
+            <Plus className="w-4 h-4 shrink-0" />
+            <span>Criar Monstro</span>
+          </button>
+
+          {/* SWADE Encounter Builder Button */}
+          <button
+            onClick={() => setShowEncounterModal(true)}
+            className="px-3 py-2 min-h-[40px] bg-amber-950/80 hover:bg-amber-900/90 text-amber-300 font-cinzel font-bold text-xs rounded-lg border border-amber-700/60 shadow-md transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+            title="Gerador de Encontros Balanceados SWADE"
+          >
+            <Swords className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>Encontros</span>
+          </button>
+
+          {/* D3 Monster Distribution Stats Modal Button */}
+          <button
+            onClick={() => setShowStatsModal(true)}
+            className="px-2.5 py-2 min-h-[40px] text-stone-300 hover:text-amber-300 bg-stone-900 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+            title="Painel Estatístico e Distribuição de Tipos (Gráfico D3)"
+          >
+            <PieChart className="w-4 h-4 text-amber-400 shrink-0" />
+            <span className="hidden sm:inline">Estatísticas</span>
+          </button>
+
           {/* Local Storage & Offline Manager Button */}
           <button
             onClick={() => setShowStorageModal(true)}
             title="Gerenciador de Banco de Dados Local (localStorage) e Persistência Offline"
-            className={`p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5 ${
+            className={`px-2.5 py-2 min-h-[40px] rounded-lg border transition-all text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               !isOnline
                 ? 'bg-amber-950/90 border-amber-600 text-amber-300 font-bold shadow-md shadow-amber-900/40 animate-pulse'
                 : 'text-stone-300 hover:text-amber-300 bg-stone-900 border-stone-800 hover:border-amber-600/70'
             }`}
           >
-            <Database className="w-4 h-4 text-amber-400" />
+            <Database className="w-4 h-4 text-amber-400 shrink-0" />
             <span className="hidden md:inline font-cinzel">Banco Local</span>
             {!isOnline && (
               <span className="bg-amber-800/80 text-[10px] text-amber-200 px-1 py-0.5 rounded font-bold">
@@ -1411,60 +1442,32 @@ const Bestiary: React.FC<{
             )}
           </button>
 
+          {/* Print current selection */}
+          <button
+            onClick={() => setShowPrintModal(true)}
+            className="px-2.5 py-2 min-h-[40px] bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 rounded-lg transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
+            title="Imprimir Seleção Atual em PDF"
+          >
+            <Printer className="w-4 h-4 shrink-0" />
+            <span className="hidden sm:inline">Imprimir PDF</span>
+          </button>
+
           <button
             onClick={handleExportBackup}
             title="Exportar backup completo do banco de dados local (JSON)"
-            className="p-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5"
+            className="px-2.5 py-2 min-h-[40px] text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4 shrink-0" />
             <span className="hidden md:inline">Backup JSON</span>
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
             title="Importar e mesclar monstros no banco de dados local (JSON)"
-            className="p-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5"
+            className="px-2.5 py-2 min-h-[40px] text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-4 h-4 shrink-0" />
             <span className="hidden md:inline">Importar</span>
-          </button>
-
-          {/* Print current selection */}
-          <button
-            onClick={() => setShowPrintModal(true)}
-            className="p-2 bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 rounded-lg transition-colors text-xs flex items-center gap-1.5"
-            title="Imprimir Seleção Atual em PDF"
-          >
-            <Printer className="w-4 h-4" />
-            <span className="hidden sm:inline">Imprimir PDF</span>
-          </button>
-
-          {/* D3 Monster Distribution Stats Modal Button */}
-          <button
-            onClick={() => setShowStatsModal(true)}
-            className="p-2 text-stone-300 hover:text-amber-300 bg-stone-900 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-colors text-xs flex items-center gap-1.5"
-            title="Painel Estatístico e Distribuição de Tipos (Gráfico D3)"
-          >
-            <PieChart className="w-4 h-4 text-amber-400" />
-            <span className="hidden sm:inline">Estatísticas</span>
-          </button>
-
-          {/* SWADE Encounter Builder Button */}
-          <button
-            onClick={() => setShowEncounterModal(true)}
-            className="px-3 py-2 bg-amber-950/80 hover:bg-amber-900/90 text-amber-300 font-cinzel font-bold text-xs rounded-lg border border-amber-700/60 shadow-md transition-all flex items-center gap-1.5"
-            title="Gerador de Encontros Balanceados SWADE"
-          >
-            <Swords className="w-4 h-4 text-amber-400" />
-            <span className="hidden sm:inline">Gerador de Encontros</span>
-          </button>
-
-          <button
-            onClick={showCreator}
-            className="px-3 py-2 bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-cinzel font-bold text-xs rounded-lg shadow-md transition-all flex items-center gap-1.5"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Criar Monstro</span>
           </button>
         </div>
       </div>
@@ -1659,17 +1662,17 @@ const Bestiary: React.FC<{
           )}
 
           {/* Secondary Quick-Filter Controls & Chips Row */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-stone-800/80 text-xs">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center justify-between gap-2 pt-2 border-t border-stone-800/80 text-xs">
             
-            {/* Quick Chips */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[11px] text-stone-500 font-cinzel mr-1">Filtros Rápidos:</span>
+            {/* Quick Chips (swipeable strip on mobile, wrapped on desktop) */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap w-full sm:w-auto">
+              <span className="text-[11px] text-stone-500 font-cinzel mr-1 shrink-0 hidden sm:inline">Filtros Rápidos:</span>
 
               {/* Only Favorites Filter Toggle */}
               {activeTab !== 'favorites' && (
                 <button
                   onClick={() => setOnlyFavoritesFilter(f => !f)}
-                  className={`px-2.5 py-0.5 rounded-full border text-[11px] font-semibold transition-colors flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] font-semibold transition-colors flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                     onlyFavoritesFilter
                       ? 'bg-amber-500 text-stone-950 border-amber-400 shadow-sm shadow-amber-500/30 font-bold'
                       : 'bg-stone-900 text-stone-300 border-stone-800 hover:border-amber-600/70 hover:text-amber-200'
@@ -1677,13 +1680,13 @@ const Bestiary: React.FC<{
                   title="Exibir apenas criaturas marcadas como favoritas"
                 >
                   <Star className={`w-3 h-3 ${onlyFavoritesFilter ? 'fill-stone-950 text-stone-950' : 'fill-amber-400 text-amber-400'}`} />
-                  <span>Apenas Favoritos ({favoriteIds.length})</span>
+                  <span>Favoritos ({favoriteIds.length})</span>
                 </button>
               )}
               
               <button
                 onClick={() => setWildCardFilter(f => f === 'wildcard' ? 'all' : 'wildcard')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   wildCardFilter === 'wildcard'
                     ? 'bg-amber-950 text-amber-300 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1694,7 +1697,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedRaceFilter(r => r === 'Morto-Vivo' ? 'all' : 'Morto-Vivo')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedRaceFilter === 'Morto-Vivo'
                     ? 'bg-purple-950 text-purple-300 border-purple-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1705,7 +1708,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedRaceFilter(r => r === 'Besta' ? 'all' : 'Besta')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedRaceFilter === 'Besta'
                     ? 'bg-emerald-950 text-emerald-300 border-emerald-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1716,7 +1719,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Lendas Brasileiras' ? 'all' : 'Lendas Brasileiras')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Lendas Brasileiras'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1727,7 +1730,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Core Rules' ? 'all' : 'Core Rules')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Core Rules'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1738,7 +1741,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Fantasia' ? 'all' : 'Compêndio de Fantasia')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Compêndio de Fantasia'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1749,7 +1752,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Horror' ? 'all' : 'Compêndio de Horror')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Compêndio de Horror'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1760,7 +1763,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Deadlands: O Oeste Estranho' ? 'all' : 'Deadlands: O Oeste Estranho')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Deadlands: O Oeste Estranho'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1771,7 +1774,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Pathfinder para Savage Worlds' ? 'all' : 'Pathfinder para Savage Worlds')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Pathfinder para Savage Worlds'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1782,7 +1785,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Sci-Fi' ? 'all' : 'Compêndio de Sci-Fi')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Compêndio de Sci-Fi'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1793,7 +1796,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setSelectedSourcebookFilter(s => s === 'Arte da Guerra (ADG)' ? 'all' : 'Arte da Guerra (ADG)')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   selectedSourcebookFilter === 'Arte da Guerra (ADG)'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
@@ -1804,18 +1807,18 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setToughnessFilter(t => t === 'titanico' ? 'all' : 'titanico')}
-                className={`px-2 py-0.5 rounded-full border text-[11px] transition-colors ${
+                className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
                   toughnessFilter === 'titanico'
                     ? 'bg-red-950 text-red-300 border-red-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
               >
-                🛡️ Titânicos (Resist. 12+)
+                🛡️ Titânicos (12+)
               </button>
             </div>
 
             {/* Results Counter & Reset Action */}
-            <div className="flex items-center gap-2 text-stone-400 ml-auto">
+            <div className="flex items-center justify-between sm:justify-end gap-2 text-stone-400 sm:ml-auto">
               <span className="font-mono text-xs">
                 <b className="text-amber-300">{currentDisplayedMonsters.length}</b> criaturas
               </span>
@@ -1831,7 +1834,7 @@ const Bestiary: React.FC<{
                     setSizeFilter('all');
                     setOnlyFavoritesFilter(false);
                   }}
-                  className="text-amber-400 hover:underline text-[11px]"
+                  className="text-amber-400 hover:underline text-[11px] min-h-[32px] px-1"
                 >
                   Limpar Filtros
                 </button>
@@ -1927,15 +1930,15 @@ const Bestiary: React.FC<{
           </div>
 
           {/* View Mode Bar & Accordion Controls */}
-          <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-3 max-w-full overflow-x-hidden">
+          <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2.5 max-w-full overflow-x-hidden">
             
             {/* View Mode Buttons */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-stone-500 font-cinzel mr-1 hidden sm:inline">Exibição:</span>
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar max-w-full w-full sm:w-auto pb-0.5 sm:pb-0">
+              <span className="text-xs text-stone-500 font-cinzel mr-1 hidden sm:inline shrink-0">Exibição:</span>
 
               <button
                 onClick={() => setDisplayMode('alphabetical')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'alphabetical'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
                     : 'bg-stone-900 text-stone-400 hover:text-stone-200 border border-stone-800'
@@ -1948,7 +1951,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setDisplayMode('cards')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'cards'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
                     : 'bg-stone-900 text-stone-400 hover:text-stone-200 border border-stone-800'
@@ -1961,7 +1964,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setDisplayMode('table')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'table'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
                     : 'bg-stone-900 text-stone-400 hover:text-stone-200 border border-stone-800'
@@ -1974,7 +1977,7 @@ const Bestiary: React.FC<{
 
               <button
                 onClick={() => setDisplayMode('by-race')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'by-race'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
                     : 'bg-stone-900 text-stone-400 hover:text-stone-200 border border-stone-800'
@@ -1991,14 +1994,14 @@ const Bestiary: React.FC<{
               <div className="flex items-center gap-2">
                 <button
                   onClick={expandAllGroups}
-                  className="px-2.5 py-1 bg-stone-900 hover:bg-stone-850 text-stone-300 hover:text-amber-300 border border-stone-800 rounded-lg text-xs font-cinzel transition-colors flex items-center gap-1"
+                  className="px-2.5 py-1.5 min-h-[36px] bg-stone-900 hover:bg-stone-850 text-stone-300 hover:text-amber-300 border border-stone-800 rounded-lg text-xs font-cinzel transition-colors flex items-center gap-1 whitespace-nowrap"
                 >
                   <ChevronsUpDown className="w-3.5 h-3.5" />
                   <span>Expandir Todos</span>
                 </button>
                 <button
                   onClick={collapseAllGroups}
-                  className="px-2.5 py-1 bg-stone-900 hover:bg-stone-850 text-stone-400 hover:text-amber-300 border border-stone-800 rounded-lg text-xs font-cinzel transition-colors flex items-center gap-1"
+                  className="px-2.5 py-1.5 min-h-[36px] bg-stone-900 hover:bg-stone-850 text-stone-400 hover:text-amber-300 border border-stone-800 rounded-lg text-xs font-cinzel transition-colors flex items-center gap-1 whitespace-nowrap"
                 >
                   <ChevronsUpDown className="w-3.5 h-3.5" />
                   <span>Recolher Todos</span>
@@ -2013,17 +2016,17 @@ const Bestiary: React.FC<{
 
       {/* VIEW 1: Library of Books View (Grimório por Tomos) */}
       {activeTab === 'books' && !selectedBook && (
-        <div className="space-y-6">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <h2 className="font-cinzel text-3xl font-extrabold text-amber-200 tracking-wide">
+        <div className="space-y-5 sm:space-y-6">
+          <div className="text-center max-w-xl mx-auto space-y-1.5 sm:space-y-2 px-1">
+            <h2 className="font-cinzel text-2xl sm:text-3xl font-extrabold text-amber-200 tracking-wide">
               Biblioteca de Tomos & Cenários
             </h2>
-            <p className="text-stone-400 font-crimson text-base italic">
+            <p className="text-stone-400 font-crimson text-sm sm:text-base italic">
               Escolha um tomo para desvendar as monstruosidades e lendas catalogadas para Savage Worlds.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {books.map(([title, monstersInThisBook]) => (
               <div
                 key={title}

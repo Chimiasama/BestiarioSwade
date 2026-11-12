@@ -334,9 +334,9 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div
-        className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-4xl w-full p-5 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[92vh]"
+        className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[92dvh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Glow ambient background effect */}

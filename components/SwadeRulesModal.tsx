@@ -10,8 +10,8 @@ export const SwadeRulesModal: React.FC<SwadeRulesModalProps> = ({ isOpen, onClos
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-stone-950 border border-amber-900/60 rounded-xl shadow-2xl max-w-2xl w-full p-6 text-stone-200 ring-1 ring-amber-500/20 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2.5 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-stone-950 border border-amber-900/60 rounded-xl shadow-2xl max-w-2xl w-full p-4 sm:p-6 text-stone-200 ring-1 ring-amber-500/20 max-h-[90dvh] overflow-y-auto">
         
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-stone-800 mb-4">

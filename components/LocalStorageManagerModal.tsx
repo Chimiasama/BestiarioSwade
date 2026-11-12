@@ -133,9 +133,9 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div
-        className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Glow ambient background */}
