@@ -1,8 +1,10 @@
+import { createTemplateDraft, MONSTER_PRESETS } from '../services/monsterTemplates';
+import { TemplatePicker } from './TemplatePicker';
 import { ConfirmDialog } from './ConfirmDialog';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import { notify } from '../services/notifications';
 import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
-import { MonsterArchetype, MonsterTemplate, Monster, MonsterAbility } from '../types';
+import { MonsterTemplate, Monster, MonsterAbility } from '../types';
 import { generateMonsterStory, generateMonsterAbilities } from '../services/geminiService';
 import { addCustomMonster } from '../services/customMonsterService';
 import {
@@ -38,152 +40,12 @@ const PRESET_PORTRAITS = [
   { name: 'Serpente', url: 'https://images.unsplash.com/photo-1531386151447-fd76ad50012f?auto=format&fit=crop&w=800&q=80' },
 ];
 
-const MONSTER_TEMPLATES: Record<MonsterArchetype, Omit<MonsterTemplate, 'name' | 'history'>> = {
-  Soldier: {
-    race: 'Humano',
-    archetype: 'Soldado Assombrado',
-    isWildCard: false,
-    size: 0,
-    attributes: { agility: 'd8', cunning: 'd6', spirit: 'd6', strength: 'd8', vigor: 'd8' },
-    skills: 'Lutar d8, Intimidar d6, Atirar d8, Perceber d6, Atletismo d6',
-    movement: '6',
-    parry: 6,
-    toughness: '8 (2)',
-    abilities: [
-      { name: 'Destemido', description: 'Imune a testes de Medo e Intimidação.' },
-      { name: 'Formação de Batalha', description: 'Recebe +1 em Aparar quando estiver adjacente a pelo menos um aliado.' }
-    ],
-    weapons: 'Espada Longa (For+d8), Armadura de Malha (+2)',
-    advantages: 'Reflexos em Combate',
-    complications: 'Leal (Maior)',
-    sourcebook: 'Criações Próprias',
-  },
-  Brute: {
-    race: 'Monstruosidade',
-    archetype: 'Besta Brutal',
-    isWildCard: true,
-    size: 2,
-    attributes: { agility: 'd6', cunning: 'd4', spirit: 'd6', strength: 'd12', vigor: 'd10' },
-    skills: 'Lutar d10, Intimidar d10, Perceber d6, Atletismo d8',
-    movement: '7',
-    parry: 7,
-    toughness: '11 (2)',
-    abilities: [
-      { name: 'Couraça Espessa', description: 'Armadura natural +2.' },
-      { name: 'Frenesi Selvagem', description: 'Pode realizar um ataque adicional de Lutar por turno com -2 na rolagem.' },
-      { name: 'Tamanho +2', description: 'Criatura volumosa; recebe +2 em Resistência.' }
-    ],
-    weapons: 'Garras Devastadoras (For+d8)',
-    advantages: 'Brutamontes, Varredura',
-    complications: 'Sanguinário (Maior)',
-    sourcebook: 'Criações Próprias',
-  },
-  Sharpshooter: {
-    race: 'Elfo Espectral',
-    archetype: 'Atirador Furtivo',
-    isWildCard: false,
-    size: 0,
-    attributes: { agility: 'd10', cunning: 'd8', spirit: 'd6', strength: 'd6', vigor: 'd6' },
-    skills: 'Atirar d10, Furtividade d10, Perceber d8, Sobrevivência d6',
-    movement: '6',
-    parry: 5,
-    toughness: '5',
-    abilities: [
-      { name: 'Visão Noturna', description: 'Ignora penalidades por Penumbra e Escuridão parcial.' },
-      { name: 'Disparo Silencioso', description: 'Se atacar furtivo e acertar com ampliação, adiciona +4 de dano.' }
-    ],
-    weapons: 'Arco Fantasmagórico (2d6, Alcance 12/24/48)',
-    advantages: 'Atirador, Olhos de Águia',
-    complications: 'Cauteloso (Maior)',
-    sourcebook: 'Criações Próprias',
-  },
-  'Shadow Mage': {
-    race: 'Espectro',
-    archetype: 'Conjurador das Trevas',
-    isWildCard: true,
-    size: 0,
-    attributes: { agility: 'd6', cunning: 'd8', spirit: 'd10', strength: 'd4', vigor: 'd6' },
-    skills: 'Conjurar d10, Ocultismo d10, Intimidar d8, Perceber d8',
-    movement: '6',
-    parry: 4,
-    toughness: '5',
-    abilities: [
-      { name: 'Etéreo', description: 'Pode atravessar paredes e só é ferido por ataques mágicos ou energia pura.' },
-      { name: 'Dreno Sinistro', description: 'Ataque de toque força o alvo a testar Vigor ou sofrer 1 nível de Fadiga.' }
-    ],
-    weapons: 'Feitiços Arcanos (Projétil 2d6, Pavor, Escuridão)',
-    advantages: 'Antecedente Arcano (Magia)',
-    complications: 'Vulnerabilidade a Luz Solar (Maior)',
-    sourcebook: 'Criações Próprias',
-  },
-  Beast: {
-    race: 'Besta Mítica',
-    archetype: 'Predador Alfa',
-    isWildCard: false,
-    size: 1,
-    attributes: { agility: 'd8', cunning: 'd6', spirit: 'd6', strength: 'd8', vigor: 'd8' },
-    skills: 'Lutar d8, Perceber d8, Furtividade d8, Atletismo d8, Rastrear d8',
-    movement: '8',
-    parry: 6,
-    toughness: '7 (1)',
-    abilities: [
-      { name: 'Sentidos Apurados', description: '+2 em testes de Perceber baseados em olfato ou audição.' },
-      { name: 'Bote Furioso', description: 'Se mover pelo menos 3 quadros antes de atacar com Lutar, ganha +2 de dano.' }
-    ],
-    weapons: 'Mordida & Garras (For+d6)',
-    advantages: 'Prontidão',
-    complications: 'Sem Fala',
-    sourcebook: 'Criações Próprias',
-  },
-  Elemental: {
-    race: 'Elemental',
-    archetype: 'Manifestação Primitiva',
-    isWildCard: false,
-    size: 0,
-    attributes: { agility: 'd8', cunning: 'd6', spirit: 'd8', strength: 'd8', vigor: 'd8' },
-    skills: 'Lutar d8, Atirar d8, Intimidar d8, Atletismo d6',
-    movement: '6',
-    parry: 6,
-    toughness: '6',
-    abilities: [
-      { name: 'Natureza Elemental', description: 'Não respira, imune a venenos, doenças e sono. Ignora penalidades de ferimento.' },
-      { name: 'Aura Danosa', description: 'Inimigos adjacentes sofrem 2d4 de dano no final do seu turno.' }
-    ],
-    weapons: 'Pancada Elemental (For+d6)',
-    advantages: '',
-    complications: 'Vulnerabilidade a Elemento Oposto (Maior)',
-    sourcebook: 'Criações Próprias',
-  },
-  Undead: {
-    race: 'Morto-Vivo',
-    archetype: 'Cavaleiro Macabro',
-    isWildCard: false,
-    size: 0,
-    attributes: { agility: 'd6', cunning: 'd4', spirit: 'd6', strength: 'd8', vigor: 'd8' },
-    skills: 'Lutar d8, Intimidar d8, Perceber d4',
-    movement: '5',
-    parry: 6,
-    toughness: '8 (2)',
-    abilities: [
-      { name: 'Morto-Vivo', description: '+2 Resistência; +2 para recuperar de Abalado; ignora 1 ponto de penalidade de Ferimento; Imune a doenças e venenos.' },
-      { name: 'Destemido', description: 'Imune a testes de Medo e Intimidação.' }
-    ],
-    weapons: 'Machado Enferrujado (For+d8)',
-    advantages: '',
-    complications: '',
-    sourcebook: 'Criações Próprias',
-  }
-};
 
-const initialMonster: MonsterTemplate = {
-  name: '',
-  history: '',
-  sourcebook: 'Criações Próprias',
-  ...MONSTER_TEMPLATES.Soldier,
-};
+const initialMonster: MonsterTemplate = createTemplateDraft(MONSTER_PRESETS[0]);
 
 const monsterToTemplate = (monster: Monster): MonsterTemplate => ({
   id: monster.id,
+  templateId: monster.templateId,
   name: monster.name,
   race: monster.race,
   archetype: monster.archetype,
@@ -200,6 +62,7 @@ const monsterToTemplate = (monster: Monster): MonsterTemplate => ({
   weapons: monster.weapons || '',
   history: monster.history,
   imageUrl: monster.imageUrl,
+  powers: monster.powers || '',
   sourcebook: monster.sourcebook || 'Criações Próprias',
 });
 
@@ -237,17 +100,16 @@ const MonsterCreator: React.FC<{
     setError(null);
   }, [monsterToEdit]);
 
-  const handleArchetypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const newArchetype = e.target.value as MonsterArchetype;
-    const template = MONSTER_TEMPLATES[newArchetype];
-    setMonster(prev => ({
-      ...prev,
-      ...template,
-      name: prev.name,
-      history: prev.history,
-      imageUrl: prev.imageUrl,
-      isWildCard: prev.isWildCard,
-    }));
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [pendingTemplateId, setPendingTemplateId] = useState<string | null>(null);
+  const applyPreset = (id: string) => {
+    const preset = MONSTER_PRESETS.find(p => p.id === id);
+    if (!preset) return;
+    setMonster(prev => createTemplateDraft(preset, prev));
+    setPendingTemplateId(null);
+    setShowTemplates(false);
+    setError(null);
+    notify(`Modelo “${preset.name}” aplicado. Você pode editar todos os campos.`);
   };
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -463,23 +325,10 @@ const MonsterCreator: React.FC<{
                 <label className="block text-xs font-cinzel font-bold text-stone-300 mb-1">
                   Carregar Modelo de Arquétipo
                 </label>
-                <select aria-label="Carregar modelo de arquétipo"
-                  value={
-                    Object.keys(MONSTER_TEMPLATES).find(
-                      key => MONSTER_TEMPLATES[key as MonsterArchetype].archetype === monster.archetype
-                    ) || 'Soldier'
-                  }
-                  onChange={handleArchetypeChange}
-                  className="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-stone-200 text-sm focus:ring-1 focus:ring-amber-500 cursor-pointer"
-                >
-                  <option value="Soldier">Soldado Assombrado (Equilibrado)</option>
-                  <option value="Brute">Besta Brutal (Força d12 / Resistente)</option>
-                  <option value="Sharpshooter">Atirador Furtivo (Agilidade d10)</option>
-                  <option value="Shadow Mage">Conjurador das Trevas (Magias)</option>
-                  <option value="Beast">Predador Alfa (Rápido / Garras)</option>
-                  <option value="Elemental">Manifestação Elemental (Invulnerável)</option>
-                  <option value="Undead">Morto-Vivo (Destemido / Resistência)</option>
-                </select>
+                <button type="button" onClick={() => setShowTemplates(true)} className="w-full min-h-12 border border-amber-700 rounded-lg px-3 py-2 text-left font-semibold">
+                  Explorar {MONSTER_PRESETS.length} modelos de criatura →
+                </button>
+                <p className="text-xs text-stone-400 mt-2">Escolha família e patamar, confira a ficha e aplique quando quiser.</p>
               </div>
 
               <div>
@@ -704,6 +553,13 @@ const MonsterCreator: React.FC<{
           </div>
         </div>
 
+        <div>
+          <label className="block text-sm font-semibold mb-1" htmlFor="creature-powers">Poderes e Pontos de Poder</label>
+          <textarea id="creature-powers" name="powers" rows={3} value={monster.powers || ''} onChange={handleValueChange}
+            placeholder="Opcional: poderes disponíveis, Pontos de Poder e tradição arcana."
+            className="w-full bg-stone-900 border border-stone-700 rounded-lg p-3 text-sm text-stone-200" />
+        </div>
+
         {/* Special Abilities Manager */}
         <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -824,6 +680,10 @@ const MonsterCreator: React.FC<{
         </div>
 
       </form>
+      <TemplatePicker open={showTemplates} onClose={() => setShowTemplates(false)} onSelect={id => { setShowTemplates(false); setPendingTemplateId(id); }} />
+      <ConfirmDialog open={pendingTemplateId !== null} title="Aplicar modelo de criatura?"
+        message="Atributos, perícias, ataques, habilidades, natureza e condição de Carta Selvagem serão substituídos. Nome, história e retrato serão preservados."
+        confirmLabel="Aplicar modelo" onCancel={() => setPendingTemplateId(null)} onConfirm={() => { if (pendingTemplateId) applyPreset(pendingTemplateId); }} />
       <ConfirmDialog open={showDiscardConfirmation} title="Descartar alterações?" message="Há alterações que ainda não foram salvas nesta ficha. Deseja sair sem salvar?" confirmLabel="Descartar alterações" onCancel={() => setShowDiscardConfirmation(false)} onConfirm={() => onCancel?.()} />
     </div>
   );

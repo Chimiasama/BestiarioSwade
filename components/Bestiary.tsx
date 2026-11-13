@@ -1,3 +1,4 @@
+import { classifyMonster, CREATURE_FAMILIES } from '../services/monsterTaxonomy';
 import { ConfirmDialog } from './ConfirmDialog';
 import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { notify, copyToClipboard } from '../services/notifications';
@@ -1265,6 +1266,7 @@ const Bestiary: React.FC<{
   const [speechFeedback, setSpeechFeedback] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
   const [selectedSourcebookFilter, setSelectedSourcebookFilter] = useState<string>('all');
+  const [selectedRoleFilter, setSelectedRoleFilter] = useState('all');
   const [selectedRaceFilter, setSelectedRaceFilter] = useState<string>('all');
   const [selectedLetter, setSelectedLetter] = useState<string>('all');
   const [displayMode, setDisplayMode] = useState<DisplayMode>(() => {
@@ -1430,6 +1432,7 @@ const Bestiary: React.FC<{
   };
 
   const allMonsters = monstersList;
+  const roleIndex = useMemo(() => new Map(allMonsters.map(m => [m.id, classifyMonster(m)])), [allMonsters]);
   const searchIndex = useMemo(() => new Map(allMonsters.map(m => [m.id, {
     name: normalizeSearch(m.name),
     details: normalizeSearch([m.name, m.race, m.archetype, ...(m.skills || []), ...(m.abilities || []).map(a => `${a.name} ${a.description}`), m.weapons, m.powers, m.history].filter(Boolean).join(' ')),
@@ -1598,6 +1601,10 @@ const Bestiary: React.FC<{
       list = list.filter(m => m.sourcebook === selectedSourcebookFilter);
     }
 
+    if (selectedRoleFilter !== 'all') {
+      list = list.filter(m => selectedRoleFilter === 'unclassified' ? !m.referenceOnly && !roleIndex.get(m.id)?.length : roleIndex.get(m.id)?.some(role => role === selectedRoleFilter));
+    }
+
     // Race filter
     if (selectedRaceFilter !== 'all') {
       list = list.filter(m => m.race.toLowerCase() === selectedRaceFilter.toLowerCase());
@@ -1644,7 +1651,7 @@ const Bestiary: React.FC<{
     }
 
     return list;
-  }, [allMonsters, activeTab, selectedBook, favoriteIds, onlyFavoritesFilter, selectedSourcebookFilter, selectedRaceFilter, toughnessFilter, sizeFilter, wildCardFilter, searchTerm, books, searchDeep, searchIndex]);
+  }, [allMonsters, activeTab, selectedBook, favoriteIds, onlyFavoritesFilter, selectedSourcebookFilter, selectedRaceFilter, toughnessFilter, sizeFilter, wildCardFilter, searchTerm, books, searchDeep, searchIndex, selectedRoleFilter, roleIndex]);
 
   // 2. Count of monsters for each initial letter
   const letterCounts = useMemo(() => {
@@ -1679,13 +1686,14 @@ const Bestiary: React.FC<{
   const totalPages = Math.max(1, Math.ceil(currentDisplayedMonsters.length / pageSize));
   const safePage = Math.min(page, totalPages);
   const pageMonsters = currentDisplayedMonsters.slice((safePage - 1) * pageSize, safePage * pageSize);
-  useEffect(() => setPage(1), [searchTerm, searchDeep, selectedBook, activeTab, selectedLetter, selectedRaceFilter, selectedSourcebookFilter, wildCardFilter, toughnessFilter, sizeFilter, onlyFavoritesFilter, sortBy]);
+  useEffect(() => setPage(1), [searchTerm, searchDeep, selectedBook, activeTab, selectedLetter, selectedRaceFilter, selectedSourcebookFilter, wildCardFilter, toughnessFilter, sizeFilter, onlyFavoritesFilter, sortBy, selectedRoleFilter]);
   const changePage = (next: number) => {
     setPage(Math.max(1, Math.min(next, totalPages)));
     resultsRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
-  const activeFilterCount = [selectedSourcebookFilter !== 'all', selectedRaceFilter !== 'all', selectedLetter !== 'all', wildCardFilter !== 'all', toughnessFilter !== 'all', sizeFilter !== 'all', onlyFavoritesFilter].filter(Boolean).length;
+  const activeFilterCount = [selectedRoleFilter !== 'all', selectedSourcebookFilter !== 'all', selectedRaceFilter !== 'all', selectedLetter !== 'all', wildCardFilter !== 'all', toughnessFilter !== 'all', sizeFilter !== 'all', onlyFavoritesFilter].filter(Boolean).length;
   const clearFilters = () => {
+    setSelectedRoleFilter('all');
     setSearchTerm(''); setSelectedSourcebookFilter('all'); setSelectedRaceFilter('all');
     setSelectedLetter('all'); setWildCardFilter('all'); setToughnessFilter('all');
     setSizeFilter('all'); setOnlyFavoritesFilter(false);
@@ -1931,6 +1939,14 @@ const Bestiary: React.FC<{
             </button>
           </div>
           <div id="advanced-filters" hidden={!filtersExpanded}>
+          <label className="block text-sm mb-3">Papel sugerido da criatura
+            <select aria-label="Filtrar por papel sugerido" value={selectedRoleFilter} onChange={e=>setSelectedRoleFilter(e.target.value)} className="template-field">
+              <option value="all">Todos os papéis</option>
+              {CREATURE_FAMILIES.map(f=><option key={f.id} value={f.id}>{f.name}</option>)}
+              <option value="unclassified">Sem padrão seguro</option>
+            </select>
+          </label>
+          <p className="text-xs text-stone-400 mb-3">Sugestão por habilidades e ataques; uma criatura pode ter vários papéis. As fichas originais permanecem intactas.</p>
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
             {/* Sourcebook Filter (if in All tab) */}
             {activeTab === 'all' && (

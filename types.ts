@@ -14,6 +14,7 @@ export interface MonsterAttributes {
 export type MonsterRank = 'Novato' | 'Experiente' | 'Veterano' | 'Heroico' | 'Lendário';
 
 export interface Monster {
+  templateId?: string;
   id: string;
   name: string;
   race: string;
@@ -45,6 +46,8 @@ export interface Monster {
 export type MonsterArchetype = 'Soldier' | 'Brute' | 'Sharpshooter' | 'Shadow Mage' | 'Beast' | 'Elemental' | 'Undead';
 
 export interface MonsterTemplate {
+  templateId?: string;
+  powers?: string;
   id?: string;
   name: string;
   race: string;

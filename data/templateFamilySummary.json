@@ -1,0 +1,1138 @@
+{
+  "version": 1,
+  "method": "Sugestão por identidade, perícias e nomes de habilidades; múltiplos papéis possíveis. Sem inferência pelo histórico. Referências sem ficha excluídas das estatísticas. Não é taxonomia oficial nem cálculo de dificuldade.",
+  "total": 1126,
+  "complete": 1106,
+  "references": 20,
+  "unclassified": 17,
+  "distributions": {
+    "toughness": {
+      "count": 1104,
+      "min": 1,
+      "p25": 6,
+      "median": 8,
+      "p75": 11,
+      "max": 36
+    },
+    "parry": {
+      "count": 1106,
+      "min": 2,
+      "p25": 5,
+      "median": 6,
+      "p75": 6,
+      "max": 19
+    },
+    "size": {
+      "count": 494,
+      "min": -6,
+      "p25": -1,
+      "median": 2,
+      "p75": 4,
+      "max": 24
+    }
+  },
+  "abilities": [
+    {
+      "name": "Mordida/Garras",
+      "count": 164
+    },
+    {
+      "name": "Mordida",
+      "count": 163
+    },
+    {
+      "name": "Destemido",
+      "count": 143
+    },
+    {
+      "name": "Armadura +2",
+      "count": 104
+    },
+    {
+      "name": "Voo",
+      "count": 100
+    },
+    {
+      "name": "Medo (-2)",
+      "count": 93
+    },
+    {
+      "name": "Garras",
+      "count": 76
+    },
+    {
+      "name": "Tamanho 2",
+      "count": 76
+    },
+    {
+      "name": "Medo",
+      "count": 76
+    },
+    {
+      "name": "Visão no Escuro",
+      "count": 74
+    },
+    {
+      "name": "Tamanho 1",
+      "count": 71
+    },
+    {
+      "name": "Robusto",
+      "count": 65
+    },
+    {
+      "name": "Aquático",
+      "count": 62
+    },
+    {
+      "name": "Habilidade especial",
+      "count": 62
+    },
+    {
+      "name": "Tamanho -1",
+      "count": 61
+    },
+    {
+      "name": "Morto-Vivo",
+      "count": 56
+    },
+    {
+      "name": "Resiliente",
+      "count": 56
+    },
+    {
+      "name": "Construto",
+      "count": 56
+    },
+    {
+      "name": "Armadura +4",
+      "count": 52
+    },
+    {
+      "name": "Infravisão",
+      "count": 49
+    }
+  ],
+  "attributes": {
+    "agility": [
+      {
+        "name": "d8",
+        "count": 447
+      },
+      {
+        "name": "d6",
+        "count": 391
+      },
+      {
+        "name": "d10",
+        "count": 163
+      },
+      {
+        "name": "d4",
+        "count": 62
+      },
+      {
+        "name": "d12",
+        "count": 35
+      },
+      {
+        "name": "d12+1",
+        "count": 3
+      },
+      {
+        "name": "d6-1",
+        "count": 1
+      },
+      {
+        "name": "d12+4",
+        "count": 1
+      },
+      {
+        "name": "d12+3",
+        "count": 1
+      },
+      {
+        "name": "d12+2",
+        "count": 1
+      },
+      {
+        "name": "d4-2",
+        "count": 1
+      }
+    ],
+    "cunning": [
+      {
+        "name": "d6",
+        "count": 318
+      },
+      {
+        "name": "d8",
+        "count": 193
+      },
+      {
+        "name": "d4 (A)",
+        "count": 180
+      },
+      {
+        "name": "d4",
+        "count": 137
+      },
+      {
+        "name": "d6 (A)",
+        "count": 115
+      },
+      {
+        "name": "d10",
+        "count": 69
+      },
+      {
+        "name": "d12",
+        "count": 35
+      },
+      {
+        "name": "d8 (A)",
+        "count": 25
+      },
+      {
+        "name": "d12+2",
+        "count": 10
+      },
+      {
+        "name": "d10 (A)",
+        "count": 8
+      },
+      {
+        "name": "d6(A)",
+        "count": 7
+      },
+      {
+        "name": "d4(A)",
+        "count": 5
+      },
+      {
+        "name": "d12+1",
+        "count": 2
+      },
+      {
+        "name": "d6-2 (A)",
+        "count": 1
+      },
+      {
+        "name": "d12+8",
+        "count": 1
+      }
+    ],
+    "spirit": [
+      {
+        "name": "d6",
+        "count": 393
+      },
+      {
+        "name": "d8",
+        "count": 372
+      },
+      {
+        "name": "d10",
+        "count": 200
+      },
+      {
+        "name": "d4",
+        "count": 72
+      },
+      {
+        "name": "d12",
+        "count": 60
+      },
+      {
+        "name": "d12+2",
+        "count": 3
+      },
+      {
+        "name": "d12+1",
+        "count": 2
+      },
+      {
+        "name": "d12+4",
+        "count": 2
+      },
+      {
+        "name": "d9",
+        "count": 1
+      },
+      {
+        "name": "d12+8",
+        "count": 1
+      }
+    ],
+    "strength": [
+      {
+        "name": "d6",
+        "count": 291
+      },
+      {
+        "name": "d8",
+        "count": 234
+      },
+      {
+        "name": "d10",
+        "count": 134
+      },
+      {
+        "name": "d12",
+        "count": 88
+      },
+      {
+        "name": "d12+2",
+        "count": 78
+      },
+      {
+        "name": "d4",
+        "count": 76
+      },
+      {
+        "name": "d12+4",
+        "count": 38
+      },
+      {
+        "name": "d12+1",
+        "count": 26
+      },
+      {
+        "name": "d12+3",
+        "count": 25
+      },
+      {
+        "name": "d12+6",
+        "count": 23
+      },
+      {
+        "name": "d12+8",
+        "count": 13
+      },
+      {
+        "name": "d12+5",
+        "count": 13
+      },
+      {
+        "name": "d4-2",
+        "count": 10
+      },
+      {
+        "name": "1",
+        "count": 9
+      },
+      {
+        "name": "d12+12",
+        "count": 8
+      },
+      {
+        "name": "d4-1",
+        "count": 7
+      },
+      {
+        "name": "d12+10",
+        "count": 7
+      },
+      {
+        "name": "d4-3",
+        "count": 6
+      },
+      {
+        "name": "d12+9",
+        "count": 6
+      },
+      {
+        "name": "d12+7",
+        "count": 5
+      }
+    ],
+    "vigor": [
+      {
+        "name": "d8",
+        "count": 325
+      },
+      {
+        "name": "d6",
+        "count": 325
+      },
+      {
+        "name": "d10",
+        "count": 269
+      },
+      {
+        "name": "d12",
+        "count": 123
+      },
+      {
+        "name": "d4",
+        "count": 24
+      },
+      {
+        "name": "d12+2",
+        "count": 17
+      },
+      {
+        "name": "d12+4",
+        "count": 9
+      },
+      {
+        "name": "d12+1",
+        "count": 4
+      },
+      {
+        "name": "—",
+        "count": 4
+      },
+      {
+        "name": "d12+6",
+        "count": 2
+      },
+      {
+        "name": "d6-1",
+        "count": 1
+      },
+      {
+        "name": "d12+8",
+        "count": 1
+      },
+      {
+        "name": "d12+10",
+        "count": 1
+      },
+      {
+        "name": "d12+7",
+        "count": 1
+      }
+    ]
+  },
+  "families": [
+    {
+      "id": "soldier",
+      "name": "Soldados e comandantes",
+      "group": "Combatentes",
+      "count": 269,
+      "toughness": {
+        "count": 268,
+        "min": 1,
+        "p25": 6,
+        "median": 8,
+        "p75": 10,
+        "max": 34
+      },
+      "examples": [
+        {
+          "id": "fol-br-5",
+          "name": "Curupira",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "sw-1",
+          "name": "Soldado",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-3",
+          "name": "Esqueleto",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "horr-anjo",
+          "name": "Anjo (Guardião Divino)",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "horr-mumia",
+          "name": "Múmia Ancestral",
+          "sourcebook": "Compêndio de Horror"
+        }
+      ]
+    },
+    {
+      "id": "ranged",
+      "name": "Atiradores",
+      "group": "Combatentes",
+      "count": 46,
+      "toughness": {
+        "count": 46,
+        "min": 4,
+        "p25": 5,
+        "median": 6,
+        "p75": 8,
+        "max": 29
+      },
+      "examples": [
+        {
+          "id": "ext-1",
+          "name": "Goblin",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "dl-1",
+          "name": "Pistoleiro Retornado (Harrowed)",
+          "sourcebook": "Deadlands: O Oeste Estranho"
+        },
+        {
+          "id": "scifi-4",
+          "name": "Pirata Espacial Cyber-Aprimorado",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "wg-1",
+          "name": "Capanga da Máfia de Las Vegas",
+          "sourcebook": "Wiseguys"
+        },
+        {
+          "id": "book-swade_adg-14307",
+          "name": "Bandido de Estrada",
+          "sourcebook": "Arte da Guerra (ADG)"
+        }
+      ]
+    },
+    {
+      "id": "assassin",
+      "name": "Ladinos e assassinos",
+      "group": "Combatentes",
+      "count": 18,
+      "toughness": {
+        "count": 18,
+        "min": 3,
+        "p25": 5,
+        "median": 7,
+        "p75": 9,
+        "max": 11
+      },
+      "examples": [
+        {
+          "id": "adg-2",
+          "name": "Ninja Assassino das Sombras",
+          "sourcebook": "Arte da Guerra (ADG)"
+        },
+        {
+          "id": "scifi-6",
+          "name": "Androide Infiltrador Sombra",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "book-swade_crystal_heart-10939",
+          "name": "Pasquan o Assassino",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_crystal_heart-13793",
+          "name": "Zingamaiano Assassino",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_csv_livro_do_criador-2350",
+          "name": "Assassino",
+          "sourcebook": "Cidade do Sol & Vapor — Livro do Criador"
+        }
+      ]
+    },
+    {
+      "id": "brute",
+      "name": "Brutos e gigantes",
+      "group": "Feras e colossos",
+      "count": 77,
+      "toughness": {
+        "count": 77,
+        "min": 3,
+        "p25": 9,
+        "median": 13,
+        "p75": 18,
+        "max": 32
+      },
+      "examples": [
+        {
+          "id": "sw-6",
+          "name": "Dragão",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-7",
+          "name": "Troll",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "ext-2",
+          "name": "Ogro",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "dl-2",
+          "name": "Cascavel do Deserto (Desert Rattler)",
+          "sourcebook": "Deadlands: O Oeste Estranho"
+        },
+        {
+          "id": "scifi-3",
+          "name": "Drone Sentinela Autônomo",
+          "sourcebook": "Compêndio de Sci-Fi"
+        }
+      ]
+    },
+    {
+      "id": "predator",
+      "name": "Feras e ataques naturais",
+      "group": "Feras e colossos",
+      "count": 485,
+      "toughness": {
+        "count": 485,
+        "min": 1,
+        "p25": 6,
+        "median": 8,
+        "p75": 11,
+        "max": 32
+      },
+      "examples": [
+        {
+          "id": "2",
+          "name": "Chupacabra Brasileiro",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "sw-2",
+          "name": "Zumbi",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-3",
+          "name": "Esqueleto",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-4",
+          "name": "Vampiro",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-5",
+          "name": "Lobisomem",
+          "sourcebook": "Core Rules"
+        }
+      ]
+    },
+    {
+      "id": "swarm",
+      "name": "Enxames",
+      "group": "Feras e colossos",
+      "count": 3,
+      "toughness": {
+        "count": 3,
+        "min": 6,
+        "p25": 6,
+        "median": 7,
+        "p75": 7,
+        "max": 7
+      },
+      "examples": [
+        {
+          "id": "book-swade_crystal_heart-14489",
+          "name": "Vespas Zunidoras",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_crystal_heart-16605",
+          "name": "Não Existe",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_deadlands-13542",
+          "name": "Enxame de mosquitos texanos",
+          "sourcebook": "Deadlands: O Oeste Estranho"
+        }
+      ]
+    },
+    {
+      "id": "aquatic",
+      "name": "Criaturas aquáticas",
+      "group": "Feras e colossos",
+      "count": 75,
+      "toughness": {
+        "count": 75,
+        "min": 3,
+        "p25": 7,
+        "median": 10,
+        "p75": 13,
+        "max": 31
+      },
+      "examples": [
+        {
+          "id": "book-swade_adg-14184",
+          "name": "Escorpiodilo",
+          "sourcebook": "Arte da Guerra (ADG)"
+        },
+        {
+          "id": "book-swade_adg_diario_do_kui-307",
+          "name": "Escorpiodilo",
+          "sourcebook": "Arte da Guerra — Diário do Kui"
+        },
+        {
+          "id": "book-swade_adg_diario_do_kui-846",
+          "name": "Kappa",
+          "sourcebook": "Arte da Guerra — Diário do Kui"
+        },
+        {
+          "id": "book-swade_basico-15822",
+          "name": "Elemental da água",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_basico-15945",
+          "name": "Jacaré/crocodilo",
+          "sourcebook": "Core Rules"
+        }
+      ]
+    },
+    {
+      "id": "winged",
+      "name": "Voadores e alados",
+      "group": "Feras e colossos",
+      "count": 135,
+      "toughness": {
+        "count": 135,
+        "min": 1,
+        "p25": 5,
+        "median": 7,
+        "p75": 11,
+        "max": 32
+      },
+      "examples": [
+        {
+          "id": "sw-6",
+          "name": "Dragão",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "ext-8",
+          "name": "Lich Ancestral",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "dl-1",
+          "name": "Pistoleiro Retornado (Harrowed)",
+          "sourcebook": "Deadlands: O Oeste Estranho"
+        },
+        {
+          "id": "scifi-3",
+          "name": "Drone Sentinela Autônomo",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "sp-1",
+          "name": "Supervilão Telecinético",
+          "sourcebook": "Compêndio de Superpoderes"
+        }
+      ]
+    },
+    {
+      "id": "undead",
+      "name": "Mortos-vivos",
+      "group": "Sobrenaturais",
+      "count": 95,
+      "toughness": {
+        "count": 95,
+        "min": 1,
+        "p25": 7,
+        "median": 9,
+        "p75": 10,
+        "max": 27
+      },
+      "examples": [
+        {
+          "id": "sw-2",
+          "name": "Zumbi",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-3",
+          "name": "Esqueleto",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "sw-4",
+          "name": "Vampiro",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "ext-3",
+          "name": "Espectro (Wraith)",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "ext-8",
+          "name": "Lich Ancestral",
+          "sourcebook": "Compêndio de Fantasia"
+        }
+      ]
+    },
+    {
+      "id": "spirit",
+      "name": "Espíritos e aparições",
+      "group": "Sobrenaturais",
+      "count": 58,
+      "toughness": {
+        "count": 57,
+        "min": 1,
+        "p25": 5,
+        "median": 6,
+        "p75": 7,
+        "max": 17
+      },
+      "examples": [
+        {
+          "id": "1",
+          "name": "Loira do Banheiro",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "fol-br-5",
+          "name": "Curupira",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "fol-br-6",
+          "name": "Saci-Pererê",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "ext-3",
+          "name": "Espectro (Wraith)",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "fol-1",
+          "name": "Banshee",
+          "sourcebook": "Compêndio de Horror"
+        }
+      ]
+    },
+    {
+      "id": "demon",
+      "name": "Demônios e horrores",
+      "group": "Sobrenaturais",
+      "count": 44,
+      "toughness": {
+        "count": 44,
+        "min": 3,
+        "p25": 6,
+        "median": 7,
+        "p75": 11,
+        "max": 32
+      },
+      "examples": [
+        {
+          "id": "horr-6",
+          "name": "Monstro de Frankenstein",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "horr-demonio",
+          "name": "Demônio (Linhagem Infernal)",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "pf-2",
+          "name": "Diabo das Correntes (Kyton)",
+          "sourcebook": "Pathfinder para Savage Worlds"
+        },
+        {
+          "id": "scifi-7",
+          "name": "Parasita Psíquico de Antares",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "book-swade_adg_diario_do_kui-927",
+          "name": "Macaco-Diabólico das Neves",
+          "sourcebook": "Arte da Guerra — Diário do Kui"
+        }
+      ]
+    },
+    {
+      "id": "construct",
+      "name": "Constructos e máquinas",
+      "group": "Naturezas especiais",
+      "count": 81,
+      "toughness": {
+        "count": 81,
+        "min": 2,
+        "p25": 6,
+        "median": 10,
+        "p75": 13,
+        "max": 36
+      },
+      "examples": [
+        {
+          "id": "3",
+          "name": "Boneco Maldito do Fofão",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "horr-6",
+          "name": "Monstro de Frankenstein",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "scifi-3",
+          "name": "Drone Sentinela Autônomo",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "scifi-6",
+          "name": "Androide Infiltrador Sombra",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "scifi-8",
+          "name": "Mecha de Batalha Titânico",
+          "sourcebook": "Compêndio de Sci-Fi"
+        }
+      ]
+    },
+    {
+      "id": "elemental",
+      "name": "Elementais",
+      "group": "Naturezas especiais",
+      "count": 36,
+      "toughness": {
+        "count": 36,
+        "min": 4,
+        "p25": 5,
+        "median": 8,
+        "p75": 14,
+        "max": 31
+      },
+      "examples": [
+        {
+          "id": "book-swade_basico-15758",
+          "name": "Elemental do ar",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_basico-15822",
+          "name": "Elemental da água",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_basico-15888",
+          "name": "Elemental do fogo",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_basico-15916",
+          "name": "Elemental da terra",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_crystal_heart-11528",
+          "name": "Manifestação Elemental",
+          "sourcebook": "Crystal Heart"
+        }
+      ]
+    },
+    {
+      "id": "plant",
+      "name": "Plantas e fungos",
+      "group": "Naturezas especiais",
+      "count": 15,
+      "toughness": {
+        "count": 15,
+        "min": 5,
+        "p25": 7,
+        "median": 12,
+        "p75": 14,
+        "max": 19
+      },
+      "examples": [
+        {
+          "id": "book-swade_fantasia-14325",
+          "name": "Arbusto errante",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_fantasia-14392",
+          "name": "Árvore de guerra",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_fantasia-19981",
+          "name": "Povo Árvore Jovem",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_fantasia-19997",
+          "name": "Povo Árvore Grande",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_havenwood-5815",
+          "name": "Árvore Animada",
+          "sourcebook": "Havenwood"
+        }
+      ]
+    },
+    {
+      "id": "dragon",
+      "name": "Dragões",
+      "group": "Naturezas especiais",
+      "count": 11,
+      "toughness": {
+        "count": 11,
+        "min": 6,
+        "p25": 7,
+        "median": 20,
+        "p75": 21,
+        "max": 26
+      },
+      "examples": [
+        {
+          "id": "sw-6",
+          "name": "Dragão",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_basico-15720",
+          "name": "Dragão",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_deadlands-13483",
+          "name": "Dragão do labirinto",
+          "sourcebook": "Deadlands: O Oeste Estranho"
+        },
+        {
+          "id": "book-swade_fantasia-16098",
+          "name": "Dragão Filhote",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_fantasia-16148",
+          "name": "Dragão jovem",
+          "sourcebook": "Compêndio de Fantasia"
+        }
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "Magos e arcanistas",
+      "group": "Conjuradores",
+      "count": 69,
+      "toughness": {
+        "count": 69,
+        "min": 1,
+        "p25": 6,
+        "median": 7,
+        "p75": 11,
+        "max": 20
+      },
+      "examples": [
+        {
+          "id": "4",
+          "name": "Pisadeira",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "ext-8",
+          "name": "Lich Ancestral",
+          "sourcebook": "Compêndio de Fantasia"
+        },
+        {
+          "id": "book-swade_basico-16065",
+          "name": "Liche",
+          "sourcebook": "Core Rules"
+        },
+        {
+          "id": "book-swade_crystal_heart-10813",
+          "name": "Yamya o Necromante",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_csv_livro_do_criador-2485",
+          "name": "Mago Negro",
+          "sourcebook": "Cidade do Sol & Vapor — Livro do Criador"
+        }
+      ]
+    },
+    {
+      "id": "priest",
+      "name": "Sacerdotes e xamãs",
+      "group": "Conjuradores",
+      "count": 12,
+      "toughness": {
+        "count": 12,
+        "min": 4,
+        "p25": 6,
+        "median": 8,
+        "p75": 10,
+        "max": 10
+      },
+      "examples": [
+        {
+          "id": "horr-anjo",
+          "name": "Anjo (Guardião Divino)",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "book-swade_crystal_heart-14372",
+          "name": "Yurhant",
+          "sourcebook": "Crystal Heart"
+        },
+        {
+          "id": "book-swade_csv_livro_do_criador-2331",
+          "name": "Anjo Sacerdote",
+          "sourcebook": "Cidade do Sol & Vapor — Livro do Criador"
+        },
+        {
+          "id": "book-swade_csv_livro_do_criador-3119",
+          "name": "Xamã Homo Odonatus",
+          "sourcebook": "Cidade do Sol & Vapor — Livro do Criador"
+        },
+        {
+          "id": "book-swade_fantasia-14629",
+          "name": "Bárbaro Xamã",
+          "sourcebook": "Compêndio de Fantasia"
+        }
+      ]
+    },
+    {
+      "id": "psion",
+      "name": "Psiônicos",
+      "group": "Conjuradores",
+      "count": 45,
+      "toughness": {
+        "count": 45,
+        "min": 1,
+        "p25": 6,
+        "median": 9,
+        "p75": 11,
+        "max": 31
+      },
+      "examples": [
+        {
+          "id": "2",
+          "name": "Chupacabra Brasileiro",
+          "sourcebook": "Lendas Brasileiras"
+        },
+        {
+          "id": "horr-7",
+          "name": "Poltergeist",
+          "sourcebook": "Compêndio de Horror"
+        },
+        {
+          "id": "scifi-7",
+          "name": "Parasita Psíquico de Antares",
+          "sourcebook": "Compêndio de Sci-Fi"
+        },
+        {
+          "id": "sp-1",
+          "name": "Supervilão Telecinético",
+          "sourcebook": "Compêndio de Superpoderes"
+        },
+        {
+          "id": "book-swade_csv_livro_do_criador-2617",
+          "name": "Mago Demônio",
+          "sourcebook": "Cidade do Sol & Vapor — Livro do Criador"
+        }
+      ]
+    }
+  ]
+}

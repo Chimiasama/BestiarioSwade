@@ -723,3 +723,11 @@ html[data-mode="diurno"] { --text-dim: var(--text-muted); }
 html[data-mode="diurno"] [class*="text-emerald-300"] { color: #16643d; }
 html[data-mode="diurno"] [class*="text-red-300"] { color: #a32121; }
 html[data-mode="diurno"] [class*="text-purple-200"] { color: #6b218a; }
+
+/* Biblioteca de modelos: controles e prévias usam as mesmas superfícies do editor. */
+.template-field { display: block; width: 100%; min-height: 48px; margin-top: .35rem; padding: .6rem; border: 1px solid var(--border-subtle); border-radius: .5rem; background: var(--bg-input); color: var(--text-primary); font-size: 1rem; }
+.template-library { color: var(--text-primary); overflow-wrap: anywhere; }
+.template-option[aria-pressed="true"] { box-shadow: inset 4px 0 var(--accent-highlight); }
+
+.template-library .primary-action { background: #d97706 !important; color: #1c1917 !important; border: 1px solid #b45309; }
+.template-library .primary-action:hover { background: #f59e0b !important; }

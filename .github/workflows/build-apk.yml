@@ -51,6 +51,7 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -v
           npm run test:back
+          npm run test:templates
           npx --no-install tsc --noEmit
 
       - name: Compilar aplicação web

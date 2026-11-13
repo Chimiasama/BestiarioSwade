@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:back": "node --experimental-strip-types --test tests/backNavigation.test.ts"
+    "test:back": "node --experimental-strip-types --test tests/backNavigation.test.ts",
+    "test:templates": "node --test tests/monsterTemplates.test.mjs",
+    "analyze:templates": "node scripts/analyze_monster_templates.mjs"
   },
   "dependencies": {
     "@capacitor/app": "8.1.2",

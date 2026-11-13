@@ -496,6 +496,7 @@ export const addCustomMonster = async (monsterTemplate: MonsterTemplate, imageFi
   const newMonster: Monster = {
     id: monsterId,
     name: monsterTemplate.name,
+    templateId: monsterTemplate.templateId,
     race: monsterTemplate.race,
     archetype: monsterTemplate.archetype,
     isWildCard: monsterTemplate.isWildCard ?? false,
@@ -512,6 +513,7 @@ export const addCustomMonster = async (monsterTemplate: MonsterTemplate, imageFi
     advantages: monsterTemplate.advantages ? (typeof monsterTemplate.advantages === 'string' ? monsterTemplate.advantages.split(',').map(s => s.trim()).filter(s => s) : monsterTemplate.advantages) : [],
     complications: monsterTemplate.complications ? (typeof monsterTemplate.complications === 'string' ? monsterTemplate.complications.split(',').map(s => s.trim()).filter(s => s) : monsterTemplate.complications) : [],
     weapons: monsterTemplate.weapons,
+    powers: monsterTemplate.powers,
     history: monsterTemplate.history,
     sourcebook: monsterTemplate.sourcebook || "Criações Próprias",
   };
