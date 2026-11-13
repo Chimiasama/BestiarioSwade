@@ -1,4 +1,5 @@
 import { Monster } from '../types';
+import bookMonsters from '../data/bookMonsters.json';
 
 export const monsters: Monster[] = [
   // ==========================================
@@ -1153,5 +1154,6 @@ export const monsters: Monster[] = [
     weapons: "Impacto Telecinético Concentrado (3d6), Arremesso de Veículos (3d8)",
     history: "Meta-humano cuja mente desperta consegue erguer toneladas sem desferir um único soco. Busca dominar a cidade subjugando heróis com escudos impenetráveis.",
     sourcebook: "Compêndio de Superpoderes"
-  }
+  },
+  ...(bookMonsters as Monster[])
 ];

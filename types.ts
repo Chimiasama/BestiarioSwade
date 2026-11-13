@@ -24,7 +24,7 @@ export interface Monster {
   attributes: MonsterAttributes;
   skills: string[];
   movement: string; // Movimentação (Pace)
-  parry: number;   // Aparar
+  parry: number | string;   // Aparar
   toughness: string; // Resistência (Toughness) - ex: "8 (2)"
   size?: number;   // Tamanho
   abilities: MonsterAbility[];
@@ -35,6 +35,11 @@ export interface Monster {
   equipment?: string; // Equipamentos
   history: string;
   sourcebook: string;
+  sourceReference?: { file: string; line: number; ranges: number[][] };
+  sourceText?: string;
+  referenceOnly?: boolean;
+  sourceWarnings?: string[];
+  abilityVariants?: string;
 }
 
 export type MonsterArchetype = 'Soldier' | 'Brute' | 'Sharpshooter' | 'Shadow Mage' | 'Beast' | 'Elemental' | 'Undead';
@@ -48,7 +53,7 @@ export interface MonsterTemplate {
   attributes: MonsterAttributes;
   skills: string; 
   movement: string;
-  parry: number;
+  parry: number | string;
   toughness: string;
   abilities: MonsterAbility[];
   advantages: string;

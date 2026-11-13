@@ -671,7 +671,9 @@ const MonsterDetail: React.FC<{
               
               {/* Badge for Wild Card or Extra */}
               <div className="absolute top-3 left-3">
-                {monster.isWildCard ? (
+                {monster.referenceOnly ? (
+                  <span className="text-xs text-amber-200">Referência</span>
+                ) : monster.isWildCard ? (
                   <span className="bg-amber-500 text-stone-950 font-cinzel font-bold text-xs px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1.5 border border-amber-300">
                     <Skull className="w-3.5 h-3.5" />
                     Carta Selvagem
@@ -751,7 +753,9 @@ const MonsterDetail: React.FC<{
                 </button>
 
                 {/* Wounds Tracker for Wild Card or Extra */}
-                {monster.isWildCard ? (
+                {monster.referenceOnly ? (
+                  <span className="text-xs text-amber-200">Referência</span>
+                ) : monster.isWildCard ? (
                   <div className="flex items-center gap-1.5 bg-stone-950 px-3 py-1.5 rounded-lg border border-stone-800">
                     <span className="text-xs text-stone-400 font-cinzel mr-1">Ferimentos:</span>
                     {[0, 1, 2, 3, 4].map((w) => (
@@ -799,6 +803,29 @@ const MonsterDetail: React.FC<{
           </div>
         </div>
 
+        {monster.sourceReference && (
+          <section className="rounded-xl border border-stone-700 bg-stone-900/50 p-4 space-y-3">
+            <p className="text-sm text-amber-200">
+              Fonte: {monster.sourcebook} · linha {monster.sourceReference.line}
+            </p>
+            {monster.sourceWarnings?.map((warning) => (
+              <p key={warning} className="text-sm text-amber-300">{warning}</p>
+            ))}
+            {!isPlayerView && monster.abilityVariants && (
+              <details>
+                <summary className="cursor-pointer text-sm text-amber-200">Habilidades variantes (opcionais)</summary>
+                <p className="whitespace-pre-wrap text-sm text-stone-300 mt-3">{monster.abilityVariants}</p>
+              </details>
+            )}
+            {!isPlayerView && monster.sourceText && (
+              <details>
+                <summary className="cursor-pointer text-sm text-amber-200">Consultar ficha no texto do livro</summary>
+                <pre className="whitespace-pre-wrap break-words font-crimson text-base text-stone-300 mt-3 max-h-96 overflow-y-auto">{monster.sourceText}</pre>
+              </details>
+            )}
+          </section>
+        )}
+
         {/* SWADE Attributes & Interactive Dice Rolling */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -819,6 +846,8 @@ const MonsterDetail: React.FC<{
             ].map((attr) => (
               <button
                 key={attr.key}
+                disabled={!/d\d+/i.test(attr.value)}
+                title={!/d\d+/i.test(attr.value) ? "Este atributo não possui dado no livro" : undefined}
                 onClick={() => onRoll(`${monster.name} - ${attr.label}`, attr.value, !!monster.isWildCard)}
                 className={`p-3 rounded-xl border flex flex-col items-center justify-center transition-all cursor-pointer group shadow-sm ${getDieBadgeClass(
                   attr.value
@@ -995,7 +1024,9 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
 
         {/* Wild Card Skull Badge */}
         <div className="absolute top-2.5 left-2.5">
-          {monster.isWildCard ? (
+          {monster.referenceOnly ? (
+                  <span className="text-xs text-amber-200">Referência</span>
+                ) : monster.isWildCard ? (
             <span className="bg-amber-500 text-stone-950 font-cinzel font-bold text-[10px] px-2 py-0.5 rounded shadow-md flex items-center gap-1 border border-amber-300">
               <Skull className="w-3 h-3" />
               Carta Selvagem
@@ -1058,6 +1089,7 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
         <div className="flex items-center justify-between pt-1.5 border-t border-stone-800/80 text-xs gap-1.5">
           <div className="flex items-center gap-1.5">
             <button
+              disabled={!/d\d+/i.test(monster.attributes.agility)}
               onClick={(e) => {
                 e.stopPropagation();
                 onRoll(`${monster.name} - Agilidade`, monster.attributes.agility, !!monster.isWildCard);
@@ -1068,6 +1100,7 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
               Agil {monster.attributes.agility}
             </button>
             <button
+              disabled={!/d\d+/i.test(monster.attributes.strength)}
               onClick={(e) => {
                 e.stopPropagation();
                 onRoll(`${monster.name} - Força`, monster.attributes.strength, !!monster.isWildCard);
@@ -1142,7 +1175,9 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
             <h4 className="font-cinzel font-bold text-stone-200 group-hover:text-amber-300 text-sm truncate">
               {monster.name}
             </h4>
-            {monster.isWildCard ? (
+            {monster.referenceOnly ? (
+                  <span className="text-xs text-amber-200">Referência</span>
+                ) : monster.isWildCard ? (
               <span className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.2 bg-amber-950/80 border border-amber-600/60 text-amber-300 font-cinzel text-[9px] rounded font-semibold">
                 Carta Selvagem
               </span>
@@ -1177,6 +1212,7 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
       {/* Right: Quick Action Buttons */}
       <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
         <button
+          disabled={!/d\d+/i.test(monster.attributes.agility)}
           onClick={() => onRoll(`${monster.name} - Agilidade`, monster.attributes.agility, !!monster.isWildCard)}
           className="hidden md:inline-block text-[10px] px-1.5 py-1 bg-stone-900 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded text-stone-300 font-mono-dice transition-colors"
           title="Rolar Agilidade"
@@ -1184,6 +1220,7 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
           Ag {monster.attributes.agility}
         </button>
         <button
+          disabled={!/d\d+/i.test(monster.attributes.strength)}
           onClick={() => onRoll(`${monster.name} - Força`, monster.attributes.strength, !!monster.isWildCard)}
           className="hidden md:inline-block text-[10px] px-1.5 py-1 bg-stone-900 hover:bg-amber-950 border border-stone-800 hover:border-amber-700 rounded text-stone-300 font-mono-dice transition-colors"
           title="Rolar Força"
@@ -1618,7 +1655,7 @@ const Bestiary: React.FC<{
     return [...list].sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name);
       if (sortBy === 'name-desc') return b.name.localeCompare(a.name);
-      if (sortBy === 'parry') return b.parry - a.parry;
+      if (sortBy === 'parry') return (Number(b.parry) || 0) - (Number(a.parry) || 0);
       if (sortBy === 'toughness-desc') return (parseInt(b.toughness, 10) || 0) - (parseInt(a.toughness, 10) || 0);
       if (sortBy === 'toughness-asc') return (parseInt(a.toughness, 10) || 0) - (parseInt(b.toughness, 10) || 0);
       if (sortBy === 'size') return (b.size ?? 0) - (a.size ?? 0);

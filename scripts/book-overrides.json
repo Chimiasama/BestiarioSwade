@@ -1,0 +1,604 @@
+{
+  "swade_adg": {
+    "6482": {
+      "name": "Espírito Vinculado",
+      "headingLine": 6479,
+      "endLine": 6501
+    },
+    "14323": {
+      "name": "Bandido de rua",
+      "headingLine": 14320
+    },
+    "14548": {
+      "endLine": 14573
+    }
+  },
+  "swade_adg_diario_do_kui": {
+    "307": {
+      "name": "Escorpiodilo",
+      "headingLine": 287
+    },
+    "340": {
+      "name": "Escorpião Gigante",
+      "headingLine": 328
+    },
+    "390": {
+      "name": "Gatoruja",
+      "headingLine": 378
+    },
+    "409": {
+      "name": "Gatoruja Doméstico",
+      "headingLine": 403
+    },
+    "452": {
+      "name": "Lobo Atroz",
+      "headingLine": 451
+    },
+    "463": {
+      "name": "Mangusto Voador (e não voador)",
+      "headingLine": 462
+    },
+    "489": {
+      "name": "Rinobisão",
+      "headingLine": 482
+    },
+    "502": {
+      "name": "Tanuki",
+      "headingLine": 501
+    },
+    "520": {
+      "name": "Tanuki-Voador",
+      "headingLine": 512
+    },
+    "543": {
+      "name": "Texu-topeira",
+      "headingLine": 537
+    },
+    "565": {
+      "name": "Urso",
+      "headingLine": 564
+    },
+    "578": {
+      "name": "Urso Coruja",
+      "headingLine": 573
+    },
+    "602": {
+      "name": "Urso Coruja Corrompido",
+      "headingLine": 595
+    },
+    "694": {
+      "name": "Amikiri",
+      "headingLine": 685
+    },
+    "718": {
+      "name": "Bushyasta",
+      "headingLine": 706
+    },
+    "756": {
+      "name": "Escorpião XO",
+      "headingLine": 748
+    },
+    "810": {
+      "name": "Joroguma",
+      "headingLine": 791
+    },
+    "846": {
+      "name": "Kappa",
+      "headingLine": 840
+    },
+    "872": {
+      "name": "Lobo XO",
+      "headingLine": 864
+    },
+    "957": {
+      "name": "Oni",
+      "headingLine": 949
+    },
+    "1000": {
+      "name": "Protetor da Poça d’Água",
+      "headingLine": 975
+    },
+    "1066": {
+      "name": "Serpente XO",
+      "headingLine": 1062
+    },
+    "1101": {
+      "name": "Crânio de Macaco",
+      "headingLine": 1082
+    },
+    "1127": {
+      "name": "Espírito Raivoso",
+      "headingLine": 1122
+    },
+    "1215": {
+      "endLine": 1232
+    }
+  },
+  "swade_basico": {
+    "13573": {
+      "name": "Assistente"
+    },
+    "15585": {
+      "name": "Cão/Lobo"
+    },
+    "16151": {
+      "name": "Lobisomem",
+      "wildCard": true
+    },
+    "16579": {
+      "name": "Vampiro Ancião",
+      "wildCard": true,
+      "endLine": 16629,
+      "ranges": [
+        [
+          16579,
+          16629
+        ],
+        [
+          16529,
+          16551
+        ]
+      ]
+    },
+    "9170": {
+      "endLine": 9180
+    },
+    "13593": {
+      "endLine": 13603
+    },
+    "16650": {
+      "endLine": 16668
+    },
+    "16456": {
+      "name": "Tubarão",
+      "headingLine": 16453,
+      "ranges": [
+        [
+          16456,
+          16458
+        ],
+        [
+          16393,
+          16400
+        ]
+      ]
+    },
+    "15720": {
+      "ranges": [
+        [
+          15720,
+          15726
+        ],
+        [
+          15789,
+          15813
+        ]
+      ]
+    },
+    "15758": {
+      "endLine": 15788
+    },
+    "15822": {
+      "ranges": [
+        [
+          15822,
+          15836
+        ],
+        [
+          15748,
+          15754
+        ]
+      ]
+    },
+    "15916": {
+      "ranges": [
+        [
+          15916,
+          15934
+        ],
+        [
+          15838,
+          15841
+        ]
+      ]
+    },
+    "16065": {
+      "endLine": 16103
+    },
+    "16131": {
+      "endLine": 16148
+    },
+    "16191": {
+      "ranges": [
+        [
+          16191,
+          16198
+        ],
+        [
+          16107,
+          16120
+        ]
+      ]
+    },
+    "16340": {
+      "ranges": [
+        [
+          16340,
+          16346
+        ],
+        [
+          16436,
+          16452
+        ]
+      ]
+    },
+    "16377": {
+      "endLine": 16391
+    },
+    "16425": {
+      "endLine": 16435
+    },
+    "16484": {
+      "endLine": 16529,
+      "ranges": [
+        [
+          16484,
+          16527
+        ],
+        [
+          16462,
+          16468
+        ]
+      ]
+    },
+    "16561": {
+      "ranges": [
+        [
+          16561,
+          16578
+        ],
+        [
+          16633,
+          16645
+        ]
+      ]
+    }
+  },
+  "swade_crystal_heart": {
+    "10939": {
+      "name": "Pasquan o Assassino",
+      "headingLine": 10913
+    },
+    "12082": {
+      "name": "Javali",
+      "headingLine": 12074,
+      "endLine": 12094
+    },
+    "13391": {
+      "name": "Fjordstadiano da Cidade",
+      "headingLine": 13379
+    },
+    "13549": {
+      "name": "Ilhéu Sugador",
+      "headingLine": 13541
+    },
+    "14752": {
+      "name": "Leviatã Navegante",
+      "headingLine": 14748
+    },
+    "14766": {
+      "name": "Leviatã Arqueado",
+      "headingLine": 14763
+    },
+    "14783": {
+      "name": "Leviatã Cauda",
+      "headingLine": 14779
+    },
+    "15506": {
+      "name": "Manifestação Elemental Regular",
+      "headingLine": 15504
+    },
+    "15534": {
+      "name": "Manifestação Elemental Poderosa",
+      "headingLine": 15532
+    },
+    "15594": {
+      "name": "Manifestação Elemental Gigante",
+      "headingLine": 15592,
+      "endLine": 15621
+    },
+    "11206": {
+      "endLine": 11227
+    },
+    "11651": {
+      "endLine": 11662
+    },
+    "12741": {
+      "endLine": 12772
+    },
+    "16605": {
+      "endLine": 16638
+    }
+  },
+  "swade_csv_livro_do_criador": {
+    "2391": {
+      "name": "Bandido com Faca",
+      "headingLine": 2384
+    },
+    "2404": {
+      "name": "Bandido com Pistola de Ar",
+      "headingLine": 2401
+    },
+    "2646": {
+      "name": "Atirador da Força Expedicionária",
+      "headingLine": 2644
+    },
+    "2662": {
+      "name": "Guerreiro da Força Expedicionária",
+      "headingLine": 2660
+    },
+    "2682": {
+      "name": "Oficial da Força Expedicionária",
+      "headingLine": 2680
+    },
+    "2703": {
+      "name": "Tecnomago da Força Expedicionária",
+      "headingLine": 2701
+    }
+  },
+  "swade_deadlands": {
+    "13246": {
+      "name": "Chupacabra"
+    },
+    "14163": {
+      "name": "Glutão"
+    },
+    "14545": {
+      "name": "Licantropo"
+    },
+    "14918": {
+      "name": "Morto Ardente"
+    },
+    "15257": {
+      "name": "Ossada Demoníaca",
+      "headingLine": 15244,
+      "wildCard": true
+    },
+    "15736": {
+      "name": "Tarântula Mecânica"
+    },
+    "12943": {
+      "name": "Carrapato da Pradaria Rainha"
+    }
+  },
+  "swade_fantasia": {
+    "16098": {
+      "name": "Dragão Filhote"
+    },
+    "14588": {
+      "name": "Bárbaro Guerreiro"
+    },
+    "14607": {
+      "name": "Bárbaro Chefe"
+    },
+    "14629": {
+      "name": "Bárbaro Xamã"
+    },
+    "16658": {
+      "name": "Alto Elfo Mago"
+    },
+    "19136": {
+      "name": "Manticora"
+    },
+    "19981": {
+      "name": "Povo Árvore Jovem"
+    },
+    "19997": {
+      "name": "Povo Árvore Grande"
+    },
+    "20601": {
+      "name": "Tigre-dentes-de-sabre"
+    },
+    "9270": {
+      "endLine": 9290
+    },
+    "21048": {
+      "endLine": 21059
+    }
+  },
+  "swade_havenwood": {
+    "6022": {
+      "name": "Spriggan, mente-coletiva",
+      "headingLine": 6000
+    }
+  },
+  "swade_horror": {
+    "8432": {
+      "name": "Bruxa"
+    },
+    "8595": {
+      "name": "Cão Diabólico"
+    },
+    "10143": {
+      "name": "Tempestade de Fogo"
+    },
+    "10201": {
+      "name": "Jjrikilimsg, o Uivo da Verdade"
+    },
+    "15474": {
+      "name": "Zumbi de Elite: Einherjar"
+    },
+    "16233": {
+      "name": "Andarilho Dimensional"
+    },
+    "16830": {
+      "name": "Grande Cthulhu",
+      "wildCard": true
+    },
+    "5277": {
+      "endLine": 5291
+    },
+    "16983": {
+      "endLine": 17036
+    },
+    "15515": {
+      "endLine": 15561
+    }
+  },
+  "swade_pathfinder_basico": {
+    "19203": {
+      "name": "Cavalo Leve"
+    },
+    "10629": {
+      "endLine": 10638
+    },
+    "13626": {
+      "endLine": 13639
+    },
+    "19500": {
+      "endLine": 19519
+    },
+    "5947": {
+      "endLine": 5962,
+      "name": "Sombra Conjurada"
+    },
+    "19220": {
+      "endLine": 19229
+    },
+    "19285": {
+      "ranges": [
+        [
+          19285,
+          19300
+        ],
+        [
+          19232,
+          19240
+        ]
+      ]
+    }
+  },
+  "swade_scifi": {
+    "16688": {
+      "name": "Caçador Guerreiro"
+    },
+    "16713": {
+      "name": "Caçador Rainha"
+    },
+    "18256": {
+      "name": "Eliminador MK I"
+    },
+    "18302": {
+      "name": "Eliminador MK II"
+    },
+    "19506": {
+      "name": "Lagarto-de-língua-farpada"
+    },
+    "21767": {
+      "name": "Verme-da-morte"
+    },
+    "9465": {
+      "corrections": {
+        "Espírito dd4": "Espírito d4"
+      },
+      "endLine": 9474
+    },
+    "14273": {
+      "endLine": 14287
+    },
+    "22677": {
+      "endLine": 22697
+    },
+    "16484": {
+      "endLine": 16501
+    }
+  },
+  "swade_superpoderes": {
+    "7070": {
+      "name": "Servo",
+      "endLine": 7092
+    },
+    "8375": {
+      "name": "Cidadão"
+    },
+    "9016": {
+      "name": "Alquimista",
+      "wildCard": true
+    },
+    "13478": {
+      "name": "Surtr",
+      "wildCard": true
+    },
+    "13784": {
+      "name": "Troglodita"
+    },
+    "14028": {
+      "name": "Vulcano",
+      "endLine": 14078,
+      "wildCard": true
+    },
+    "14752": {
+      "name": "Soberano",
+      "endLine": 14784
+    },
+    "15257": {
+      "endLine": 15280
+    },
+    "8647": {
+      "missing": {
+        "movement": "Não informado no texto-fonte (Aparar aparece duas vezes)"
+      }
+    },
+    "10684": {
+      "missing": {
+        "movement": "Não informado no texto-fonte (Aparar aparece duas vezes)"
+      }
+    },
+    "14742": {
+      "name": "Senhor da Guerra",
+      "headingLine": 14730,
+      "ranges": [
+        [
+          14742,
+          14750
+        ],
+        [
+          14797,
+          14823
+        ]
+      ]
+    },
+    "9991": {
+      "name": "Carrasco",
+      "endLine": 10022,
+      "wildCard": true,
+      "corrections": {
+        "Agilidade 10": "Agilidade d10"
+      }
+    }
+  },
+  "swade_csv_livro_dos_mortais": {
+    "8713": {
+      "name": "Anansi — Assistente Universal",
+      "headingLine": 8708
+    },
+    "8733": {
+      "name": "Hanuman — Autômato de Combate",
+      "headingLine": 8728
+    },
+    "8778": {
+      "name": "Hugin — Pássaro Mecânico",
+      "headingLine": 8763
+    },
+    "8823": {
+      "name": "Sleipnir — Cavalo Mecânico",
+      "headingLine": 8819,
+      "endLine": 8840
+    }
+  },
+  "swade_deadlands_compendio": {
+    "8290": {
+      "endLine": 8354
+    }
+  }
+}

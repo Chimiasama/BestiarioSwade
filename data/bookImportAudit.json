@@ -1,0 +1,553 @@
+{
+  "books": [
+    {
+      "book": "swade_adg",
+      "sourcebook": "Arte da Guerra (ADG)",
+      "sha256": "dc6e147ff627a9dda92558cadb5fcecb75d847e2291a3575e6a057010cc5c983",
+      "detected": 21,
+      "imported": 21,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_adg_diario_do_kui",
+      "sourcebook": "Arte da Guerra — Diário do Kui",
+      "sha256": "c410a31a8d0efdfae5c8ef1ecc7cbf1b9c6e9fac2c323f6c521b15f6171f825c",
+      "detected": 43,
+      "imported": 43,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_basico",
+      "sourcebook": "Core Rules",
+      "sha256": "a7731b8de1b93b4b74fb6b13a02a1e5ae4a992f336b22fb23904e11bc426a264",
+      "detected": 44,
+      "imported": 43,
+      "outOfScope": [],
+      "duplicates": [
+        16306
+      ]
+    },
+    {
+      "book": "swade_crystal_heart",
+      "sourcebook": "Crystal Heart",
+      "sha256": "026f0336f9f896b7f6dbd8238961781848eccee9dd679c63ea1ae49207582d45",
+      "detected": 106,
+      "imported": 80,
+      "outOfScope": [
+        1522,
+        1540,
+        1561,
+        1579,
+        1597,
+        1615,
+        1639,
+        1659,
+        1681,
+        1704,
+        1718,
+        1739,
+        1763,
+        1794,
+        1813,
+        1834,
+        1858,
+        1878,
+        1898,
+        1921,
+        1941,
+        1956,
+        1969,
+        1981,
+        1994,
+        2007
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_crystal_heart_muitos_coracoes",
+      "sourcebook": "Crystal Heart — Muitos Corações",
+      "sha256": "774a65d1bbc4e25717a4c576548b81983bdccc05c4c4f71a24265d9c39dbb849",
+      "detected": 0,
+      "imported": 0,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_csv_livro_do_criador",
+      "sourcebook": "Cidade do Sol & Vapor — Livro do Criador",
+      "sha256": "c96e464ed3b62948ddf23b7ffa412add8b22bd158e46573707cab63f9527c71d",
+      "detected": 94,
+      "imported": 40,
+      "outOfScope": [
+        3369,
+        3431,
+        3494,
+        3546,
+        3611,
+        3660,
+        3729,
+        3800,
+        3865,
+        3911,
+        3994,
+        4055,
+        4118,
+        4156,
+        4197,
+        4289,
+        4343,
+        4405,
+        4458,
+        4511,
+        4564,
+        4611,
+        4650,
+        4707,
+        4761,
+        4812,
+        4842,
+        4896,
+        4942,
+        4995,
+        5032,
+        5078,
+        5183,
+        5234,
+        5277,
+        5306,
+        6319,
+        6363,
+        6405,
+        6441,
+        6475,
+        6510,
+        7332,
+        7360,
+        7374,
+        7389,
+        7429,
+        8190,
+        8225,
+        8305,
+        8419,
+        8543,
+        8633,
+        8845
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_csv_livro_dos_mortais",
+      "sourcebook": "Cidade do Sol & Vapor — Livro dos Mortais",
+      "sha256": "d40e30903bbe2e3371ba2992caf4e52d528cdd18e6ef33e6bcd3a3b9c398e75e",
+      "detected": 18,
+      "imported": 4,
+      "outOfScope": [
+        1698,
+        1723,
+        1743,
+        1767,
+        1790,
+        1814,
+        1844,
+        1868,
+        1889,
+        1912,
+        9007,
+        9020,
+        9034,
+        9052
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_csv_movimento_vermelho",
+      "sourcebook": "Cidade do Sol & Vapor — Movimento Vermelho",
+      "sha256": "0d019c5633b0f0867c571819290d269836aa82f3e3bebba4c02df3e499d659fc",
+      "detected": 3,
+      "imported": 0,
+      "outOfScope": [
+        717,
+        740,
+        778
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_deadlands",
+      "sourcebook": "Deadlands: O Oeste Estranho",
+      "sha256": "7261ab365125181c71cbdf909691cb65b06ece2e88d543b45287499e137615d7",
+      "detected": 112,
+      "imported": 84,
+      "outOfScope": [
+        11362,
+        11384,
+        11401,
+        11431,
+        11463,
+        11548,
+        11586,
+        11607,
+        11625,
+        11651,
+        11666,
+        11683,
+        11703,
+        11730,
+        11759,
+        11789,
+        11814,
+        11836,
+        11857,
+        11882,
+        11907,
+        11930,
+        11960,
+        11982,
+        12002,
+        12024,
+        12047,
+        12067
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_deadlands_compendio",
+      "sourcebook": "Deadlands — Compêndio",
+      "sha256": "34ec5f56545b4d9e88db495f59da1db4e1859530105493b22125fd9dcd12080f",
+      "detected": 50,
+      "imported": 8,
+      "outOfScope": [
+        5633,
+        5672,
+        5716,
+        5755,
+        5797,
+        5843,
+        5883,
+        5921,
+        5950,
+        5993,
+        6038,
+        6084,
+        6123,
+        6153,
+        6216,
+        6244,
+        6271,
+        6315,
+        6367,
+        6408,
+        6436,
+        6485,
+        6518,
+        6564,
+        6603,
+        6636,
+        6676,
+        6722,
+        6791,
+        6824,
+        6852,
+        6885,
+        6933,
+        6968,
+        7016,
+        7061,
+        7100,
+        7144,
+        7176,
+        7222,
+        7241,
+        7264
+      ],
+      "duplicates": []
+    },
+    {
+      "book": "swade_fantasia",
+      "sourcebook": "Compêndio de Fantasia",
+      "sha256": "f57e01024f06261b997a48e261c1085f4cfe6150b4f0b940c69b0b395dcf3c14",
+      "detected": 241,
+      "imported": 241,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_havenwood",
+      "sourcebook": "Havenwood",
+      "sha256": "fa41ec66017be2ade20742347df7de3fa5e06fd325d1a5940865d80a637d9d2c",
+      "detected": 16,
+      "imported": 16,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_havenwood_zoo_povo_fera",
+      "sourcebook": "Havenwood — Zoo do Povo-Fera",
+      "sha256": "4de9a82ef656020f3c03563493ea796658714e2d6614d7c65b67ccbb01672203",
+      "detected": 0,
+      "imported": 0,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_horror",
+      "sourcebook": "Compêndio de Horror",
+      "sha256": "d6dac52ab0ae434ab84ee96f07049a5227dfdb058632fbbb41bd269d264e756a",
+      "detected": 175,
+      "imported": 175,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_pathfinder_basico",
+      "sourcebook": "Pathfinder para Savage Worlds",
+      "sha256": "3e55e50a522948d8a01c1018352844cc13bd1320b9a6ede0939156a6d56100a5",
+      "detected": 25,
+      "imported": 25,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_pathfinder_compendio",
+      "sourcebook": "Pathfinder — Compêndio de Golarion",
+      "sha256": "7baf68870833f552c063fb422ae3b9fef88c015e111f424085545d6ca244345d",
+      "detected": 0,
+      "imported": 0,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_scifi",
+      "sourcebook": "Compêndio de Sci-Fi",
+      "sha256": "22fc6a4a3c18054ac9dfddc849ac78e2dc2eb17bb7881828d422712ee4af2890",
+      "detected": 178,
+      "imported": 178,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_superpoderes",
+      "sourcebook": "Compêndio de Superpoderes",
+      "sha256": "87bfecbb835a843d26558630959a2bff6c4e30d600c6a555b57d02eeeb2182ee",
+      "detected": 102,
+      "imported": 102,
+      "outOfScope": [],
+      "duplicates": []
+    },
+    {
+      "book": "swade_wiseguys_jogador",
+      "sourcebook": "Wiseguys — Livro do Jogador",
+      "sha256": "ab2c665ef1a04045ecdece25f0e8642b317b8ba2ae9d0c5b77ce52a2c76f7e39",
+      "detected": 0,
+      "imported": 0,
+      "outOfScope": [],
+      "duplicates": []
+    }
+  ],
+  "references": [
+    {
+      "book": "swade_adg",
+      "name": "Clone",
+      "ranges": [
+        [
+          11825,
+          11837
+        ]
+      ]
+    },
+    {
+      "book": "swade_adg",
+      "name": "Oni",
+      "ranges": [
+        [
+          14622,
+          14653
+        ]
+      ]
+    },
+    {
+      "book": "swade_adg",
+      "name": "XO",
+      "ranges": [
+        [
+          14654,
+          14681
+        ]
+      ]
+    },
+    {
+      "book": "swade_havenwood",
+      "name": "Enxamídeo",
+      "ranges": [
+        [
+          5832,
+          5846
+        ]
+      ]
+    },
+    {
+      "book": "swade_deadlands",
+      "name": "Gramafaca",
+      "ranges": [
+        [
+          14183,
+          14204
+        ]
+      ]
+    },
+    {
+      "book": "swade_deadlands",
+      "name": "Névoa Lamuriante",
+      "ranges": [
+        [
+          15209,
+          15242
+        ]
+      ]
+    },
+    {
+      "book": "swade_deadlands",
+      "name": "Regimento Negro",
+      "ranges": [
+        [
+          15397,
+          15432
+        ]
+      ]
+    },
+    {
+      "book": "swade_horror",
+      "name": "Animal com Raiva (modelo)",
+      "ranges": [
+        [
+          7705,
+          7716
+        ]
+      ]
+    },
+    {
+      "book": "swade_horror",
+      "name": "Híbrido Animal (modelo)",
+      "ranges": [
+        [
+          11909,
+          11934
+        ]
+      ]
+    },
+    {
+      "book": "swade_horror",
+      "name": "Servo de Vampiro",
+      "ranges": [
+        [
+          14818,
+          14842
+        ]
+      ]
+    },
+    {
+      "book": "swade_horror",
+      "name": "Zumbi Animal (modelo)",
+      "ranges": [
+        [
+          15494,
+          15500
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Bando de Pássaros-Bombardeiros",
+      "ranges": [
+        [
+          16524,
+          16546
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Bando de Vermes-Furadores",
+      "ranges": [
+        [
+          16547,
+          16572
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Fera Psíquica (modelo)",
+      "ranges": [
+        [
+          18630,
+          18667
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Macaco-Brutamontes",
+      "ranges": [
+        [
+          19642,
+          19652
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Macaco-Lançador",
+      "ranges": [
+        [
+          19653,
+          19664
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Macaco-Zombeteiro",
+      "ranges": [
+        [
+          19665,
+          19677
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Planeta Vivo",
+      "ranges": [
+        [
+          20695,
+          20736
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Sargaço Espacial",
+      "ranges": [
+        [
+          21125,
+          21175
+        ]
+      ]
+    },
+    {
+      "book": "swade_scifi",
+      "name": "Veículo Senciente",
+      "ranges": [
+        [
+          21724,
+          21759
+        ]
+      ]
+    }
+  ],
+  "unresolved": []
+}

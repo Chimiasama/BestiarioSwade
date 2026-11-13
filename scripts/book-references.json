@@ -1,0 +1,202 @@
+[
+  {
+    "book": "swade_adg",
+    "name": "Clone",
+    "ranges": [
+      [
+        11825,
+        11837
+      ]
+    ]
+  },
+  {
+    "book": "swade_adg",
+    "name": "Oni",
+    "ranges": [
+      [
+        14622,
+        14653
+      ]
+    ]
+  },
+  {
+    "book": "swade_adg",
+    "name": "XO",
+    "ranges": [
+      [
+        14654,
+        14681
+      ]
+    ]
+  },
+  {
+    "book": "swade_havenwood",
+    "name": "Enxamídeo",
+    "ranges": [
+      [
+        5832,
+        5846
+      ]
+    ]
+  },
+  {
+    "book": "swade_deadlands",
+    "name": "Gramafaca",
+    "ranges": [
+      [
+        14183,
+        14204
+      ]
+    ]
+  },
+  {
+    "book": "swade_deadlands",
+    "name": "Névoa Lamuriante",
+    "ranges": [
+      [
+        15209,
+        15242
+      ]
+    ]
+  },
+  {
+    "book": "swade_deadlands",
+    "name": "Regimento Negro",
+    "ranges": [
+      [
+        15397,
+        15432
+      ]
+    ]
+  },
+  {
+    "book": "swade_horror",
+    "name": "Animal com Raiva (modelo)",
+    "ranges": [
+      [
+        7705,
+        7716
+      ]
+    ]
+  },
+  {
+    "book": "swade_horror",
+    "name": "Híbrido Animal (modelo)",
+    "ranges": [
+      [
+        11909,
+        11934
+      ]
+    ]
+  },
+  {
+    "book": "swade_horror",
+    "name": "Servo de Vampiro",
+    "ranges": [
+      [
+        14818,
+        14842
+      ]
+    ]
+  },
+  {
+    "book": "swade_horror",
+    "name": "Zumbi Animal (modelo)",
+    "ranges": [
+      [
+        15494,
+        15500
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Bando de Pássaros-Bombardeiros",
+    "ranges": [
+      [
+        16524,
+        16546
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Bando de Vermes-Furadores",
+    "ranges": [
+      [
+        16547,
+        16572
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Fera Psíquica (modelo)",
+    "ranges": [
+      [
+        18630,
+        18667
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Macaco-Brutamontes",
+    "ranges": [
+      [
+        19642,
+        19652
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Macaco-Lançador",
+    "ranges": [
+      [
+        19653,
+        19664
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Macaco-Zombeteiro",
+    "ranges": [
+      [
+        19665,
+        19677
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Planeta Vivo",
+    "ranges": [
+      [
+        20695,
+        20736
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Sargaço Espacial",
+    "ranges": [
+      [
+        21125,
+        21175
+      ]
+    ]
+  },
+  {
+    "book": "swade_scifi",
+    "name": "Veículo Senciente",
+    "ranges": [
+      [
+        21724,
+        21759
+      ]
+    ]
+  }
+]
