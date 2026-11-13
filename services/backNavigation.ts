@@ -10,9 +10,10 @@ export function createBackNavigation() {
         if (index !== -1) handlers.splice(index, 1);
       };
     },
-    goBack() {
+    goBack(minPriority = -Infinity) {
       let top: (typeof handlers)[number] | undefined;
       for (const entry of handlers) {
+        if (entry.priority < minPriority) continue;
         if (!top || entry.priority >= top.priority) top = entry;
       }
       if (!top) return false;

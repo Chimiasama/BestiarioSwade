@@ -1,8 +1,9 @@
+import { useDialogAccessibility } from './hooks/useDialogAccessibility';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { BackNavigationScope, useBackNavigation } from './hooks/useBackNavigation';
 import { backNavigation, subscribeToAndroidBack } from './services/backNavigation';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import Bestiary from './components/Bestiary';
 import MonsterCreator from './components/MonsterCreator';
 import { Monster, DiceRollResult } from './types';
@@ -17,13 +18,52 @@ import {
   subscribeToSystemTheme,
   ThemeSettings 
 } from './services/themeService';
-import { Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize, Eye, EyeOff } from 'lucide-react';
+import { Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize, Eye, EyeOff, Menu, X } from 'lucide-react';
 
 export type View = 'bestiary' | 'creator';
 
 const App: React.FC = () => {
   const [view, setView] = useState<View>('bestiary');
+  const [showHeaderMenu, setShowHeaderMenu] = useState(false);
+  const [notice, setNotice] = useState('');
+  const viewScroll = useRef(0);
+  const previousView = useRef<View>('bestiary');
+  useBackNavigation(showHeaderMenu, () => setShowHeaderMenu(false));
+  useLayoutEffect(() => {
+    if (previousView.current !== view) {
+      if (view === 'creator') { viewScroll.current = window.scrollY; window.scrollTo({ top: 0, behavior: 'instant' }); }
+      else window.scrollTo({ top: viewScroll.current, behavior: 'instant' });
+      previousView.current = view;
+    }
+  }, [view]);
+  useEffect(() => {
+    const handleNotice = (event: Event) => setNotice(String((event as CustomEvent).detail));
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !event.defaultPrevented && backNavigation.goBack(100)) event.preventDefault();
+    };
+    window.addEventListener('swade:notice', handleNotice);
+    window.addEventListener('keydown', handleEscape);
+    const header = document.querySelector('header');
+    const observer = new ResizeObserver(() => document.documentElement.style.setProperty('--app-header-height', `${header?.getBoundingClientRect().height || 72}px`));
+    if (header) observer.observe(header);
+    return () => { window.removeEventListener('swade:notice', handleNotice); window.removeEventListener('keydown', handleEscape); observer.disconnect(); };
+  }, []);
+  useEffect(() => {
+    if (!showHeaderMenu) return;
+    const outside = (event: PointerEvent) => {
+      if (!(event.target as HTMLElement).closest('#header-tools, [aria-controls="header-tools"]')) setShowHeaderMenu(false);
+    };
+    document.addEventListener('pointerdown', outside);
+    return () => document.removeEventListener('pointerdown', outside);
+  }, [showHeaderMenu]);
+  useEffect(() => {
+    if (!notice) return;
+    const timer = setTimeout(() => setNotice(''), 4500);
+    return () => clearTimeout(timer);
+  }, [notice]);
+
   const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+  const exitDialogRef = useDialogAccessibility(showExitConfirmation);
   const [exitError, setExitError] = useState('');
   const [isExiting, setIsExiting] = useState(false);
   const exitPending = useRef(false);
@@ -129,6 +169,7 @@ const App: React.FC = () => {
     // Auto-detect & synchronize in real-time with device/OS day (light) or night (dark) theme
     const unsubscribeTheme = subscribeToSystemTheme((systemMode) => {
       setThemeSettings((prev) => {
+        if (prev.followSystem === false) return prev;
         const activeTheme = systemMode === 'diurno' ? prev.dayTheme : prev.nightTheme;
         const updated: ThemeSettings = {
           ...prev,
@@ -181,10 +222,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden overflow-y-auto">
+    <div className="app-shell min-h-[100dvh] bg-stone-950 text-stone-200 flex flex-col selection:bg-amber-800 selection:text-white w-full max-w-full overflow-x-hidden overflow-y-auto">
       
       {/* Ornate Top Header */}
-      <header className="bg-stone-950/95 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden pt-safe">
+      <header className="app-header bg-stone-950/95 border-b border-amber-900/40 backdrop-blur-md sticky top-0 z-40 no-print shadow-xl shadow-black/40 w-full max-w-full overflow-x-hidden pt-safe">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex flex-nowrap justify-between items-center gap-2 sm:gap-4">
           
           {/* Logo / Branding */}
@@ -219,7 +260,7 @@ const App: React.FC = () => {
           </button>
 
           {/* Quick Dice Roller Toolbar in Header */}
-          <div className="hidden xl:flex items-center gap-1.5 bg-stone-900/80 px-2.5 py-1 rounded-xl border border-stone-800 text-xs shrink-0">
+          <div className="hidden 2xl:flex items-center gap-1.5 bg-stone-900/80 px-2.5 py-1 rounded-xl border border-stone-800 text-xs shrink-0">
             <span className="text-[11px] text-stone-400 font-cinzel mr-1 hidden 2xl:flex items-center gap-1">
               <Dices className="w-3.5 h-3.5 text-amber-500" />
               Rolador Rápido:
@@ -246,12 +287,20 @@ const App: React.FC = () => {
             </label>
           </div>
 
+          <button type="button" className="sm:hidden min-h-12 min-w-12 rounded-lg border border-stone-700 flex items-center justify-center gap-1 px-2" aria-label="Menu de ferramentas" aria-expanded={showHeaderMenu} aria-controls="header-tools" onClick={() => setShowHeaderMenu(value => !value)}>
+            {showHeaderMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <span className="text-xs">Menu</span>
+          </button>
           {/* Navigation & Help */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div id="header-tools" className={`header-tools ${showHeaderMenu ? 'is-open' : ''} flex items-center gap-1.5 sm:gap-2 shrink-0`}>
+            <div className="sm:hidden w-full border-b border-stone-700 pb-2 mb-1">
+              <label className="flex items-center gap-2 text-sm text-stone-400 mb-2 min-h-11"><input type="checkbox" checked={quickWildCard} onChange={event => setQuickWildCard(event.target.checked)} className="w-5 h-5" />Dado selvagem na rolagem rápida</label>
+              <div className="grid grid-cols-5 gap-1">{[4, 6, 8, 10, 12].map(sides => <button key={sides} type="button" className="min-h-11 rounded-lg border border-stone-700 font-mono-dice" onClick={() => { setShowHeaderMenu(false); handleQuickDieRoll(sides); }}>d{sides}</button>)}</div>
+            </div>
             {/* Player View / Fog of War Toggle */}
             <button
               type="button"
-              onClick={() => setPlayerViewMode(!playerViewMode)}
+              onClick={() => { setShowHeaderMenu(false); setPlayerViewMode(!playerViewMode); }}
               className={`min-h-[48px] min-w-[48px] px-3 py-2 rounded-lg border transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap ${
                 playerViewMode
                   ? 'bg-blue-950/80 border-blue-500/80 text-blue-300 font-bold'
@@ -267,7 +316,7 @@ const App: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => setShowThemeModal(true)}
+              onClick={() => { setShowHeaderMenu(false); setShowThemeModal(true); }}
               className="min-h-[48px] min-w-[48px] px-3 py-2 text-stone-300 hover:text-amber-300 bg-stone-900/90 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
               title="Mudar Tema, Cores e Fontes do Grimório"
               aria-label="Mudar Tema, Cores e Fontes do Grimório"
@@ -304,7 +353,7 @@ const App: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setShowRulesModal(true)}
+              onClick={() => { setShowHeaderMenu(false); setShowRulesModal(true); }}
               className="min-h-[48px] min-w-[48px] px-3 py-2 text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center justify-center gap-1.5 whitespace-nowrap"
               title="Guia Rápido de Regras SWADE"
               aria-label="Guia Rápido de Regras SWADE"
@@ -318,7 +367,7 @@ const App: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
+      <main className="app-content max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
         <div hidden={view !== 'bestiary'}>
           <BackNavigationScope value={view === 'bestiary'}>
             <Bestiary
@@ -348,7 +397,7 @@ const App: React.FC = () => {
       </footer>
 
       {showExitConfirmation && (
-        <div className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4">
+        <div ref={exitDialogRef} className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4">
           <section role="alertdialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description"
             className="w-full max-w-sm rounded-xl border border-amber-800 bg-stone-950 p-6 shadow-2xl">
             <h2 id="exit-title" className="font-cinzel text-xl text-amber-200">Fechar o aplicativo?</h2>
@@ -364,6 +413,7 @@ const App: React.FC = () => {
         </div>
       )}
 
+      {notice && <div role="status" aria-live="polite" className="app-notice fixed bottom-5 left-3 right-3 sm:left-auto sm:max-w-md z-[150] rounded-xl border border-stone-600 bg-stone-900 text-stone-100 p-4 shadow-xl flex items-center gap-3"><span className="text-sm flex-1">{notice}</span><button type="button" aria-label="Fechar mensagem" className="min-w-11 min-h-11" onClick={() => setNotice('')}><X className="w-4 h-4" /></button></div>}
       {/* Theme Customizer Modal */}
       <ThemeModal
         isOpen={showThemeModal}

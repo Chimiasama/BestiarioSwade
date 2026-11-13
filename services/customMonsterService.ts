@@ -173,10 +173,10 @@ export const getAllLocalMonsters = (): Monster[] => {
  * Persists the entire array of monsters to localStorage.
  */
 export const saveAllLocalMonsters = (monstersList: Monster[]): void => {
+  // Only report a successful save after the authoritative database write succeeds.
+  const json = JSON.stringify(monstersList);
+  localStorage.setItem(DB_STORAGE_KEY, json);
   try {
-    const json = JSON.stringify(monstersList);
-    localStorage.setItem(DB_STORAGE_KEY, json);
-
     // Keep custom monsters in legacy key for backward compatibility
     const customList = monstersList.filter(
       m => m.sourcebook === 'Custom Creations' || m.sourcebook === 'Criações Próprias' || m.id.startsWith('custom-') || m.id.startsWith('imported-')
@@ -192,12 +192,11 @@ export const saveAllLocalMonsters = (monstersList: Monster[]): void => {
     };
     localStorage.setItem(DB_METADATA_KEY, JSON.stringify(metadata));
 
-    // Broadcast local storage update event
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('swade_monsters_updated', { detail: { count: monstersList.length } }));
-    }
   } catch (error) {
-    console.error('Error saving all monsters to localStorage:', error);
+    console.warn('Catálogo salvo; não foi possível atualizar os dados auxiliares:', error);
+  }
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('swade_monsters_updated', { detail: { count: monstersList.length } }));
   }
 };
 
@@ -482,7 +481,7 @@ export const importCustomMonstersFromJson = (jsonString: string): { success: boo
 };
 
 export const addCustomMonster = async (monsterTemplate: MonsterTemplate, imageFile?: File): Promise<void> => {
-  let imageUrl = monsterTemplate.imageUrl || "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80";
+  let imageUrl = monsterTemplate.imageUrl || "/book-creature.svg";
   const monsterId = monsterTemplate.id || `custom-${new Date().getTime()}`;
 
   if (imageFile) {

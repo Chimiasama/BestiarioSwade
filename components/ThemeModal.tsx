@@ -1,3 +1,4 @@
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React from 'react';
 import { 
@@ -10,6 +11,7 @@ import {
   FONT_OPTIONS, 
   FONT_SIZE_OPTIONS,
   THEME_PAIRS,
+  getSystemThemeMode,
 } from '../services/themeService';
 import { Palette, X, Type, Check, Sparkles, Moon, Sun, Eye } from 'lucide-react';
 
@@ -26,6 +28,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
   settings,
   onUpdateSettings,
 }) => {
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -40,6 +43,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
 
     onUpdateSettings({
       ...settings,
+      followSystem: false,
       mode: newMode,
       theme: targetTheme,
       ...(newMode === 'diurno' ? { dayTheme: targetTheme } : { nightTheme: targetTheme }),
@@ -49,6 +53,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
   const handleSelectTheme = (optId: AppTheme, optMode: ThemeMode) => {
     onUpdateSettings({
       ...settings,
+      followSystem: false,
       theme: optId,
       mode: optMode,
       ...(optMode === 'diurno' ? { dayTheme: optId } : { nightTheme: optId }),
@@ -59,7 +64,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
   const currentThemes = THEME_OPTIONS.filter((opt) => opt.mode === currentMode);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Aparência do Grimório" tabIndex={-1} className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div 
         className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl shadow-amber-950/40 relative overflow-hidden flex flex-col max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
@@ -82,7 +87,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
               </p>
             </div>
           </div>
-          <button
+          <button aria-label="Fechar janela"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-stone-200 hover:bg-stone-900 rounded-lg transition-colors"
           >
@@ -123,7 +128,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
                 className={`p-3 rounded-xl border text-left transition-all flex items-start gap-3 relative ${
                   currentMode === 'noturno'
                     ? 'border-amber-500 bg-amber-950/40 ring-1 ring-amber-500 shadow-md shadow-amber-950/60'
-                    : 'border-stone-800 bg-stone-900/70 hover:border-stone-700 hover:bg-stone-900 opacity-70 hover:opacity-100'
+                    : 'border-stone-800 bg-stone-900/70 hover:border-stone-700 hover:bg-stone-900'
                 }`}
               >
                 <div className="p-2 rounded-lg bg-stone-950 border border-stone-800 text-amber-400 shrink-0 mt-0.5">
@@ -151,7 +156,7 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
                 className={`p-3 rounded-xl border text-left transition-all flex items-start gap-3 relative ${
                   currentMode === 'diurno'
                     ? 'border-amber-500 bg-amber-950/40 ring-1 ring-amber-500 shadow-md shadow-amber-950/60'
-                    : 'border-stone-800 bg-stone-900/70 hover:border-stone-700 hover:bg-stone-900 opacity-70 hover:opacity-100'
+                    : 'border-stone-800 bg-stone-900/70 hover:border-stone-700 hover:bg-stone-900'
                 }`}
               >
                 <div className="p-2 rounded-lg bg-amber-900/40 border border-amber-600/50 text-amber-300 shrink-0 mt-0.5">
@@ -174,6 +179,14 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
             </div>
           </div>
 
+          <label className="flex items-center gap-3 min-h-12 text-sm border border-stone-700 rounded-lg p-3">
+            <input type="checkbox" aria-label="Seguir aparência do sistema" className="w-5 h-5" checked={settings.followSystem !== false} onChange={event => {
+              const followSystem = event.target.checked;
+              const mode = followSystem ? getSystemThemeMode() : settings.mode;
+              onUpdateSettings({ ...settings, followSystem, mode, theme: mode === 'diurno' ? settings.dayTheme : settings.nightTheme });
+            }} />
+            Seguir aparência do sistema
+          </label>
           {/* Section 1: Themes / Palettes of the selected mode */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">

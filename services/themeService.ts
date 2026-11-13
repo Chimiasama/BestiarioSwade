@@ -16,6 +16,7 @@ export type AppFontFamily = 'classico' | 'rustico' | 'tatico';
 export type AppFontSize = 'normal' | 'large' | 'xlarge';
 
 export interface ThemeSettings {
+  followSystem?: boolean;
   nightTheme: AppTheme;
   dayTheme: AppTheme;
   mode: ThemeMode;
@@ -106,14 +107,15 @@ export const getThemeSettings = (): ThemeSettings => {
         }
       }
 
-      const activeTheme = systemMode === 'diurno' ? dayTheme : nightTheme;
+      const mode: ThemeMode = parsed.followSystem === false && ['diurno', 'noturno'].includes(parsed.mode) ? parsed.mode : systemMode;
+      const activeTheme = mode === 'diurno' ? dayTheme : nightTheme;
 
       return { 
         ...DEFAULT_THEME_SETTINGS, 
         ...parsed,
         nightTheme,
         dayTheme,
-        mode: systemMode,
+        mode,
         theme: activeTheme,
       };
     }

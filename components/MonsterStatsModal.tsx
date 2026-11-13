@@ -1,3 +1,4 @@
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
@@ -30,7 +31,7 @@ interface StatSlice {
   percentage: number;
   monsters: Monster[];
   wildCardCount: number;
-  avgToughness: number;
+  avgToughness: number | null;
   color: string;
 }
 
@@ -62,18 +63,11 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
   monsters,
   onApplyRaceFilter,
 }) => {
-  const [groupingMode, setGroupingMode] = useState<GroupingMode>('race');
+  const [groupingMode, setGroupingMode] = useState<GroupingMode>('sourcebook');
   const [selectedSliceId, setSelectedSliceId] = useState<string | null>(null);
   const [hoveredSliceId, setHoveredSliceId] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-
-  // Helper to parse numeric toughness from strings like "8 (2)" or "11"
-  const parseToughnessNumber = (tStr: string): number => {
-    if (!tStr) return 4;
-    const match = tStr.match(/^(\d+)/);
-    return match ? parseInt(match[1], 10) : 4;
-  };
 
   // Group monsters into slices based on selected groupingMode
   const chartData: StatSlice[] = useMemo(() => {
@@ -91,7 +85,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
       } else if (groupingMode === 'sourcebook') {
         key = m.sourcebook ? m.sourcebook.trim() : 'Outros Suplementos';
       } else if (groupingMode === 'rank') {
-        key = m.rank ? m.rank : 'Novato';
+        key = m.rank || 'Não informado';
       }
       if (!groups[key]) groups[key] = [];
       groups[key].push(m);
@@ -101,11 +95,8 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
       const count = list.length;
       const percentage = (count / total) * 100;
       const wildCardCount = list.filter((m) => m.isWildCard).length;
-      const sumToughness = list.reduce(
-        (acc, cur) => acc + parseToughnessNumber(cur.toughness),
-        0
-      );
-      const avgToughness = Math.round((sumToughness / count) * 10) / 10;
+      const numericToughness = list.map(m => Number.parseInt(m.toughness, 10)).filter(Number.isFinite);
+      const avgToughness = numericToughness.length ? Math.round(numericToughness.reduce((sum, value) => sum + value, 0) / numericToughness.length * 10) / 10 : null;
       const color = FANTASY_PALETTE[index % FANTASY_PALETTE.length];
 
       return {
@@ -332,12 +323,13 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
     }
   }, [isOpen, chartData, selectedSliceId, hoveredSliceId, summaryStats]);
 
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Estatísticas das criaturas" tabIndex={-1} className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div
         className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[92dvh]"
         onClick={(e) => e.stopPropagation()}
@@ -366,7 +358,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
               </p>
             </div>
           </div>
-          <button
+          <button aria-label="Fechar janela"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-stone-200 hover:bg-stone-900 rounded-lg transition-colors"
             title="Fechar Painel"
@@ -548,7 +540,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
                   </div>
                   <div className="bg-stone-950/70 p-2 rounded-lg border border-stone-800 text-stone-300">
                     <span className="text-[10px] text-stone-400 block font-cinzel">Resistência Média</span>
-                    <span className="font-bold text-amber-200">{activeSlice.avgToughness}</span>
+                    <span className="font-bold text-amber-200">{activeSlice.avgToughness ?? '—'}</span>
                   </div>
                 </div>
 
@@ -557,7 +549,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
                   <span className="text-[10px] font-cinzel text-stone-400 uppercase tracking-wider block">
                     Exemplos catalogados ({activeSlice.monsters.length}):
                   </span>
-                  <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pr-1">
+                  <div tabIndex={0} role="region" aria-label="Criaturas desta categoria" className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pr-1">
                     {activeSlice.monsters.map((m) => (
                       <span
                         key={m.id}

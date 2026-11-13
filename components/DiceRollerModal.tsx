@@ -1,3 +1,4 @@
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect } from 'react';
 import { DiceRollResult } from '../types';
@@ -70,21 +71,7 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
     }
   }, [rollResult]);
 
-  // Handle ESC key for confirmation dialog or modal closing
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (showClearConfirm) {
-          setShowClearConfirm(false);
-        } else {
-          onClose();
-        }
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showClearConfirm, onClose]);
-
+  const dialogRef = useDialogAccessibility(Boolean(rollResult));
   useBackNavigation(Boolean(rollResult), () => {
     if (showClearConfirm) setShowClearConfirm(false);
     else onClose();
@@ -133,7 +120,7 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
   };
 
   return (
-    <div 
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Rolador de dados" tabIndex={-1}
       className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-2.5 sm:p-4 animate-in fade-in duration-200"
       style={{ backgroundColor: 'var(--modal-backdrop)' }}
     >
@@ -196,7 +183,7 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
               </p>
             </div>
           </div>
-          <button
+          <button aria-label="Fechar janela"
             onClick={onClose}
             className="p-1.5 rounded-md transition-colors hover:opacity-100 opacity-70"
             style={{ 

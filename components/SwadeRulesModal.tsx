@@ -1,3 +1,4 @@
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React from 'react';
 import { X, BookOpen, Skull, Zap, Shield, HeartPulse, Dices } from 'lucide-react';
@@ -8,12 +9,13 @@ interface SwadeRulesModalProps {
 }
 
 export const SwadeRulesModal: React.FC<SwadeRulesModalProps> = ({ isOpen, onClose }) => {
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2.5 sm:p-4 animate-in fade-in duration-200">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Regras SWADE" tabIndex={-1} className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2.5 sm:p-4 animate-in fade-in duration-200">
       <div className="bg-stone-950 border border-amber-900/60 rounded-xl shadow-2xl max-w-2xl w-full p-4 sm:p-6 text-stone-200 ring-1 ring-amber-500/20 max-h-[90dvh] overflow-y-auto">
         
         {/* Header */}
@@ -29,7 +31,7 @@ export const SwadeRulesModal: React.FC<SwadeRulesModalProps> = ({ isOpen, onClos
               <p className="text-xs text-stone-400">Edição Aventura (SWADE) — Resumo de Combate e Traços</p>
             </div>
           </div>
-          <button
+          <button aria-label="Fechar janela"
             onClick={onClose}
             className="text-stone-400 hover:text-white p-1 rounded-md hover:bg-stone-800"
           >

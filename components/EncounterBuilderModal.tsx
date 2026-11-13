@@ -1,3 +1,5 @@
+import { notify } from '../services/notifications';
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Monster, MonsterRank } from '../types';
@@ -78,7 +80,8 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
 
   // Filter pool by environment theme if specified
   const eligibleMonsters = useMemo(() => {
-    let pool = allMonsters;
+    const combatSheets = allMonsters.filter(m => !m.referenceOnly && Number.isFinite(parseInt(m.toughness, 10)));
+    let pool = combatSheets;
     if (environmentTheme === 'lendas') {
       pool = pool.filter(m => m.sourcebook === 'Lendas Brasileiras');
     } else if (environmentTheme === 'mortos') {
@@ -88,7 +91,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
     } else if (environmentTheme === 'humanoides') {
       pool = pool.filter(m => m.race === 'Humano' || m.race === 'Goblinóide' || m.race === 'Humanoide');
     }
-    return pool.length > 0 ? pool : allMonsters;
+    return pool.length > 0 ? pool : combatSheets;
   }, [allMonsters, environmentTheme]);
 
   // Generate encounter composition based on SWADE math
@@ -149,6 +152,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
     return entries;
   }, [eligibleMonsters, difficulty, playerCount, partyRank, seed]);
 
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -164,7 +168,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Construtor de encontros" tabIndex={-1} className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
       <div className="bg-stone-950 border border-amber-900/60 rounded-2xl max-w-3xl w-full max-h-[90dvh] flex flex-col shadow-2xl overflow-hidden ring-1 ring-amber-500/20">
         
         {/* Modal Header */}
@@ -203,7 +207,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
               <span>Salvos ({savedEncounters.length})</span>
             </button>
 
-            <button
+            <button aria-label="Fechar janela"
               onClick={onClose}
               className="p-2 min-h-[38px] min-w-[38px] flex items-center justify-center text-stone-400 hover:text-white rounded-lg hover:bg-stone-800 transition-colors"
             >
@@ -248,7 +252,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
                 Ranque do Grupo
               </label>
               <select
-                value={partyRank}
+                aria-label="Estágio do grupo" value={partyRank}
                 onChange={(e) => setPartyRank(e.target.value as MonsterRank)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-2.5 text-xs text-stone-200 focus:ring-1 focus:ring-amber-500"
               >
@@ -267,7 +271,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
                 Tipo de Encontro
               </label>
               <select
-                value={difficulty}
+                aria-label="Dificuldade do encontro" value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as EncounterDifficulty)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-2.5 text-xs text-stone-200 focus:ring-1 focus:ring-amber-500"
               >
@@ -286,7 +290,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
                 Tema / Ambiente
               </label>
               <select
-                value={environmentTheme}
+                aria-label="Tema do encontro" value={environmentTheme}
                 onChange={(e) => setEnvironmentTheme(e.target.value)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-2.5 text-xs text-stone-200 focus:ring-1 focus:ring-amber-500"
               >
@@ -399,7 +403,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
               <input
                 type="text"
                 placeholder="Nome do Encontro da Campanha (ex: Emboscada na Caatinga - Sessão 3)..."
-                value={newEncounterName}
+                aria-label="Nome do encontro" value={newEncounterName}
                 onChange={(e) => setNewEncounterName(e.target.value)}
                 className="flex-1 bg-stone-900 border border-stone-700 rounded-lg py-1.5 px-3 text-xs text-stone-200 focus:ring-1 focus:ring-amber-500"
               />
@@ -510,7 +514,7 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
                         onClick={() => {
                           const ids = enc.monsters.map(m => m.monsterId);
                           onAddEncounterToSession(ids);
-                          alert(`Encontro "${enc.name}" ativado na sua lista de Favoritos!`);
+                          notify(`Encontro "${enc.name}" ativado na sua lista de Favoritos!`);
                         }}
                         className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-cinzel font-bold text-xs rounded-lg shadow transition-all"
                       >

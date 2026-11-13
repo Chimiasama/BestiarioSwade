@@ -56,3 +56,17 @@ test('native listener is removed if registration resolves after unmount', async 
   assert.equal(calls, 0);
   assert.equal(removals, 1);
 });
+
+test('Escape can dismiss an overlay without navigating an underlying screen', () => {
+  const back = createBackNavigation();
+  let screenCalls = 0;
+  let overlayCalls = 0;
+  back.register(() => screenCalls++, 20);
+  assert.equal(back.goBack(100), false);
+  const remove = back.register(() => overlayCalls++, 100);
+  assert.equal(back.goBack(100), true);
+  remove();
+  assert.equal(back.goBack(100), false);
+  assert.equal(screenCalls, 0);
+  assert.equal(overlayCalls, 1);
+});

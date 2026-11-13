@@ -1,3 +1,5 @@
+import { ConfirmDialog } from './ConfirmDialog';
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect, useRef } from 'react';
 import { 
@@ -37,6 +39,7 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
   onClose,
   onDatabaseChanged,
 }) => {
+  const [resetConfirmation, setResetConfirmation] = useState(false);
   const [metrics, setMetrics] = useState<StorageMetrics | null>(null);
   const [isOnline, setIsOnline] = useState<boolean>(
     typeof navigator !== 'undefined' ? navigator.onLine : true
@@ -70,6 +73,7 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
     };
   }, []);
 
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -116,12 +120,8 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
     if (e.target) e.target.value = '';
   };
 
-  const handleReset = () => {
-    const confirmMsg = keepCustomOnReset
-      ? "Deseja restaurar as fichas originais padrão do compêndio? Suas criações próprias serão MANTIDAS."
-      : "ATENÇÃO: Deseja redefinir todo o banco de dados para os valores de fábrica? TODAS as alterações e criações serão substituídas.";
-
-    if (window.confirm(confirmMsg)) {
+  const handleReset = () => setResetConfirmation(true);
+  const performReset = () => {
       const freshList = resetDatabaseToDefaults(keepCustomOnReset);
       onDatabaseChanged(freshList);
       refreshMetrics();
@@ -132,11 +132,10 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
           ? 'Banco de dados restaurado com sucesso (suas criações foram preservadas)!'
           : 'Banco de dados restaurado aos padrões originais de fábrica!'
       });
-    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Backup e armazenamento local" tabIndex={-1} className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/80 backdrop-blur-sm animate-fadeIn">
       <div
         className="bg-stone-950 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl shadow-amber-950/50 relative overflow-hidden flex flex-col max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
@@ -162,7 +161,7 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
               </p>
             </div>
           </div>
-          <button
+          <button aria-label="Fechar janela"
             onClick={onClose}
             className="p-1.5 text-stone-400 hover:text-stone-200 hover:bg-stone-900 rounded-lg transition-colors"
             title="Fechar"
@@ -389,6 +388,7 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
           </button>
         </div>
       </div>
+      <ConfirmDialog open={resetConfirmation} title="Restaurar o catálogo?" message={keepCustomOnReset ? 'As fichas originais serão restauradas. Suas criações serão mantidas.' : 'Todas as alterações e criações locais serão substituídas. Exporte um backup antes de continuar.'} confirmLabel="Restaurar catálogo" onCancel={() => setResetConfirmation(false)} onConfirm={performReset} />
     </div>
   );
 };

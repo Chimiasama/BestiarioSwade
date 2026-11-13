@@ -1,5 +1,9 @@
+import { ConfirmDialog } from './ConfirmDialog';
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
+import { notify, copyToClipboard } from '../services/notifications';
+import { normalizeSearch } from '../services/catalogSearch';
 import { useBackNavigation } from '../hooks/useBackNavigation';
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useLayoutEffect } from 'react';
 import {
   getAllLocalMonsters,
   saveOrUpdateMonster,
@@ -34,6 +38,7 @@ import {
   Trash2,
   Search,
   ArrowLeft,
+  ArrowRight,
   Skull,
   Shield,
   Footprints,
@@ -94,11 +99,8 @@ const formatMonsterDiscordMarkdown = (m: Monster): string => {
 
 // Die badge styling helper
 const getDieBadgeClass = (dieStr: string) => {
-  if (dieStr.includes('d12')) return 'bg-amber-950/80 text-amber-300 border-amber-600/60 hover:bg-amber-900';
-  if (dieStr.includes('d10')) return 'bg-purple-950/80 text-purple-300 border-purple-600/60 hover:bg-purple-900';
-  if (dieStr.includes('d8')) return 'bg-orange-950/80 text-orange-300 border-orange-600/60 hover:bg-orange-900';
-  if (dieStr.includes('d6')) return 'bg-blue-950/80 text-blue-300 border-blue-600/60 hover:bg-blue-900';
-  return 'bg-stone-800 text-stone-300 border-stone-600 hover:bg-stone-700';
+  const tier = ['d12', 'd10', 'd8', 'd6'].find(die => dieStr.includes(die)) || 'd4';
+  return `die-badge die-${tier}`;
 };
 
 // Print Modal with theme & favorites support
@@ -113,6 +115,7 @@ const PrintModal: React.FC<{
   const [pdfTheme, setPdfTheme] = useState<PdfTheme>('parchment');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
 
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -120,7 +123,7 @@ const PrintModal: React.FC<{
   const activeCount = onlyFavorites ? favoriteCount : totalMonsters;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Exportar PDF" tabIndex={-1} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
       <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-7 rounded-xl shadow-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20">
         <div className="flex justify-between items-center mb-4 pb-2 border-b border-stone-800">
           <div className="flex items-center gap-2">
@@ -271,6 +274,7 @@ const SingleMonsterPdfModal: React.FC<{
     }
   }, [isOpen, defaultHideSecrets, monster.id]);
 
+  const dialogRef = useDialogAccessibility(isOpen);
   useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
@@ -305,7 +309,7 @@ const SingleMonsterPdfModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Exportar PDF" tabIndex={-1} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
       <div className="bg-stone-900 border border-amber-900/50 p-5 sm:p-6 rounded-xl shadow-2xl max-w-lg w-full max-h-[92dvh] overflow-y-auto text-stone-200 ring-1 ring-amber-500/20 space-y-4">
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-stone-800">
           <div className="min-w-0">
@@ -520,7 +524,7 @@ const SingleMonsterPdfModal: React.FC<{
             type="button"
             onClick={handleExport}
             disabled={isExporting}
-            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-lg bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white text-xs font-cinzel font-bold shadow-lg flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-stone-950 text-xs font-cinzel font-bold shadow-lg flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {isExporting ? (
               <>
@@ -554,16 +558,18 @@ const MonsterDetail: React.FC<{
   isPlayerView?: boolean;
 }> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll, onRollDamage, isPlayerView = false }) => {
   const [showExportPdfModal, setShowExportPdfModal] = useState(false);
+  const [showDetailTools, setShowDetailTools] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  useBackNavigation(showDetailTools, () => setShowDetailTools(false));
+
   const [isShaken, setIsShaken] = useState(false);
   const [wounds, setWounds] = useState(0);
   const [fatigue, setFatigue] = useState(0);
-  const [copiedDiscord, setCopiedDiscord] = useState(false);
 
-  const handleCopyDiscord = () => {
-    const text = formatMonsterDiscordMarkdown(monster);
-    navigator.clipboard.writeText(text);
-    setCopiedDiscord(true);
-    setTimeout(() => setCopiedDiscord(false), 2500);
+  const handleCopyDiscord = async () => {
+    try { await copyToClipboard(formatMonsterDiscordMarkdown(monster)); }
+    catch { notify('Não foi possível copiar a ficha.'); return; }
+    notify(`Ficha de ${monster.name} copiada.`);
   };
 
   // Handle skill click for roll
@@ -588,69 +594,18 @@ const MonsterDetail: React.FC<{
           Voltar ao Compêndio
         </button>
 
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5">
-          <button
-            onClick={() => onToggleFavorite(monster.id)}
-            className={`min-h-[40px] px-2.5 py-2 rounded-lg border transition-colors flex items-center gap-1.5 text-xs font-semibold ${
-              isFavorite
-                ? 'bg-amber-950/80 text-amber-300 border-amber-600/80 hover:bg-amber-900 shadow-sm'
-                : 'bg-stone-800 text-stone-400 border-stone-700 hover:text-stone-200'
-            }`}
-            title={isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-          >
-            <Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-400 text-amber-400' : ''}`} />
-            <span className="hidden sm:inline">{isFavorite ? 'Favoritado' : 'Favoritar'}</span>
-          </button>
-
-          {/* Local storage management actions for this creature */}
-          <button
-            onClick={() => onEdit(monster)}
-            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
-            title="Editar ficha deste monstro no armazenamento local"
-          >
-            <Edit className="w-4 h-4" />
-            <span className="hidden sm:inline">Editar</span>
-          </button>
-
-          <button
-            onClick={() => onDuplicate(monster)}
-            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
-            title="Duplicar monstro para criar uma variante personalizada no banco local"
-          >
-            <Copy className="w-4 h-4" />
-            <span className="hidden sm:inline">Duplicar</span>
-          </button>
-
-          <button
-            onClick={() => {
-              if (window.confirm(`Deseja realmente apagar o monstro "${monster.name}" do banco de dados local?`)) {
-                onDelete(monster.id);
-              }
-            }}
-            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-red-950 text-stone-400 hover:text-red-400 border border-stone-700 hover:border-red-800 rounded-lg transition-colors text-xs font-semibold flex items-center gap-1.5"
-            title="Excluir este monstro do armazenamento local"
-          >
-            <Trash2 className="w-4 h-4" />
-            <span className="hidden sm:inline">Excluir</span>
-          </button>
-
-          <button
-            onClick={handleCopyDiscord}
-            className="min-h-[40px] px-2.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold"
-            title="Copiar Ficha formatada em Markdown para Discord / Roll20 / Foundry"
-          >
-            {copiedDiscord ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-amber-400" />}
-            <span className="hidden sm:inline">{copiedDiscord ? 'Copiado!' : 'Discord / VTT'}</span>
-          </button>
-
-          <button
-            onClick={() => setShowExportPdfModal(true)}
-            className="min-h-[44px] flex items-center gap-1.5 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white px-3.5 py-2 rounded-lg font-cinzel text-xs font-bold transition-all shadow-md whitespace-nowrap"
-            title="Exportar ficha deste monstro para documento PDF estilizado"
-          >
-            <Printer className="w-4 h-4" />
-            <span>Exportar PDF</span>
-          </button>
+        <div className="detail-actions flex flex-wrap gap-2">
+          <button type="button" aria-pressed={isFavorite} title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'} onClick={() => onToggleFavorite(monster.id)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-400' : ''}`} />{isFavorite ? 'Favoritado' : 'Favoritar'}</button>
+          <button type="button" title="Editar ficha deste monstro no armazenamento local" onClick={() => onEdit(monster)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Edit className="w-4 h-4" />Editar</button>
+          <button type="button" onClick={() => setShowExportPdfModal(true)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Printer className="w-4 h-4" />PDF</button>
+          <details className="relative" open={showDetailTools} onToggle={event => setShowDetailTools(event.currentTarget.open)}>
+            <summary className="min-h-11 px-3 border border-stone-700 rounded-lg cursor-pointer flex items-center gap-2">Mais <ChevronDown className="w-4 h-4" /></summary>
+            <div className="catalog-more-panel absolute right-0 top-full z-40 mt-2 w-56 rounded-xl bg-stone-900 border border-stone-700 p-2 shadow-xl grid">
+              <button type="button" onClick={() => { setShowDetailTools(false); handleCopyDiscord(); }}><Copy className="w-4 h-4" />Copiar ficha</button>
+              <button type="button" onClick={() => { setShowDetailTools(false); onDuplicate(monster); }}><Plus className="w-4 h-4" />Duplicar criatura</button>
+              <button type="button" onClick={() => { setShowDetailTools(false); setShowDeleteConfirmation(true); }} className="text-red-400"><Trash2 className="w-4 h-4" />Excluir criatura</button>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -661,9 +616,9 @@ const MonsterDetail: React.FC<{
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
           
           {/* Portrait Image */}
-          <div className="md:col-span-4 relative group">
+          {monster.imageUrl !== '/book-creature.svg' && <div className="monster-portrait md:col-span-4 relative group">
             <div className="relative rounded-xl overflow-hidden border-2 border-amber-900/60 shadow-xl bg-stone-900">
-              <img
+              <img loading="lazy"
                 src={monster.imageUrl}
                 alt={monster.name}
                 referrerPolicy="no-referrer"
@@ -695,18 +650,19 @@ const MonsterDetail: React.FC<{
                 {monster.sourcebook}
               </div>
             </div>
-          </div>
+          </div>}
 
           {/* Title & Core Details */}
-          <div className="md:col-span-8 space-y-4">
+          <div className={`${monster.imageUrl === '/book-creature.svg' ? 'md:col-span-12' : 'md:col-span-8'} space-y-4`}>
             <div>
               <div className="flex items-center gap-3 flex-wrap">
                 <h1 className="font-cinzel text-2xl sm:text-5xl font-extrabold text-amber-200 tracking-wide">
                   {monster.name}
                 </h1>
               </div>
+              <p className="text-sm text-stone-400 mt-2 flex flex-wrap items-center gap-2"><BookOpen className="w-4 h-4" />{monster.sourcebook} · {monster.referenceOnly ? 'Referência / modelo' : monster.isWildCard ? 'Carta Selvagem' : 'Extra'}</p>
               <p className="text-stone-400 font-crimson text-base sm:text-lg italic mt-1">
-                {monster.archetype} • Raça: {monster.race}
+                {monster.archetype !== 'Ficha do livro' ? monster.archetype : ''}{monster.race !== 'Não especificada' ? ` · ${monster.race}` : ''}
               </p>
             </div>
 
@@ -736,11 +692,12 @@ const MonsterDetail: React.FC<{
             </div>
 
             {/* In-Game Combat Tracker (Abalado e Ferimentos) */}
-            <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800/80 space-y-3">
+            <details className="bg-stone-900/60 p-4 rounded-xl border border-stone-800/80 space-y-3">
+              <summary className="min-h-11 cursor-pointer text-sm font-semibold">Acompanhar combate · marcadores temporários</summary>
               <div className="flex items-center justify-between">
                 <span className="font-cinzel text-xs uppercase tracking-wider text-stone-400 flex items-center gap-1.5">
                   <Flame className="w-3.5 h-3.5 text-amber-500" />
-                  Marcador de Mesa (Combate em Tempo Real)
+                  Marcadores desta ficha
                 </span>
                 <span className="text-[11px] text-stone-500 italic">Estado temporário durante a cena</span>
               </div>
@@ -792,7 +749,7 @@ const MonsterDetail: React.FC<{
                   </div>
                 )}
               </div>
-            </div>
+            </details>
 
             {/* Backstory / Flavor lore */}
             {isPlayerView ? (
@@ -801,9 +758,10 @@ const MonsterDetail: React.FC<{
                 <span>[História Secreta e Fraquezas Ocultadas pelo Mestre no Modo Jogador]</span>
               </div>
             ) : (
-              <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-800/80 font-crimson text-stone-300 text-base leading-relaxed italic">
-                "{monster.history}"
-              </div>
+              <details className="bg-stone-900/40 p-4 rounded-xl border border-stone-800/80 text-stone-300">
+                <summary className="cursor-pointer text-sm font-semibold">História e descrição</summary>
+                <p className="font-crimson text-lg leading-relaxed mt-3">{monster.history || 'Sem descrição adicional.'}</p>
+              </details>
             )}
           </div>
         </div>
@@ -980,6 +938,7 @@ const MonsterDetail: React.FC<{
       </div>
 
       {/* Styled Single Monster PDF Export Modal */}
+      <ConfirmDialog open={showDeleteConfirmation} title="Excluir criatura?" message={`Deseja excluir ${monster.name} deste aparelho? Exporte um backup se quiser guardar esta ficha.`} confirmLabel="Excluir criatura" onCancel={() => setShowDeleteConfirmation(false)} onConfirm={() => onDelete(monster.id)} />
       <SingleMonsterPdfModal
         isOpen={showExportPdfModal}
         onClose={() => setShowExportPdfModal(false)}
@@ -1013,10 +972,11 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
     <div className="bg-stone-950 border border-stone-800 hover:border-amber-700/80 rounded-xl overflow-hidden shadow-xl hover:shadow-amber-900/30 transition-all duration-300 hover:-translate-y-1 flex flex-col group relative ring-1 ring-amber-900/10">
       {/* Card Image Banner */}
       <div
-        onClick={() => onSelect(monster)}
+        role="article" aria-label={monster.name}
+      onClick={() => onSelect(monster)}
         className="relative h-48 bg-stone-900 cursor-pointer overflow-hidden"
       >
-        <img
+        <img loading="lazy"
           src={monster.imageUrl}
           alt={monster.name}
           referrerPolicy="no-referrer"
@@ -1129,7 +1089,8 @@ const MonsterCardItem: React.FC<MonsterCardItemProps> = ({
               <Copy className="w-3.5 h-3.5" />
             </button>
             <button
-              onClick={() => onSelect(monster)}
+              aria-label={`Abrir ficha de ${monster.name}`}
+      onClick={() => onSelect(monster)}
               className="min-h-[34px] px-2 font-cinzel text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-0.5 whitespace-nowrap"
             >
               Ficha →
@@ -1153,13 +1114,14 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
 }) => {
   return (
     <div
+      role="article" aria-label={monster.name}
       onClick={() => onSelect(monster)}
-      className="group flex items-center justify-between p-2.5 sm:px-4 bg-stone-950/80 hover:bg-stone-900 border border-stone-800/80 hover:border-amber-700/60 rounded-lg transition-all cursor-pointer gap-3"
+      className="catalog-row group flex items-center justify-between p-2.5 sm:px-4 bg-stone-950/80 hover:bg-stone-900 border border-stone-800/80 hover:border-amber-700/60 rounded-lg transition-all cursor-pointer gap-3"
     >
       {/* Left: Avatar & Identity */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 border border-stone-800 bg-stone-900">
-          <img
+        {monster.imageUrl !== '/book-creature.svg' && <div className="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 border border-stone-800 bg-stone-900">
+          <img loading="lazy"
             src={monster.imageUrl}
             alt={monster.name}
             referrerPolicy="no-referrer"
@@ -1173,11 +1135,11 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
               <Skull className="w-2.5 h-2.5" />
             </div>
           )}
-        </div>
+        </div>}
 
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className="font-cinzel font-bold text-stone-200 group-hover:text-amber-300 text-sm truncate">
+            <h4 className="font-bold text-stone-200 group-hover:text-amber-300 text-sm">
               {monster.name}
             </h4>
             {monster.referenceOnly ? (
@@ -1193,7 +1155,7 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
             )}
           </div>
           <p className="text-xs text-stone-400 truncate font-crimson italic">
-            {monster.race} • {monster.archetype} • <span className="text-stone-500">{monster.sourcebook}</span>
+            {monster.sourcebook}{monster.referenceOnly ? ' · Referência' : ''}
           </p>
         </div>
       </div>
@@ -1253,10 +1215,11 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
         </button>
 
         <button
-          onClick={() => onSelect(monster)}
+          aria-label={`Abrir ficha de ${monster.name}`}
+      onClick={() => onSelect(monster)}
           className="px-2.5 py-1 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded font-cinzel font-bold text-xs transition-colors ml-1"
         >
-          Ficha
+          <span className="hidden sm:inline">Ficha</span><ArrowRight className="w-4 h-4 sm:hidden" />
         </button>
       </div>
     </div>
@@ -1269,6 +1232,18 @@ const Bestiary: React.FC<{
   showCreator: () => void;
   isPlayerView?: boolean;
 }> = ({ onEditMonster, showCreator, isPlayerView = false }) => {
+  const [toolsExpanded, setToolsExpanded] = useState(false);
+  const [filtersExpanded, setFiltersExpanded] = useState(false);
+  const [searchDeep, setSearchDeep] = useState(false);
+  const [homeSearch, setHomeSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const listScroll = useRef(0);
+  const previousMonster = useRef<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const [recentIds, setRecentIds] = useState<string[]>(() => {
+    try { const ids = JSON.parse(localStorage.getItem('swade_recent_monsters') || '[]'); return Array.isArray(ids) ? ids.filter(id => typeof id === 'string').slice(0, 5) : []; }
+    catch { return []; }
+  });
   const [activeTab, setActiveTab] = useState<'books' | 'all' | 'favorites'>('books');
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const [selectedMonster, setSelectedMonster] = useState<Monster | null>(null);
@@ -1292,7 +1267,11 @@ const Bestiary: React.FC<{
   const [selectedSourcebookFilter, setSelectedSourcebookFilter] = useState<string>('all');
   const [selectedRaceFilter, setSelectedRaceFilter] = useState<string>('all');
   const [selectedLetter, setSelectedLetter] = useState<string>('all');
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('alphabetical');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>(() => {
+    try { const mode = localStorage.getItem('swade_catalog_display'); if (mode && ['table', 'cards', 'alphabetical', 'by-race'].includes(mode)) return mode as DisplayMode; } catch { /* Keep browsing when storage is unavailable. */ }
+    return 'table';
+  });
+  useEffect(() => { try { localStorage.setItem('swade_catalog_display', displayMode); } catch { /* Optional preference. */ } }, [displayMode]);
   const [collapsedLetters, setCollapsedLetters] = useState<Set<string>>(new Set());
   const [collapsedRaces, setCollapsedRaces] = useState<Set<string>>(new Set());
   const [toughnessFilter, setToughnessFilter] = useState<'all' | 'fragil' | 'medio' | 'resistente' | 'titanico'>('all');
@@ -1316,6 +1295,24 @@ const Bestiary: React.FC<{
     setSearchTerm('');
     setSelectedLetter('all');
   }, 10);
+
+  useLayoutEffect(() => {
+    if (selectedMonster) window.scrollTo({ top: 0, behavior: 'instant' });
+    else if (previousMonster.current) window.scrollTo({ top: listScroll.current, behavior: 'instant' });
+    previousMonster.current = selectedMonster?.id ?? null;
+  }, [selectedMonster?.id]);
+
+  const openMonster = (monster: Monster) => {
+    listScroll.current = window.scrollY;
+    setSelectedMonster(monster);
+    setRecentIds(previous => {
+      const next = [monster.id, ...previous.filter(id => id !== monster.id)].slice(0, 5);
+      try { localStorage.setItem('swade_recent_monsters', JSON.stringify(next)); } catch { /* Navigation still works with storage disabled. */ }
+      return next;
+    });
+  };
+
+  useBackNavigation(toolsExpanded && !selectedMonster, () => setToolsExpanded(false));
 
   // Hidden file input for JSON import
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -1359,7 +1356,7 @@ const Bestiary: React.FC<{
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert('Seu navegador não suporta busca por voz (Web Speech API). Recomendamos o uso do Google Chrome, Edge ou navegadores compatíveis.');
+      notify('Seu navegador não suporta busca por voz (Web Speech API). Recomendamos o uso do Google Chrome, Edge ou navegadores compatíveis.');
       return;
     }
 
@@ -1433,6 +1430,11 @@ const Bestiary: React.FC<{
   };
 
   const allMonsters = monstersList;
+  const searchIndex = useMemo(() => new Map(allMonsters.map(m => [m.id, {
+    name: normalizeSearch(m.name),
+    details: normalizeSearch([m.name, m.race, m.archetype, ...(m.skills || []), ...(m.abilities || []).map(a => `${a.name} ${a.description}`), m.weapons, m.powers, m.history].filter(Boolean).join(' ')),
+  }])), [allMonsters]);
+
 
   const alphabetLetters = useMemo(() => {
     return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
@@ -1464,11 +1466,13 @@ const Bestiary: React.FC<{
   };
 
   const handleDuplicate = (monster: Monster) => {
-    const cloned = duplicateMonster(monster.id);
-    if (cloned) {
+    try {
+      const cloned = duplicateMonster(monster.id);
+      if (!cloned) return;
       setMonstersList(getAllLocalMonsters());
       setSelectedMonster(cloned);
-    }
+      notify('Criatura duplicada neste aparelho.');
+    } catch { notify('Não foi possível duplicar. Verifique o espaço de armazenamento.'); }
   };
 
   const handleToggleFavorite = (id: string) => {
@@ -1487,10 +1491,9 @@ const Bestiary: React.FC<{
   };
 
   // Quick Discord Copy
-  const handleCopyDiscordQuick = (m: Monster) => {
-    const text = formatMonsterDiscordMarkdown(m);
-    navigator.clipboard.writeText(text);
-    alert(`Ficha de "${m.name}" copiada para a área de transferência em formato Discord / VTT!`);
+  const handleCopyDiscordQuick = async (m: Monster) => {
+    try { await copyToClipboard(formatMonsterDiscordMarkdown(m)); notify(`Ficha de ${m.name} copiada.`); }
+    catch { notify('Não foi possível copiar. Verifique a permissão da área de transferência.'); }
   };
 
   // Accordion Toggle Helpers
@@ -1562,7 +1565,7 @@ const Bestiary: React.FC<{
       const content = event.target?.result as string;
       if (content) {
         const res = importFullDatabaseFromJson(content, 'merge');
-        alert(res.message);
+        notify(res.message);
         if (res.success) {
           setMonstersList(getAllLocalMonsters());
           setFavoriteIds(getFavoriteMonsterIds());
@@ -1632,22 +1635,16 @@ const Bestiary: React.FC<{
 
     // Enhanced Deep text search
     if (searchTerm.trim()) {
-      const lower = searchTerm.toLowerCase();
+      const terms = normalizeSearch(searchTerm).split(/\s+/).filter(Boolean);
       list = list.filter(m => {
-        const matchName = m.name.toLowerCase().includes(lower);
-        const matchArchetype = m.archetype.toLowerCase().includes(lower);
-        const matchRace = m.race.toLowerCase().includes(lower);
-        const matchSkills = (m.skills || []).some(s => s.toLowerCase().includes(lower));
-        const matchAbilities = (m.abilities || []).some(a => a.name.toLowerCase().includes(lower) || a.description.toLowerCase().includes(lower));
-        const matchWeapons = m.weapons?.toLowerCase().includes(lower);
-        const matchPowers = m.powers?.toLowerCase().includes(lower);
-        const matchHistory = m.history?.toLowerCase().includes(lower);
-        return matchName || matchArchetype || matchRace || matchSkills || matchAbilities || matchWeapons || matchPowers || matchHistory;
+        const entry = searchIndex.get(m.id);
+        const haystack = searchDeep ? entry?.details : entry?.name;
+        return terms.every(term => haystack?.includes(term));
       });
     }
 
     return list;
-  }, [allMonsters, activeTab, selectedBook, favoriteIds, onlyFavoritesFilter, selectedSourcebookFilter, selectedRaceFilter, toughnessFilter, sizeFilter, wildCardFilter, searchTerm, books]);
+  }, [allMonsters, activeTab, selectedBook, favoriteIds, onlyFavoritesFilter, selectedSourcebookFilter, selectedRaceFilter, toughnessFilter, sizeFilter, wildCardFilter, searchTerm, books, searchDeep, searchIndex]);
 
   // 2. Count of monsters for each initial letter
   const letterCounts = useMemo(() => {
@@ -1678,11 +1675,27 @@ const Bestiary: React.FC<{
     });
   }, [baseFilteredMonsters, selectedLetter, sortBy]);
 
+  const pageSize = 40;
+  const totalPages = Math.max(1, Math.ceil(currentDisplayedMonsters.length / pageSize));
+  const safePage = Math.min(page, totalPages);
+  const pageMonsters = currentDisplayedMonsters.slice((safePage - 1) * pageSize, safePage * pageSize);
+  useEffect(() => setPage(1), [searchTerm, searchDeep, selectedBook, activeTab, selectedLetter, selectedRaceFilter, selectedSourcebookFilter, wildCardFilter, toughnessFilter, sizeFilter, onlyFavoritesFilter, sortBy]);
+  const changePage = (next: number) => {
+    setPage(Math.max(1, Math.min(next, totalPages)));
+    resultsRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+  const activeFilterCount = [selectedSourcebookFilter !== 'all', selectedRaceFilter !== 'all', selectedLetter !== 'all', wildCardFilter !== 'all', toughnessFilter !== 'all', sizeFilter !== 'all', onlyFavoritesFilter].filter(Boolean).length;
+  const clearFilters = () => {
+    setSearchTerm(''); setSelectedSourcebookFilter('all'); setSelectedRaceFilter('all');
+    setSelectedLetter('all'); setWildCardFilter('all'); setToughnessFilter('all');
+    setSizeFilter('all'); setOnlyFavoritesFilter(false);
+  };
+
   // 4. Grouped by letter for alphabetical accordion mode
   const monstersGroupedByLetter = useMemo(() => {
     const map: Record<string, Monster[]> = {};
     alphabetLetters.forEach(l => { map[l] = []; });
-    currentDisplayedMonsters.forEach(m => {
+    pageMonsters.forEach(m => {
       const l = getInitialLetter(m.name);
       if (!map[l]) map[l] = [];
       map[l].push(m);
@@ -1690,12 +1703,12 @@ const Bestiary: React.FC<{
     return alphabetLetters
       .filter(letter => map[letter] && map[letter].length > 0)
       .map(letter => ({ letter, monsters: map[letter] }));
-  }, [currentDisplayedMonsters, alphabetLetters]);
+  }, [pageMonsters, alphabetLetters]);
 
   // 5. Grouped by race for category accordion mode
   const monstersGroupedByRace = useMemo(() => {
     const map: Record<string, Monster[]> = {};
-    currentDisplayedMonsters.forEach(m => {
+    pageMonsters.forEach(m => {
       const race = m.race || 'Outros';
       if (!map[race]) map[race] = [];
       map[race].push(m);
@@ -1703,7 +1716,7 @@ const Bestiary: React.FC<{
     return Object.entries(map)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([race, monsters]) => ({ race, monsters }));
-  }, [currentDisplayedMonsters]);
+  }, [pageMonsters]);
 
   // Print handler
   const handlePrintCollection = async (
@@ -1763,11 +1776,11 @@ const Bestiary: React.FC<{
     <div className="space-y-6">
       
       {/* Navigation Sub-Bar (Grimório / Compêndio / Mesa do Mestre) */}
-      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2.5 sm:gap-3 backdrop-blur-md max-w-full overflow-x-hidden">
+      <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2 sm:p-3 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2.5 sm:gap-3 backdrop-blur-md max-w-full overflow-visible">
         
         {/* Tab Switcher */}
         <div className="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 w-full lg:w-auto">
-          <button
+          <button aria-pressed={activeTab === 'books'}
             onClick={() => {
               setActiveTab('books');
               setSelectedBook(null);
@@ -1782,7 +1795,7 @@ const Bestiary: React.FC<{
             <span className="truncate">Por Tomos</span>
           </button>
 
-          <button
+          <button aria-pressed={activeTab === 'all'}
             onClick={() => {
               setActiveTab('all');
               setSelectedBook(null);
@@ -1800,7 +1813,7 @@ const Bestiary: React.FC<{
             </span>
           </button>
 
-          <button
+          <button aria-pressed={activeTab === 'favorites'}
             onClick={() => {
               setActiveTab('favorites');
               setSelectedBook(null);
@@ -1816,91 +1829,20 @@ const Bestiary: React.FC<{
           </button>
         </div>
 
-        {/* Global Action Tools (Import/Export JSON, Print, New Monster) */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar sm:flex-wrap w-full lg:w-auto pb-0.5 sm:pb-0">
-          {/* Backup Import/Export */}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImportBackup}
-            accept=".json"
-            className="hidden"
-          />
-
-          <button
-            onClick={showCreator}
-            className="px-3 py-2 min-h-[40px] bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-cinzel font-bold text-xs rounded-lg shadow-md transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap sm:order-last"
-          >
-            <Plus className="w-4 h-4 shrink-0" />
-            <span>Criar Monstro</span>
-          </button>
-
-          {/* SWADE Encounter Builder Button */}
-          <button
-            onClick={() => setShowEncounterModal(true)}
-            className="px-3 py-2 min-h-[40px] bg-amber-950/80 hover:bg-amber-900/90 text-amber-300 font-cinzel font-bold text-xs rounded-lg border border-amber-700/60 shadow-md transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-            title="Gerador de Encontros Balanceados SWADE"
-          >
-            <Swords className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Encontros</span>
-          </button>
-
-          {/* D3 Monster Distribution Stats Modal Button */}
-          <button
-            onClick={() => setShowStatsModal(true)}
-            className="px-2.5 py-2 min-h-[40px] text-stone-300 hover:text-amber-300 bg-stone-900 border border-stone-800 hover:border-amber-600/70 rounded-lg transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-            title="Painel Estatístico e Distribuição de Tipos (Gráfico D3)"
-          >
-            <PieChart className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="hidden sm:inline">Estatísticas</span>
-          </button>
-
-          {/* Local Storage & Offline Manager Button */}
-          <button
-            onClick={() => setShowStorageModal(true)}
-            title="Gerenciador de Banco de Dados Local (localStorage) e Persistência Offline"
-            className={`px-2.5 py-2 min-h-[40px] rounded-lg border transition-all text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-              !isOnline
-                ? 'bg-amber-950/90 border-amber-600 text-amber-300 font-bold shadow-md shadow-amber-900/40 animate-pulse'
-                : 'text-stone-300 hover:text-amber-300 bg-stone-900 border-stone-800 hover:border-amber-600/70'
-            }`}
-          >
-            <Database className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="hidden md:inline font-cinzel">Banco Local</span>
-            {!isOnline && (
-              <span className="bg-amber-800/80 text-[10px] text-amber-200 px-1 py-0.5 rounded font-bold">
-                OFFLINE
-              </span>
-            )}
-          </button>
-
-          {/* Print current selection */}
-          <button
-            onClick={() => setShowPrintModal(true)}
-            className="px-2.5 py-2 min-h-[40px] bg-stone-900 hover:bg-stone-800 text-stone-300 border border-stone-800 rounded-lg transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-            title="Imprimir Seleção Atual em PDF"
-          >
-            <Printer className="w-4 h-4 shrink-0" />
-            <span className="hidden sm:inline">Imprimir PDF</span>
-          </button>
-
-          <button
-            onClick={handleExportBackup}
-            title="Exportar backup completo do banco de dados local (JSON)"
-            className="px-2.5 py-2 min-h-[40px] text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-          >
-            <Download className="w-4 h-4 shrink-0" />
-            <span className="hidden md:inline">Backup JSON</span>
-          </button>
-
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            title="Importar e mesclar monstros no banco de dados local (JSON)"
-            className="px-2.5 py-2 min-h-[40px] text-stone-400 hover:text-amber-400 bg-stone-900 border border-stone-800 rounded-lg hover:border-amber-700 transition-colors text-xs flex items-center gap-1.5 shrink-0 whitespace-nowrap"
-          >
-            <Upload className="w-4 h-4 shrink-0" />
-            <span className="hidden md:inline">Importar</span>
-          </button>
+        <div className="catalog-actions flex flex-wrap items-center gap-2">
+          <input type="file" ref={fileInputRef} onChange={handleImportBackup} accept=".json" className="hidden" />
+          <button type="button" onClick={showCreator} className="primary-action min-h-11 px-4 rounded-lg bg-amber-600 text-stone-950 font-semibold flex items-center justify-center gap-2"><Plus className="w-4 h-4" />Criar</button>
+          <button type="button" onClick={() => setShowEncounterModal(true)} className="min-h-11 px-3 rounded-lg border border-stone-700 flex items-center justify-center gap-2"><Swords className="w-4 h-4" />Encontros</button>
+          <details className="catalog-more relative" open={toolsExpanded} onToggle={event => setToolsExpanded(event.currentTarget.open)}>
+            <summary className="min-h-11 px-3 rounded-lg border border-stone-700 cursor-pointer flex items-center justify-center gap-2">Mais <ChevronDown className="w-4 h-4" /></summary>
+            <div className="catalog-more-panel absolute right-0 top-full mt-2 w-64 rounded-xl border border-stone-700 bg-stone-900 p-2 shadow-xl z-40 grid grid-cols-1 gap-1">
+              <button type="button" onClick={() => { setToolsExpanded(false); setShowStorageModal(true); }}><Database className="w-4 h-4" />Backup e dados locais</button>
+              <button type="button" onClick={() => { setToolsExpanded(false); setShowStatsModal(true); }}><PieChart className="w-4 h-4" />Estatísticas</button>
+              <button type="button" onClick={() => { setToolsExpanded(false); setShowPrintModal(true); }}><Printer className="w-4 h-4" />Imprimir PDF</button>
+              <button type="button" onClick={() => { setToolsExpanded(false); handleExportBackup(); }}><Download className="w-4 h-4" />Exportar backup JSON</button>
+              <button type="button" onClick={() => { setToolsExpanded(false); fileInputRef.current?.click(); }}><Upload className="w-4 h-4" />Importar backup JSON</button>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -1923,19 +1865,21 @@ const Bestiary: React.FC<{
         <div className="bg-stone-950/60 p-4 rounded-xl border border-stone-800/80 space-y-3 max-w-full overflow-x-hidden">
           
           {/* Main Search and Core Selectors */}
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-12 gap-2">
             
             {/* Search Input with Web Speech API Voice Search */}
-            <div className="sm:col-span-4 relative flex items-center">
+            <div className="sm:col-span-9 relative flex items-center">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-stone-500">
                 <Search className="w-4 h-4" />
               </span>
               <input
-                type="text"
-                placeholder="Buscar por nome, perícia, poderes..."
+                type="search" enterKeyHint="search" autoComplete="off" spellCheck={false}
+                style={{ paddingRight: searchTerm ? 88 : 48 }}
+                placeholder="Buscar criatura..."
+                aria-label="Buscar criatura"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full bg-stone-900 border rounded-lg py-2 pl-9 pr-16 text-stone-200 text-sm focus:ring-1 focus:ring-amber-500 transition-colors ${
+                className={`w-full bg-stone-900 border rounded-lg min-h-12 py-2 pl-9 pr-12 text-stone-200 text-base focus:ring-1 focus:ring-amber-500 transition-colors ${
                   isListening
                     ? 'border-red-500/80 shadow-sm shadow-red-900/30'
                     : 'border-stone-700 focus:border-amber-500'
@@ -1949,7 +1893,7 @@ const Bestiary: React.FC<{
                       setSearchTerm('');
                       setSpeechFeedback(null);
                     }}
-                    className="p-1 text-stone-500 hover:text-stone-300 transition-colors"
+                    className="min-w-10 min-h-11 flex items-center justify-center text-stone-500 hover:text-stone-300 transition-colors"
                     title="Limpar busca"
                   >
                     <X className="w-4 h-4" />
@@ -1960,7 +1904,7 @@ const Bestiary: React.FC<{
                 <button
                   type="button"
                   onClick={toggleVoiceSearch}
-                  className={`p-1.5 rounded-md transition-all flex items-center justify-center ${
+                  className={`min-w-10 min-h-11 rounded-md transition-all flex items-center justify-center ${
                     isListening
                       ? 'bg-red-600 text-white animate-pulse ring-2 ring-red-400 shadow-md shadow-red-600/50'
                       : 'text-stone-400 hover:text-amber-300 hover:bg-stone-800'
@@ -1981,10 +1925,18 @@ const Bestiary: React.FC<{
               </div>
             </div>
 
+            <button type="button" aria-expanded={filtersExpanded} aria-controls="advanced-filters"
+              onClick={() => setFiltersExpanded(value => !value)} className="sm:col-span-3 min-h-11 px-4 rounded-lg border border-stone-700 text-sm font-semibold flex items-center justify-center gap-2">
+              <Filter className="w-4 h-4" /> Filtros {activeFilterCount > 0 && <span>({activeFilterCount})</span>}
+            </button>
+          </div>
+          <div id="advanced-filters" hidden={!filtersExpanded}>
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
             {/* Sourcebook Filter (if in All tab) */}
             {activeTab === 'all' && (
               <div className="sm:col-span-2">
                 <select
+                  aria-label="Filtrar por suplemento"
                   value={selectedSourcebookFilter}
                   onChange={(e) => setSelectedSourcebookFilter(e.target.value)}
                   className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
@@ -2002,7 +1954,8 @@ const Bestiary: React.FC<{
             {/* Race Filter */}
             <div className={activeTab === 'all' ? 'sm:col-span-2' : 'sm:col-span-3'}>
               <select
-                value={selectedRaceFilter}
+                aria-label="Filtrar por raça"
+                  value={selectedRaceFilter}
                 onChange={(e) => setSelectedRaceFilter(e.target.value)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
               >
@@ -2016,7 +1969,8 @@ const Bestiary: React.FC<{
             {/* Letter Filter (Dropdown) */}
             <div className={activeTab === 'all' ? 'sm:col-span-2' : 'sm:col-span-2'}>
               <select
-                value={selectedLetter}
+                aria-label="Filtrar por letra"
+                  value={selectedLetter}
                 onChange={(e) => setSelectedLetter(e.target.value)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
               >
@@ -2035,7 +1989,8 @@ const Bestiary: React.FC<{
             {/* Wild Card vs Extra */}
             <div className={activeTab === 'all' ? 'sm:col-span-2' : 'sm:col-span-2'}>
               <select
-                value={wildCardFilter}
+                aria-label="Filtrar por tipo de criatura"
+                  value={wildCardFilter}
                 onChange={(e) => setWildCardFilter(e.target.value as any)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
               >
@@ -2048,7 +2003,8 @@ const Bestiary: React.FC<{
             {/* Sort Order */}
             <div className={activeTab === 'all' ? 'sm:col-span-2' : 'sm:col-span-3'}>
               <select
-                value={sortBy}
+                aria-label="Ordenar criaturas"
+                  value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
               >
@@ -2249,32 +2205,18 @@ const Bestiary: React.FC<{
               </button>
             </div>
 
-            {/* Results Counter & Reset Action */}
-            <div className="flex items-center justify-between sm:justify-end gap-2 text-stone-400 sm:ml-auto">
-              <span className="font-mono text-xs">
-                <b className="text-amber-300">{currentDisplayedMonsters.length}</b> criaturas
-              </span>
-              {(searchTerm || selectedSourcebookFilter !== 'all' || selectedRaceFilter !== 'all' || selectedLetter !== 'all' || wildCardFilter !== 'all' || toughnessFilter !== 'all' || sizeFilter !== 'all' || onlyFavoritesFilter) && (
-                <button
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedSourcebookFilter('all');
-                    setSelectedRaceFilter('all');
-                    setSelectedLetter('all');
-                    setWildCardFilter('all');
-                    setToughnessFilter('all');
-                    setSizeFilter('all');
-                    setOnlyFavoritesFilter(false);
-                  }}
-                  className="text-amber-400 hover:underline text-[11px] min-h-[32px] px-1"
-                >
-                  Limpar Filtros
-                </button>
-              )}
-            </div>
 
           </div>
 
+          <label className="flex items-center gap-3 py-3 text-sm">
+            <input type="checkbox" checked={searchDeep} onChange={e => setSearchDeep(e.target.checked)} className="w-5 h-5" />
+            Buscar também em perícias, habilidades e história
+          </label>
+          </div>
+          <div className="flex items-center justify-between gap-2 text-sm" role="status" aria-live="polite">
+            <span>{currentDisplayedMonsters.length} {currentDisplayedMonsters.length === 1 ? 'criatura encontrada' : 'criaturas encontradas'}</span>
+            {(activeFilterCount > 0 || searchTerm) && <button type="button" className="min-h-11 underline px-2" onClick={clearFilters}>Limpar filtros</button>}
+          </div>
         </div>
       )}
 
@@ -2283,6 +2225,8 @@ const Bestiary: React.FC<{
         <div className="space-y-3">
           
           {/* Alphabet Ribbon (A-Z Fast Scroller) */}
+          <details className="alphabet-disclosure">
+            <summary className="min-h-11 cursor-pointer text-sm flex items-center gap-2"><ChevronDown className="w-4 h-4" />Navegar por letra {selectedLetter !== 'all' ? `· ${selectedLetter}` : '(A–Z)'}</summary>
           <div className="bg-stone-950/70 border border-stone-800/90 rounded-xl p-2.5 backdrop-blur-sm max-w-full overflow-x-hidden">
             <div className="flex items-center justify-between gap-2 mb-2 px-1">
               <div className="flex items-center gap-2">
@@ -2361,15 +2305,19 @@ const Bestiary: React.FC<{
             </div>
           </div>
 
+          </details>
           {/* View Mode Bar & Accordion Controls */}
           <div className="bg-stone-950/80 border border-stone-800/90 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2.5 max-w-full overflow-x-hidden">
             
+            <label className="sm:hidden flex items-center justify-between gap-3 w-full text-sm">Exibição
+              <select aria-label="Modo de exibição" value={displayMode} onChange={event => setDisplayMode(event.target.value as DisplayMode)} className="min-h-11 flex-1 min-w-0 rounded-lg border border-stone-700 bg-stone-900 px-3"><option value="table">Lista compacta</option><option value="cards">Cartões</option><option value="alphabetical">Índice A–Z</option><option value="by-race">Por raça</option></select>
+            </label>
             {/* View Mode Buttons */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar max-w-full w-full sm:w-auto pb-0.5 sm:pb-0">
+            <div className="view-modes hidden sm:flex flex-wrap items-center gap-1.5 max-w-full w-full sm:w-auto">
               <span className="text-xs text-stone-500 font-cinzel mr-1 hidden sm:inline shrink-0">Exibição:</span>
 
               <button
-                onClick={() => setDisplayMode('alphabetical')}
+                aria-pressed={displayMode === 'alphabetical'} onClick={() => setDisplayMode('alphabetical')}
                 className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'alphabetical'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
@@ -2382,7 +2330,7 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setDisplayMode('cards')}
+                aria-pressed={displayMode === 'cards'} onClick={() => setDisplayMode('cards')}
                 className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'cards'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
@@ -2395,7 +2343,7 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setDisplayMode('table')}
+                aria-pressed={displayMode === 'table'} onClick={() => setDisplayMode('table')}
                 className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'table'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
@@ -2408,7 +2356,7 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setDisplayMode('by-race')}
+                aria-pressed={displayMode === 'by-race'} onClick={() => setDisplayMode('by-race')}
                 className={`px-3 py-1.5 min-h-[38px] rounded-lg text-xs font-cinzel font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
                   displayMode === 'by-race'
                     ? 'bg-amber-950 text-amber-300 border border-amber-600 shadow-sm'
@@ -2446,6 +2394,23 @@ const Bestiary: React.FC<{
         </div>
       )}
 
+      {activeTab === 'books' && !selectedBook && (
+        <section className="home-search rounded-2xl border border-stone-700 p-5 sm:p-7 space-y-4" aria-label="Busca rápida">
+          <div><p className="text-xs tracking-widest uppercase text-stone-400">Pronto para a próxima sessão</p>
+            <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-amber-200 mt-2">Encontre sua próxima criatura</h2>
+            <p className="text-sm text-stone-400 mt-2">{allMonsters.length.toLocaleString('pt-BR')} fichas e referências · {books.length} tomos · favoritos e criações neste aparelho.</p>
+          </div>
+          <form className="flex gap-2" onSubmit={e => { e.preventDefault(); clearFilters(); setSearchTerm(homeSearch); setActiveTab('all'); window.scrollTo({ top: 0, behavior: 'instant' }); }}>
+            <input type="search" enterKeyHint="search" aria-label="Buscar em todos os livros" placeholder="Nome da criatura, sem precisar de acentos" value={homeSearch} onChange={e => setHomeSearch(e.target.value)} className="min-w-0 flex-1 min-h-12 rounded-lg border border-stone-700 bg-stone-900 px-3 text-base" />
+            <button type="submit" aria-label="Buscar criaturas" className="min-h-12 px-4 rounded-lg bg-amber-600 text-stone-950 font-semibold flex items-center gap-2"><Search className="w-4 h-4" /><span className="hidden sm:inline">Buscar</span></button>
+          </form>
+          {recentIds.some(id => allMonsters.some(m => m.id === id)) && <div>
+            <h3 className="text-xs font-semibold text-stone-400 mb-2">Consultados recentemente</h3>
+            <div className="flex flex-wrap gap-2">{recentIds.map(id => allMonsters.find(m => m.id === id)).filter((m): m is Monster => Boolean(m)).map(m => <button type="button" key={m.id} onClick={() => openMonster(m)} className="min-h-11 text-sm px-3 py-2 border border-stone-700 rounded-lg">{m.name}</button>)}</div>
+          </div>}
+        </section>
+      )}
+
       {/* VIEW 1: Library of Books View (Grimório por Tomos) */}
       {activeTab === 'books' && !selectedBook && (
         <div className="space-y-5 sm:space-y-6">
@@ -2458,12 +2423,13 @@ const Bestiary: React.FC<{
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="book-grid grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {books.map(([title, monstersInThisBook]) => (
-              <div
+              <button
+                type="button"
                 key={title}
-                onClick={() => setSelectedBook(title)}
-                className="bg-stone-900 border border-stone-800 hover:border-amber-600/80 rounded-xl p-6 shadow-xl flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:-translate-y-1.5 hover:shadow-amber-900/20 ring-1 ring-amber-500/10 relative overflow-hidden"
+                onClick={() => { setSelectedBook(title); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+                className="book-tile text-left bg-stone-900 border border-stone-800 hover:border-amber-600/80 rounded-xl p-6 shadow-xl flex flex-col justify-between cursor-pointer group transition-all duration-300 hover:-translate-y-1.5 hover:shadow-amber-900/20 ring-1 ring-amber-500/10 relative overflow-hidden"
               >
                 {/* Book spine decorative accent */}
                 <div className="absolute top-0 left-0 bottom-0 w-2.5 bg-amber-800/80 border-r border-amber-900/60" />
@@ -2481,14 +2447,14 @@ const Bestiary: React.FC<{
                 </div>
 
                 <div className="pl-3 mt-6 pt-4 border-t border-stone-800 flex items-center justify-between text-xs text-stone-400">
-                  <span className="font-mono-dice text-amber-400 font-bold">{monstersInThisBook.length} Monstros</span>
+                  <span className="font-mono-dice text-amber-400 font-bold">{monstersInThisBook.length} {monstersInThisBook.length === 1 ? 'criatura' : 'criaturas'}</span>
                   <span className="group-hover:translate-x-1 transition-transform text-amber-500 font-bold">Abrir →</span>
                 </div>
-              </div>
+              </button>
             ))}
 
             {/* Create Monster Quick Card */}
-            <div
+            <button type="button"
               onClick={showCreator}
               className="border-2 border-dashed border-stone-800 hover:border-amber-600/80 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer group transition-all hover:bg-stone-800/50"
             >
@@ -2499,8 +2465,15 @@ const Bestiary: React.FC<{
                 Criar Nova Lenda
               </h3>
               <p className="text-xs text-stone-500 mt-1">Forje seu monstro personalizado com suporte a IA</p>
-            </div>
+            </button>
           </div>
+        </div>
+      )}
+
+      {(activeTab !== 'books' || selectedBook) && currentDisplayedMonsters.length > 0 && (
+        <div ref={resultsRef} className="catalog-pagebar flex flex-wrap items-center justify-between gap-3 scroll-mt-24">
+          <p className="text-sm text-stone-400">Mostrando {(safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, currentDisplayedMonsters.length)} de {currentDisplayedMonsters.length}</p>
+          <div className="flex items-center gap-2"><button type="button" disabled={safePage === 1} onClick={() => changePage(safePage - 1)} className="min-h-11 px-3 rounded-lg border border-stone-700">Anterior</button><span className="text-xs">{safePage} / {totalPages}</span><button type="button" disabled={safePage === totalPages} onClick={() => changePage(safePage + 1)} className="min-h-11 px-3 rounded-lg border border-stone-700">Próxima</button></div>
         </div>
       )}
 
@@ -2519,6 +2492,8 @@ const Bestiary: React.FC<{
                       <div key={letter} className="space-y-3">
                         {/* Alphabet Group Header Accordion Trigger */}
                         <div
+                          role="button" tabIndex={0} aria-expanded={!isCollapsed}
+                          onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleCollapseLetter(letter); } }}
                           onClick={() => toggleCollapseLetter(letter)}
                           className="flex items-center justify-between bg-stone-900/90 hover:bg-stone-850 border border-stone-800 hover:border-amber-700/60 rounded-xl p-3 sm:px-4 cursor-pointer shadow-md transition-all group select-none"
                         >
@@ -2556,7 +2531,7 @@ const Bestiary: React.FC<{
                                 monster={monster}
                                 isFav={favoriteIds.includes(monster.id)}
                                 onToggleFav={handleToggleFavorite}
-                                onSelect={setSelectedMonster}
+                                onSelect={openMonster}
                                 onRoll={handleTriggerRoll}
                                 onCopyDiscord={handleCopyDiscordQuick}
                               />
@@ -2572,13 +2547,13 @@ const Bestiary: React.FC<{
               {/* MODE 2: Visual Grid Cards */}
               {displayMode === 'cards' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {currentDisplayedMonsters.map((monster) => (
+                  {pageMonsters.map((monster) => (
                     <MonsterCardItem
                       key={monster.id}
                       monster={monster}
                       isFav={favoriteIds.includes(monster.id)}
                       onToggleFav={handleToggleFavorite}
-                      onSelect={setSelectedMonster}
+                      onSelect={openMonster}
                       onRoll={handleTriggerRoll}
                       onCopyDiscord={handleCopyDiscordQuick}
                     />
@@ -2589,22 +2564,15 @@ const Bestiary: React.FC<{
               {/* MODE 3: Compact Tactical Table (Great for scanning hundreds of monsters!) */}
               {displayMode === 'table' && (
                 <div className="bg-stone-950 border border-stone-800 rounded-xl overflow-hidden shadow-xl">
-                  {/* Table Column Headers */}
-                  <div className="hidden lg:grid grid-cols-12 gap-3 px-4 py-2.5 bg-stone-900/90 border-b border-stone-800 text-[11px] font-cinzel font-bold text-stone-400">
-                    <div className="col-span-4">Monstro / Identidade</div>
-                    <div className="col-span-3">Atributos Principais</div>
-                    <div className="col-span-2 text-center">Estatísticas de Combate</div>
-                    <div className="col-span-3 text-right">Ações Rápidas</div>
-                  </div>
-
+                  <p className="text-sm text-stone-400 border-b border-stone-800 px-4 py-3">Toque na criatura para abrir a ficha. A estrela guarda seus favoritos.</p>
                   <div className="divide-y divide-stone-800/80">
-                    {currentDisplayedMonsters.map((monster) => (
+                    {pageMonsters.map((monster) => (
                       <MonsterRowItem
                         key={monster.id}
                         monster={monster}
                         isFav={favoriteIds.includes(monster.id)}
                         onToggleFav={handleToggleFavorite}
-                        onSelect={setSelectedMonster}
+                        onSelect={openMonster}
                         onRoll={handleTriggerRoll}
                         onCopyDiscord={handleCopyDiscordQuick}
                       />
@@ -2623,6 +2591,8 @@ const Bestiary: React.FC<{
                       <div key={race} className="space-y-3">
                         {/* Race Group Header Accordion Trigger */}
                         <div
+                          role="button" tabIndex={0} aria-expanded={!isCollapsed}
+                          onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleCollapseRace(race); } }}
                           onClick={() => toggleCollapseRace(race)}
                           className="flex items-center justify-between bg-stone-900/90 hover:bg-stone-850 border border-stone-800 hover:border-amber-700/60 rounded-xl p-3 sm:px-4 cursor-pointer shadow-md transition-all group select-none"
                         >
@@ -2660,7 +2630,7 @@ const Bestiary: React.FC<{
                                 monster={monster}
                                 isFav={favoriteIds.includes(monster.id)}
                                 onToggleFav={handleToggleFavorite}
-                                onSelect={setSelectedMonster}
+                                onSelect={openMonster}
                                 onRoll={handleTriggerRoll}
                                 onCopyDiscord={handleCopyDiscordQuick}
                               />
@@ -2727,6 +2697,8 @@ const Bestiary: React.FC<{
       )}
 
       {/* Print PDF Modal */}
+      {(activeTab !== 'books' || selectedBook) && totalPages > 1 && <nav aria-label="Paginação do catálogo" className="flex justify-center gap-3 py-4"><button type="button" disabled={safePage === 1} onClick={() => changePage(safePage - 1)} className="min-h-12 px-5 border border-stone-700 rounded-lg">Página anterior</button><button type="button" disabled={safePage === totalPages} onClick={() => changePage(safePage + 1)} className="min-h-12 px-5 border border-stone-700 rounded-lg">Próxima página</button></nav>}
+
       <PrintModal
         isOpen={showPrintModal}
         onClose={() => setShowPrintModal(false)}
@@ -2742,12 +2714,12 @@ const Bestiary: React.FC<{
         onClose={() => setShowEncounterModal(false)}
         allMonsters={allMonsters}
         onSelectMonster={(monster) => {
-          setSelectedMonster(monster);
+          openMonster(monster);
           setShowEncounterModal(false);
         }}
         onAddToFavorites={(ids) => {
           handleAddEncounterToSession(ids);
-          alert(`${ids.length} criaturas adicionadas aos seus Favoritos!`);
+          notify(`${ids.length} criaturas adicionadas aos seus Favoritos!`);
         }}
       />
 
