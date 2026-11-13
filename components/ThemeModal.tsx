@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React from 'react';
 import { 
   ThemeMode,
@@ -25,6 +26,8 @@ export const ThemeModal: React.FC<ThemeModalProps> = ({
   settings,
   onUpdateSettings,
 }) => {
+  useBackNavigation(isOpen, onClose);
+
   if (!isOpen) return null;
 
   const currentMode: ThemeMode = settings.mode;

@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Database, 
@@ -68,6 +69,8 @@ export const LocalStorageManagerModal: React.FC<LocalStorageManagerModalProps> =
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 

@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { App as CapacitorApp } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
+import { BackNavigationScope, useBackNavigation } from './hooks/useBackNavigation';
+import { backNavigation, subscribeToAndroidBack } from './services/backNavigation';
+import React, { useState, useEffect, useRef } from 'react';
 import Bestiary from './components/Bestiary';
 import MonsterCreator from './components/MonsterCreator';
 import { Monster, DiceRollResult } from './types';
@@ -19,6 +23,37 @@ export type View = 'bestiary' | 'creator';
 
 const App: React.FC = () => {
   const [view, setView] = useState<View>('bestiary');
+  const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+  const [exitError, setExitError] = useState('');
+  const [isExiting, setIsExiting] = useState(false);
+  const exitPending = useRef(false);
+  const isAndroidApp = Capacitor.getPlatform() === 'android';
+
+  useBackNavigation(isAndroidApp, () => {
+    setExitError('');
+    setShowExitConfirmation(true);
+  }, -1000);
+  useBackNavigation(showExitConfirmation, () => setShowExitConfirmation(false), 200);
+
+  useEffect(() => {
+    if (!isAndroidApp) return;
+    return subscribeToAndroidBack(CapacitorApp, () => backNavigation.goBack());
+  }, [isAndroidApp]);
+
+  const confirmExit = async () => {
+    if (exitPending.current) return;
+    exitPending.current = true;
+    setIsExiting(true);
+    try {
+      await CapacitorApp.exitApp();
+    } catch {
+      setExitError('Não foi possível fechar o aplicativo. Tente novamente.');
+    } finally {
+      exitPending.current = false;
+      setIsExiting(false);
+    }
+  };
+
   const [monsterToEdit, setMonsterToEdit] = useState<Monster | null>(null);
   const [showRulesModal, setShowRulesModal] = useState(false);
   const [showThemeModal, setShowThemeModal] = useState(false);
@@ -131,6 +166,8 @@ const App: React.FC = () => {
     setMonsterToEdit(null);
     setView('bestiary');
   };
+
+  useBackNavigation(view === 'creator', handleCreatorClose, 10);
 
   // Quick dice rolling from header
   const handleQuickDieRoll = (sides: number) => {
@@ -282,17 +319,20 @@ const App: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 flex-grow w-full max-w-full overflow-x-hidden">
-        {view === 'bestiary' ? (
-          <Bestiary
-            onEditMonster={handleEditMonster}
-            showCreator={() => setView('creator')}
-            isPlayerView={playerViewMode}
-          />
-        ) : (
+        <div hidden={view !== 'bestiary'}>
+          <BackNavigationScope value={view === 'bestiary'}>
+            <Bestiary
+              onEditMonster={handleEditMonster}
+              showCreator={() => setView('creator')}
+              isPlayerView={playerViewMode}
+            />
+          </BackNavigationScope>
+        </div>
+        {view === 'creator' && (
           <MonsterCreator
             monsterToEdit={monsterToEdit}
             onSaveSuccess={handleCreatorClose}
-            onCancel={() => setView('bestiary')}
+            onCancel={handleCreatorClose}
           />
         )}
       </main>
@@ -306,6 +346,23 @@ const App: React.FC = () => {
           Folclore brasileiro, mitos sombrios e criaturas de terror com mecânicas de combate oficiais.
         </p>
       </footer>
+
+      {showExitConfirmation && (
+        <div className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4">
+          <section role="alertdialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description"
+            className="w-full max-w-sm rounded-xl border border-amber-800 bg-stone-950 p-6 shadow-2xl">
+            <h2 id="exit-title" className="font-cinzel text-xl text-amber-200">Fechar o aplicativo?</h2>
+            <p id="exit-description" className="mt-3 text-stone-300">Deseja sair do Bestiário de Lendas?</p>
+            {exitError && <p role="alert" className="mt-3 text-red-300">{exitError}</p>}
+            <div className="mt-6 flex justify-end gap-3">
+              <button type="button" autoFocus disabled={isExiting} onClick={() => setShowExitConfirmation(false)}
+                className="min-h-[48px] rounded-lg border border-stone-700 px-4">Cancelar</button>
+              <button type="button" disabled={isExiting} onClick={confirmExit}
+                className="min-h-[48px] rounded-lg bg-amber-600 px-4 font-bold text-stone-950">Fechar app</button>
+            </div>
+          </section>
+        </div>
+      )}
 
       {/* Theme Customizer Modal */}
       <ThemeModal

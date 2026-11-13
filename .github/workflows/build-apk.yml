@@ -50,6 +50,7 @@ jobs:
       - name: Validar catálogo e TypeScript
         run: |
           python3 -m unittest discover -s tests -v
+          npm run test:back
           npx --no-install tsc --noEmit
 
       - name: Compilar aplicação web

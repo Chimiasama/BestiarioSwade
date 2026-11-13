@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
 import { Monster } from '../types';
@@ -330,6 +331,8 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
         .text(`${chartData.length} categorias`);
     }
   }, [isOpen, chartData, selectedSliceId, hoveredSliceId, summaryStats]);
+
+  useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 

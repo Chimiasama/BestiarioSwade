@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Monster, MonsterRank } from '../types';
 import {
@@ -147,6 +148,8 @@ export const EncounterBuilderModal: React.FC<EncounterBuilderModalProps> = ({
 
     return entries;
   }, [eligibleMonsters, difficulty, playerCount, partyRank, seed]);
+
+  useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 

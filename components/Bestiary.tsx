@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   getAllLocalMonsters,
@@ -111,6 +112,8 @@ const PrintModal: React.FC<{
 }> = ({ isOpen, onClose, onPrint, isPrinting, totalMonsters, favoriteCount }) => {
   const [pdfTheme, setPdfTheme] = useState<PdfTheme>('parchment');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
+
+  useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -267,6 +270,8 @@ const SingleMonsterPdfModal: React.FC<{
       setExportStatus(null);
     }
   }, [isOpen, defaultHideSecrets, monster.id]);
+
+  useBackNavigation(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -1304,6 +1309,14 @@ const Bestiary: React.FC<{
   // Dice Roller Modal state
   const [activeRoll, setActiveRoll] = useState<DiceRollResult | null>(null);
 
+  useBackNavigation(Boolean(selectedMonster), () => setSelectedMonster(null), 20);
+  useBackNavigation(Boolean(selectedBook) || activeTab !== 'books', () => {
+    setSelectedBook(null);
+    setActiveTab('books');
+    setSearchTerm('');
+    setSelectedLetter('all');
+  }, 10);
+
   // Hidden file input for JSON import
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1313,7 +1326,9 @@ const Bestiary: React.FC<{
     setFavoriteIds(getFavoriteMonsterIds());
 
     const handleMonstersUpdated = () => {
-      setMonstersList(getAllLocalMonsters());
+      const updated = getAllLocalMonsters();
+      setMonstersList(updated);
+      setSelectedMonster(current => current ? updated.find(m => m.id === current.id) ?? null : null);
       setFavoriteIds(getFavoriteMonsterIds());
     };
 

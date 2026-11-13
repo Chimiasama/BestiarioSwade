@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React from 'react';
 import { X, BookOpen, Skull, Zap, Shield, HeartPulse, Dices } from 'lucide-react';
 
@@ -7,6 +8,8 @@ interface SwadeRulesModalProps {
 }
 
 export const SwadeRulesModal: React.FC<SwadeRulesModalProps> = ({ isOpen, onClose }) => {
+  useBackNavigation(isOpen, onClose);
+
   if (!isOpen) return null;
 
   return (

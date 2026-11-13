@@ -1,3 +1,4 @@
+import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect } from 'react';
 import { DiceRollResult } from '../types';
 import { 
@@ -83,6 +84,11 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [showClearConfirm, onClose]);
+
+  useBackNavigation(Boolean(rollResult), () => {
+    if (showClearConfirm) setShowClearConfirm(false);
+    else onClose();
+  });
 
   if (!rollResult) return null;
 
