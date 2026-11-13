@@ -1,3 +1,4 @@
+import { scenarioName } from '../services/scenarioService';
 import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
@@ -83,7 +84,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
       } else if (groupingMode === 'archetype') {
         key = m.archetype ? m.archetype.trim() : 'Geral';
       } else if (groupingMode === 'sourcebook') {
-        key = m.sourcebook ? m.sourcebook.trim() : 'Outros Suplementos';
+        key = scenarioName(m.sourcebook);
       } else if (groupingMode === 'rank') {
         key = m.rank || 'Não informado';
       }
@@ -460,7 +461,7 @@ export const MonsterStatsModal: React.FC<MonsterStatsModalProps> = ({
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
-              <span>Por Suplemento</span>
+              <span>Por Cenário</span>
             </button>
 
             <button

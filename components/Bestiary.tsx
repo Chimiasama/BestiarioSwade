@@ -1,3 +1,6 @@
+import { ReferenceTerm } from './RulesReference';
+import { openRulesReference, splitReferenceTerms, powerReferenceTerm, powerReferenceKind } from '../services/rulesReference';
+import { groupByScenario, scenarioName, sourcebookLabel } from '../services/scenarioService';
 import { AttackRollModal } from './AttackRollModal';
 import { getMonsterAttacks } from '../services/monsterAttacks';
 import { classifyMonster, CREATURE_FAMILIES } from '../services/monsterTaxonomy';
@@ -87,7 +90,7 @@ export const getInitialLetter = (name: string): string => {
 const formatMonsterDiscordMarkdown = (m: Monster): string => {
   return [
     `**__${m.name.toUpperCase()}__** (${m.archetype} • ${m.race})`,
-    `*${m.isWildCard ? '💀 Carta Selvagem' : 'Extra (Capanga)'} | Suplemento: ${m.sourcebook}*`,
+    `*${m.isWildCard ? '💀 Carta Selvagem' : 'Extra (Capanga)'} | Livro: ${sourcebookLabel(m.sourcebook)}*`,
     `**Atributos:** Agilidade ${m.attributes.agility} | Astúcia ${m.attributes.cunning} | Espírito ${m.attributes.spirit} | Força ${m.attributes.strength} | Vigor ${m.attributes.vigor}`,
     `**Perícias:** ${m.skills.join(', ')}`,
     `**Movimentação:** ${m.movement} | **Aparar:** ${m.parry} | **Resistência:** ${m.toughness} | **Tamanho:** ${m.size ?? 0}`,
@@ -325,7 +328,7 @@ const SingleMonsterPdfModal: React.FC<{
             <p className="text-xs text-stone-400 mt-1 flex items-center gap-1.5 flex-wrap">
               <span className="font-semibold text-stone-200">{monster.name}</span>
               <span>•</span>
-              <span>{monster.sourcebook}</span>
+              <span>{sourcebookLabel(monster.sourcebook)}</span>
               {isFavorite && (
                 <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-950 border border-amber-700 text-amber-300 text-[10px] font-cinzel font-bold">
                   <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
@@ -601,6 +604,7 @@ const MonsterDetail: React.FC<{
         <div className="detail-actions flex flex-wrap gap-2">
           <button type="button" aria-pressed={isFavorite} title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'} onClick={() => onToggleFavorite(monster.id)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-400' : ''}`} />{isFavorite ? 'Favoritado' : 'Favoritar'}</button>
           <button type="button" title="Editar ficha deste monstro no armazenamento local" onClick={() => onEdit(monster)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Edit className="w-4 h-4" />Editar</button>
+          <button type="button" onClick={()=>openRulesReference({term:'',sourcebook:monster.sourcebook})} className="min-h-11 px-3 border border-stone-700 rounded-lg">Consultar regras</button>
           <button type="button" onClick={() => setShowExportPdfModal(true)} className="min-h-11 px-3 border border-stone-700 rounded-lg flex items-center gap-2"><Printer className="w-4 h-4" />PDF</button>
           <details className="relative" open={showDetailTools} onToggle={event => setShowDetailTools(event.currentTarget.open)}>
             <summary className="min-h-11 px-3 border border-stone-700 rounded-lg cursor-pointer flex items-center gap-2">Mais <ChevronDown className="w-4 h-4" /></summary>
@@ -651,7 +655,7 @@ const MonsterDetail: React.FC<{
 
               {/* Sourcebook tag */}
               <div className="absolute bottom-3 left-3 text-[11px] text-stone-300 font-cinzel bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm border border-stone-700">
-                {monster.sourcebook}
+                {sourcebookLabel(monster.sourcebook)}
               </div>
             </div>
           </div>}
@@ -664,7 +668,7 @@ const MonsterDetail: React.FC<{
                   {monster.name}
                 </h1>
               </div>
-              <p className="text-sm text-stone-400 mt-2 flex flex-wrap items-center gap-2"><BookOpen className="w-4 h-4" />{monster.sourcebook} · {monster.referenceOnly ? 'Referência / modelo' : monster.isWildCard ? 'Carta Selvagem' : 'Extra'}</p>
+              <p className="text-sm text-stone-400 mt-2 flex flex-wrap items-center gap-2"><BookOpen className="w-4 h-4" />{sourcebookLabel(monster.sourcebook)} · {monster.referenceOnly ? 'Referência / modelo' : monster.isWildCard ? 'Carta Selvagem' : 'Extra'}</p>
               <p className="text-stone-400 font-crimson text-base sm:text-lg italic mt-1">
                 {monster.archetype !== 'Ficha do livro' ? monster.archetype : ''}{monster.race !== 'Não especificada' ? ` · ${monster.race}` : ''}
               </p>
@@ -673,22 +677,22 @@ const MonsterDetail: React.FC<{
             {/* Quick Combat Vital Stats Bar */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-stone-900/90 p-3 sm:p-4 rounded-xl border border-stone-800">
               <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
-                <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Aparar (Parry)</div>
+                <ReferenceTerm term="Aparar" kind="rule" sourcebook={monster.sourcebook}><span className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Aparar (Parry)</span></ReferenceTerm>
                 <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">{monster.parry}</div>
               </div>
               <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
-                <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Resistência</div>
+                <ReferenceTerm term="Resistência" kind="rule" sourcebook={monster.sourcebook}><span className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Resistência</span></ReferenceTerm>
                 <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">{monster.toughness}</div>
               </div>
               <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0 sm:border-r sm:border-stone-800">
-                <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Movimentação</div>
+                <ReferenceTerm term="Movimentação" kind="rule" sourcebook={monster.sourcebook}><span className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Movimentação</span></ReferenceTerm>
                 <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice flex items-center justify-center gap-1">
                   <Footprints className="w-4 h-4 text-stone-400" />
                   {monster.movement}
                 </div>
               </div>
               <div className="text-center bg-stone-950/60 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none border border-stone-800/80 sm:border-0">
-                <div className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Tamanho</div>
+                <ReferenceTerm term="Tamanho" kind="rule" sourcebook={monster.sourcebook}><span className="text-[11px] uppercase tracking-wider text-stone-400 font-cinzel">Tamanho</span></ReferenceTerm>
                 <div className="font-cinzel text-2xl font-bold text-amber-300 font-mono-dice">
                   {monster.size !== undefined ? (monster.size > 0 ? `+${monster.size}` : monster.size) : '0'}
                 </div>
@@ -773,7 +777,7 @@ const MonsterDetail: React.FC<{
         {monster.sourceReference && (
           <section className="rounded-xl border border-stone-700 bg-stone-900/50 p-4 space-y-3">
             <p className="text-sm text-amber-200">
-              Fonte: {monster.sourcebook} · linha {monster.sourceReference.line}
+              Fonte: {sourcebookLabel(monster.sourcebook)} · linha {monster.sourceReference.line}
             </p>
             {monster.sourceWarnings?.map((warning) => (
               <p key={warning} className="text-sm text-amber-300">{warning}</p>
@@ -798,7 +802,7 @@ const MonsterDetail: React.FC<{
           <div className="flex items-center justify-between">
             <h3 className="font-cinzel text-lg font-bold text-amber-300 flex items-center gap-2">
               <Dices className="w-5 h-5 text-amber-500" />
-              Atributos de Traço (Clique no dado para Rolar!)
+              Atributos · nome explica, dado rola
             </h3>
             <span className="text-xs text-stone-400 italic">Rola com Ases automáticos</span>
           </div>
@@ -811,22 +815,11 @@ const MonsterDetail: React.FC<{
               { label: 'Força', key: 'strength', value: monster.attributes.strength },
               { label: 'Vigor', key: 'vigor', value: monster.attributes.vigor },
             ].map((attr) => (
-              <button
-                key={attr.key}
-                disabled={!/d\d+/i.test(attr.value)}
-                title={!/d\d+/i.test(attr.value) ? "Este atributo não possui dado no livro" : undefined}
-                onClick={() => onRoll(`${monster.name} - ${attr.label}`, attr.value, !!monster.isWildCard)}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center transition-all cursor-pointer group shadow-sm ${getDieBadgeClass(
-                  attr.value
-                )}`}
-              >
-                <span className="text-xs uppercase tracking-wider text-stone-300 group-hover:text-white font-cinzel">
-                  {attr.label}
-                </span>
-                <span className="font-mono-dice text-2xl font-black mt-1 group-hover:scale-110 transition-transform">
-                  {attr.value}
-                </span>
-              </button>
+              <div key={attr.key} className={`p-2 rounded-xl border flex flex-col items-center justify-center shadow-sm ${getDieBadgeClass(attr.value)}`}>
+                <ReferenceTerm term={attr.label} kind="attribute" sourcebook={monster.sourcebook}><span className="text-xs uppercase tracking-wider font-cinzel">{attr.label}</span></ReferenceTerm>
+                <button type="button" disabled={!/d\d+/i.test(attr.value)} aria-label={`Rolar ${attr.label}`} title={!/d\d+/i.test(attr.value)?'Este atributo não possui dado no livro':undefined}
+                  onClick={()=>onRoll(`${monster.name} - ${attr.label}`,attr.value,!!monster.isWildCard)} className="min-h-11 min-w-11 font-mono-dice text-2xl font-black">{attr.value}</button>
+              </div>
             ))}
           </div>
         </div>
@@ -835,19 +828,16 @@ const MonsterDetail: React.FC<{
         <div className="space-y-3">
           <h3 className="font-cinzel text-lg font-bold text-amber-300 flex items-center gap-2">
             <Swords className="w-5 h-5 text-amber-500" />
-            Perícias (Clique para Rolar o Teste)
+            Perícias · nome explica, dado rola
           </h3>
           <div className="flex flex-wrap gap-2">
-            {(monster.skills || []).map((skill, index) => (
-              <button
-                key={index}
-                onClick={() => handleSkillClick(skill)}
-                className="px-3 py-1.5 bg-stone-900 hover:bg-amber-950/70 border border-stone-700 hover:border-amber-600 rounded-lg text-sm text-stone-200 transition-all flex items-center gap-2 group shadow-sm"
-              >
-                <span className="group-hover:text-amber-300 font-medium">{skill}</span>
-                <Dices className="w-3.5 h-3.5 text-stone-500 group-hover:text-amber-400" />
-              </button>
-            ))}
+            {(monster.skills || []).map((skill,index)=>{
+              const name=skill.replace(/\s+d\d+.*$/i,'').trim();
+              return <div key={index} className="flex items-center gap-1 bg-stone-900 border border-stone-700 rounded-lg px-2 text-sm">
+                <ReferenceTerm term={name} kind="skill" sourcebook={monster.sourcebook}>{name}</ReferenceTerm>
+                <button type="button" aria-label={`Rolar ${skill}`} onClick={()=>handleSkillClick(skill)} className="min-h-11 min-w-11 px-2 flex items-center gap-1"><span>{skill.slice(name.length).trim()||'Rolar'}</span><Dices size={15}/></button>
+              </div>;
+            })}
           </div>
         </div>
 
@@ -864,7 +854,7 @@ const MonsterDetail: React.FC<{
               {(monster.abilities || []).length > 0 ? (
                 monster.abilities.map((ability, index) => (
                   <div key={index} className="border-l-2 border-amber-700/60 pl-3">
-                    <span className="font-cinzel font-bold text-stone-200">{ability.name}: </span>
+                    <ReferenceTerm term={ability.name} sourcebook={monster.sourcebook} localText={ability.description}><span className="font-cinzel font-bold text-stone-200">{ability.name}</span></ReferenceTerm><span>: </span>
                     <span className="text-stone-300 leading-relaxed">{ability.description}</span>
                   </div>
                 ))
@@ -900,6 +890,7 @@ const MonsterDetail: React.FC<{
                   Poderes Arcanos
                 </h4>
                 <p className="text-sm text-stone-300">{monster.powers}</p>
+                <div className="flex flex-wrap gap-2">{splitReferenceTerms(monster.powers).map((term,i)=><ReferenceTerm key={i} term={powerReferenceTerm(term)} kind={powerReferenceKind(powerReferenceTerm(term),monster.sourcebook)} sourcebook={monster.sourcebook}>{term}</ReferenceTerm>)}</div>
               </div>
             )}
 
@@ -909,18 +900,18 @@ const MonsterDetail: React.FC<{
                 <span className="font-cinzel text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">
                   Vantagens (Edges)
                 </span>
-                <p className="text-xs text-stone-300 leading-relaxed">
-                  {(monster.advantages || []).length > 0 ? monster.advantages.join(', ') : 'Nenhuma'}
-                </p>
+                <div className="text-xs text-stone-300 leading-relaxed flex flex-wrap gap-x-3">
+                  {(monster.advantages || []).length > 0 ? monster.advantages.flatMap(splitReferenceTerms).map((term,i)=><ReferenceTerm key={i} term={term} kind="advantage" sourcebook={monster.sourcebook}>{term}</ReferenceTerm>) : 'Nenhuma'}
+                </div>
               </div>
 
               <div className="bg-stone-900/60 p-3 rounded-xl border border-stone-800">
                 <span className="font-cinzel text-xs font-bold text-red-400 uppercase tracking-wider block mb-1">
                   Complicações
                 </span>
-                <p className="text-xs text-stone-300 leading-relaxed">
-                  {(monster.complications || []).length > 0 ? monster.complications.join(', ') : 'Nenhuma'}
-                </p>
+                <div className="text-xs text-stone-300 leading-relaxed flex flex-wrap gap-x-3">
+                  {(monster.complications || []).length > 0 ? monster.complications.flatMap(splitReferenceTerms).map((term,i)=><ReferenceTerm key={i} term={term} kind="hindrance" sourcebook={monster.sourcebook}>{term}</ReferenceTerm>) : 'Nenhuma'}
+                </div>
               </div>
             </div>
 
@@ -1148,7 +1139,7 @@ const MonsterRowItem: React.FC<MonsterCardItemProps> = ({
             )}
           </div>
           <p className="text-xs text-stone-400 truncate font-crimson italic">
-            {monster.sourcebook}{monster.referenceOnly ? ' · Referência' : ''}
+            {sourcebookLabel(monster.sourcebook)}{monster.referenceOnly ? ' · Referência' : ''}
           </p>
         </div>
       </div>
@@ -1444,15 +1435,7 @@ const Bestiary: React.FC<{
     return Array.from(races).sort();
   }, [allMonsters]);
 
-  const books = useMemo(() => {
-    const bookMap = allMonsters.reduce((acc, monster) => {
-      const book = monster.sourcebook || 'Outros Suplementos';
-      if (!acc[book]) acc[book] = [];
-      acc[book].push(monster);
-      return acc;
-    }, {} as Record<string, Monster[]>);
-    return Object.entries(bookMap).sort(([a], [b]) => a.localeCompare(b));
-  }, [allMonsters]);
+  const books = useMemo(() => groupByScenario(allMonsters), [allMonsters]);
 
   const handleDelete = (id: string) => {
     deleteMonsterFromStorage(id);
@@ -1585,7 +1568,7 @@ const Bestiary: React.FC<{
 
     // Sourcebook filter (when in 'all' view)
     if (activeTab === 'all' && selectedSourcebookFilter !== 'all') {
-      list = list.filter(m => m.sourcebook === selectedSourcebookFilter);
+      list = list.filter(m => scenarioName(m.sourcebook) === selectedSourcebookFilter);
     }
 
     if (selectedRoleFilter !== 'all') {
@@ -1786,7 +1769,7 @@ const Bestiary: React.FC<{
             }`}
           >
             <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-            <span className="truncate">Por Tomos</span>
+            <span className="truncate">Por Cenários</span>
           </button>
 
           <button aria-pressed={activeTab === 'all'}
@@ -1938,12 +1921,12 @@ const Bestiary: React.FC<{
             {activeTab === 'all' && (
               <div className="sm:col-span-2">
                 <select
-                  aria-label="Filtrar por suplemento"
+                  aria-label="Filtrar por cenário"
                   value={selectedSourcebookFilter}
                   onChange={(e) => setSelectedSourcebookFilter(e.target.value)}
                   className="w-full bg-stone-900 border border-stone-700 rounded-lg py-2 px-3 text-stone-200 text-xs focus:ring-1 focus:ring-amber-500 cursor-pointer"
                 >
-                  <option value="all">Todos Suplementos</option>
+                  <option value="all">Todos os cenários</option>
                   {books.map(([bookName]) => (
                     <option key={bookName} value={bookName}>
                       {bookName}
@@ -2119,20 +2102,20 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setSelectedSourcebookFilter(s => s === 'Core Rules' ? 'all' : 'Core Rules')}
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Livro Básico' ? 'all' : 'Livro Básico')}
                 className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
-                  selectedSourcebookFilter === 'Core Rules'
+                  selectedSourcebookFilter === 'Livro Básico'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
               >
-                📜 Básico SWADE
+                📜 Livro Básico
               </button>
 
               <button
-                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Fantasia' ? 'all' : 'Compêndio de Fantasia')}
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Fantasia' ? 'all' : 'Fantasia')}
                 className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
-                  selectedSourcebookFilter === 'Compêndio de Fantasia'
+                  selectedSourcebookFilter === 'Fantasia'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
@@ -2141,9 +2124,9 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Horror' ? 'all' : 'Compêndio de Horror')}
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Horror' ? 'all' : 'Horror')}
                 className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
-                  selectedSourcebookFilter === 'Compêndio de Horror'
+                  selectedSourcebookFilter === 'Horror'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
@@ -2174,9 +2157,9 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setSelectedSourcebookFilter(s => s === 'Compêndio de Sci-Fi' ? 'all' : 'Compêndio de Sci-Fi')}
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Ficção Científica' ? 'all' : 'Ficção Científica')}
                 className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
-                  selectedSourcebookFilter === 'Compêndio de Sci-Fi'
+                  selectedSourcebookFilter === 'Ficção Científica'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
@@ -2185,9 +2168,9 @@ const Bestiary: React.FC<{
               </button>
 
               <button
-                onClick={() => setSelectedSourcebookFilter(s => s === 'Arte da Guerra (ADG)' ? 'all' : 'Arte da Guerra (ADG)')}
+                onClick={() => setSelectedSourcebookFilter(s => s === 'Arte da Guerra' ? 'all' : 'Arte da Guerra')}
                 className={`px-3 py-1.5 min-h-[34px] rounded-full border text-[11px] transition-colors shrink-0 whitespace-nowrap ${
-                  selectedSourcebookFilter === 'Arte da Guerra (ADG)'
+                  selectedSourcebookFilter === 'Arte da Guerra'
                     ? 'bg-amber-900/80 text-amber-200 border-amber-500'
                     : 'bg-stone-900 text-stone-400 border-stone-800 hover:text-stone-200'
                 }`}
@@ -2400,7 +2383,7 @@ const Bestiary: React.FC<{
         <section className="home-search rounded-2xl border border-stone-700 p-5 sm:p-7 space-y-4" aria-label="Busca rápida">
           <div><p className="text-xs tracking-widest uppercase text-stone-400">Pronto para a próxima sessão</p>
             <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-amber-200 mt-2">Encontre sua próxima criatura</h2>
-            <p className="text-sm text-stone-400 mt-2">{allMonsters.length.toLocaleString('pt-BR')} fichas e referências · {books.length} tomos · favoritos e criações neste aparelho.</p>
+            <p className="text-sm text-stone-400 mt-2">{allMonsters.length.toLocaleString('pt-BR')} fichas e referências · {books.length} cenários · favoritos e criações neste aparelho.</p>
           </div>
           <form className="flex gap-2" onSubmit={e => { e.preventDefault(); clearFilters(); setSearchTerm(homeSearch); setActiveTab('all'); window.scrollTo({ top: 0, behavior: 'instant' }); }}>
             <input type="search" enterKeyHint="search" aria-label="Buscar em todos os livros" placeholder="Nome da criatura, sem precisar de acentos" value={homeSearch} onChange={e => setHomeSearch(e.target.value)} className="min-w-0 flex-1 min-h-12 rounded-lg border border-stone-700 bg-stone-900 px-3 text-base" />
@@ -2418,10 +2401,10 @@ const Bestiary: React.FC<{
         <div className="space-y-5 sm:space-y-6">
           <div className="text-center max-w-xl mx-auto space-y-1.5 sm:space-y-2 px-1">
             <h2 className="font-cinzel text-2xl sm:text-3xl font-extrabold text-amber-200 tracking-wide">
-              Biblioteca de Tomos & Cenários
+              Biblioteca de Cenários
             </h2>
             <p className="text-stone-400 font-crimson text-sm sm:text-base italic">
-              Escolha um tomo para desvendar as monstruosidades e lendas catalogadas para Savage Worlds.
+              Escolha um cenário para desvendar as monstruosidades e lendas catalogadas para Savage Worlds.
             </p>
           </div>
 
@@ -2444,7 +2427,7 @@ const Bestiary: React.FC<{
                     {title}
                   </h3>
                   <p className="text-xs text-stone-400 mt-2 font-crimson italic">
-                    Suplemento com {monstersInThisBook.length} criatura{monstersInThisBook.length === 1 ? '' : 's'}.
+                    Cenário com {monstersInThisBook.length} criatura{monstersInThisBook.length === 1 ? '' : 's'}.
                   </p>
                 </div>
 

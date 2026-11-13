@@ -1,0 +1,1791 @@
+{
+  "monsters": 1126,
+  "totals": {
+    "attribute": {
+      "total": 5630,
+      "matched": 5630
+    },
+    "skill": {
+      "total": 7318,
+      "matched": 7272
+    },
+    "advantage": {
+      "total": 2079,
+      "matched": 1867
+    },
+    "hindrance": {
+      "total": 731,
+      "matched": 675
+    },
+    "power": {
+      "total": 625,
+      "matched": 545
+    },
+    "superpower": {
+      "total": 8,
+      "matched": 8
+    }
+  },
+  "unmatched": [
+    {
+      "kind": "hindrance",
+      "term": "Variável",
+      "count": 14
+    },
+    {
+      "kind": "advantage",
+      "term": "Fjordstadiano - Sondagem",
+      "count": 3
+    },
+    {
+      "kind": "power",
+      "term": "proteção arcana e raio",
+      "count": 3
+    },
+    {
+      "kind": "power",
+      "term": "proteção e raio",
+      "count": 3
+    },
+    {
+      "kind": "advantage",
+      "term": "amigo das feras",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "Atirador de Elite",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "confusão",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "cura",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "disfarce",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "dissipar",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "Drenar Alma",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "enredar",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "Explosão Mental",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "falar idioma",
+      "count": 2
+    },
+    {
+      "kind": "hindrance",
+      "term": "Feia (maior)",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "ilusão",
+      "count": 2
+    },
+    {
+      "kind": "skill",
+      "term": "Intimidar d4/d6/d8",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer (nuvem de escuridão)",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "Pau Para Toda Obra",
+      "count": 2
+    },
+    {
+      "kind": "skill",
+      "term": "Percerber d6",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "Provocar",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "raio e telecinese",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "rajada e visão sombria",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "Silêncio",
+      "count": 2
+    },
+    {
+      "kind": "power",
+      "term": "telecinese e teleporte",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "visão distante",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "visão sombria",
+      "count": 2
+    },
+    {
+      "kind": "advantage",
+      "term": "- 203",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "- 35",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "- 44",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "- 47",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidade Especiais • Armadura +1: sua pele é bem espessa. 178 Adversários e Des afios • Cega: Se a toupeira não conseguir tocar o chão ou a água",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidade Especiais • Drenar Desejo: Um enxame acerta automaticamente e causa 2d6 de dano a todos dentro da área. Esse dano é contra a \"Resistência Espiritual\"",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidade Especiais: • Atirar Gosma: A lesma espinhosa lança sua gosma em um alcance de 2 quadros usando sua habilidade de Atirar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidades Especiais • Bando: Aparar +2. Por serem dezenas de criaturas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidades Especiais • Mordida ou Garras: O bando acerta automaticamente personagens Abalados na área do Modelo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidades Especiais • Semi Aquático:",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "— Habilidades Especiais • Vá nos Joelhos: Ao atacar criaturas maiores",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "~ Técnicas: Qualquer 2",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "167 Adversários e Des afios Conhecimento Geral d4",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "4 metros e pesam mais de 450 quilos. 180 Adversários e Des afios Animais de Zingama As selvas de Zingama são o lar de onças- -pintadas (use as estatísticas do leão do Savage Worlds)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "48 A Cidade do Sol a Vapor CRIMINOSOS",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a caverna já havia sido aberta e parece ser guardada por esqueletos vivos. Enquanto tentam investigar o que está acontecendo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a equipe é convidada pelo entusiasmado prefeito a abrir uma antiga caverna funerária. Estranhamente",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a equipe é incriminada! As autoridades locais acreditam que a equipe assassinou uma família inteira",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a equipe é levada de volta à fortaleza onde fazem a reunião de avaliação da missão. Os vilões são considerados perigosos o suficiente para exigir uma investigação",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a equipe encontra um clã cujo bisão sagrado se tornou hostil. Ao resolver as questões com o chefe do clã e competir contra o filho em busca de glória",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a equipe se alia a um membro rebelde de uma casa nobre e parte para a tempestade em busca de uma antiga plataforma de combate móvel. Eles descobrem que os rivais da casa estão abrigando o vilão necromante Yamya e seus dois companheiros. Parte Dois Com a rota concluída",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "a necromante",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "AA Dom",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "AA Magia",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "AA Psiônico",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "acertando automaticamente e causando 2d4 de dano a todos na área do modelo. O dano é aplicado à região menos protegida (alvos em trajes completamente selados são imunes). Uma vítima que fica Abalada como resultado desse dano deve fazer uma rolagem de Vigor para evitar ficar Atordoada. Em uma Falha Crítica",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "adicione Desagradavél e Procurado para bandidos e similares",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Agourar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "além de jacarés e sapos venenosos",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "além de Voto ou Leal",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Alma Drenada",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Alta Tecnologia (Maior)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Amolfadinha",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "andar na parede",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "andar pelas paredes",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Anjo Cinzento",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Antecedentes Arcanos (Psiônicos)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "armas cortantes e perfurantes não causam danos reais. Armas de efeito em área funcionam normalmente",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Artista Marcial Aprimorado",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Atacar Primeiro Pancada: Ataque corpo a corpo (For+d6)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Ataque Marcial",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Atletismo d4/d4/d6",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Atletismo d4/d4/d8",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Atletismo d4/d6/d10",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Atletismo d6/d6/d8",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "atordoar",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "aumentar Característica",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "aumentar Característica (apenas a si mesmo)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "aumentar/diminuir Característica",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "aumentar/reduzir característica",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Bandidos experientes podem ter Emboscador",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "banir",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "barreira",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Barreira de Cristal",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Barreira Espiritual",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Bogoviano - Determinado",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Brutamentos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Brutamonte",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Brutamontes Habilidades Especiais • Mordida/Garras: For+d6. • Levantar e Carregar: O instinto natural do urso sisífio é agarrar seu inimigo e carregá-lo até que eles colidam com algo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Calcullista",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Canalização Poderes (20 PP): Cura",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Canibal compulsivo: adora sangue (maior)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "caranguejos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Carisma Sombrio",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "causando 2d4 de dano. • Voo:",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "causando 2d6 de dano. • Paralisia: Se o alvo da lema ficar Abalado ou sofrer Ferimento deve fazer uma rolagem de Vigor (-2 com uma ampliação) ou fica Atordoado e também paralisado por 2d4 rodadas. • Tamanho 1: São aproximadamente do tamanho de um pônei. • Tapa Ácido: For. • Visão No Escuro: Lemas ignoram penalidades Penumbra e Escuridão. 131 Aventuras Campanha: Mudança Sísmica Essa campanha coloca os Agentes contra um grupo de Ilhéus que está tentando unificar as Ilhas em um único território. Eles acreditam que isso forçará as Ilhas a se unirem em uma única sociedade",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "causando dano de Força (isso faz parte da corrida e não custa uma ação). • Rolamento: Um urso sisífio",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Ciênciad10",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "colidindo com coisas com relativamente pouco dano para si mesmo. O urso faz uma rolagem de Atletismo para acertar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Comandar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Comando de Fogo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "começando em Maseia e terminando em Fjordstad. • Fúria Desencadeada. Chegando em uma cidade comercial construída no topo de um pequeno planalto",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "como Agentes",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "como centopeias e vespas. Também existem várias espécies de macacos e primatas",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Como seres mágicos",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Con. Geral d8",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Conhecimento Acadêmicos d12",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "conjurar aliado deflexão",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "conjurar aliados",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Consertard12",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "controle",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "convocar aliado",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "convocar aliado",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Curar",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "d6",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "dádiva do guerreiro enredar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "deflexão",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Delirante (Menor; Zingama é a melhor) 165 Adversários e Des afios",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "derrotando- os. Eles também descobrem uma verdade mais devastadora: o infiltrado na Syn não estava trabalhando para os Ilhéus",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "desconecta o vagão dos Agentes e o força a sair dos trilhos. A equipe deve sobreviver por conta própria nas Terras Devastadas",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Desconfiado e Ganancioso são comuns",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "detectar/ ocultar arcano",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "detectar/ocultar arcano",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "diminuir Característica",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "diminuir Característica (maldição)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "diversos kits que dão +2 em várias perícias",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "diversos tipos de baleias e todo tipo de vida aquática que se possa imaginar. Leviatãs Os leviatãs são um meio de transporte incomum",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "drenar Pontos de Poder",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Dreno de Alma",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "e aqueles considerados traiçoeiros são expulsos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "e eles são aprisionados. • Movendo as Correntes. Após serem libertados ou escaparem",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "é possível encontrar cobras d'água (constritoras) e tartarugas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "e qualquer pessoa que esteja Abalada ou com Ferimento cai no chão Prostrada. O urso tem um bônus especial de +2 na Resistência contra esse dano. • Tamanho 2: de pé chegam até 2",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "e suas margens são ricas em tartarugas marinhas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "e um personagem pode pisotear para infligir seu dano de Força a cada rodada. O bando pode ser evitado ao pular na água. • Mordida Paralisante: O bando inflige dezenas de pequenas mordidas a cada rodada",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ela acertou o joelho do personagem. O personagem deve fazer uma rolagem de Vigor ou ficará Lento (Menor) até que a Ferida se cure. • Salto: O corvo pode bater suas asas o suficiente para voar com",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ela fica completamente paralisada por 2d6 rodadas. 183 Adversários e Des afios",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ela fica totalmente sem orientação. • Cavar (8 quadros): pode facilmente usar sua Movimentação através do solo macio",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ele entra em um frenesi de pulos em vez de ficar Abalado. Um cavalo branco que fica Abalado enquanto já está em um frenesi fica Abalado como de costume. Cavalos brancos treinados para lutas fazem uma rolagem de Espírito para evitar o frenesi e ficam Abalados em vez disso. Uma vez que um cavalo branco entra em um frenesi de pulos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ele faz uma rolagem de Agilidade para pular por cima do obstáculo ou desviar para o lado. Isso o faz parar sem sofrer danos de colisão. • Nervoso: Quando for Abalado",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "ele passa cada turno se movendo aleatoriamente ou em círculos. Um cavaleiro deve fazer uma rolagem de Cavalgar para permanecer montado. No início de seu turno",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles a perseguem até um confronto final. • O Castelo das Garras. A última localização conhecida de Kino foi em Bogovia vários meses atrás",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles encontram um antigo castelo alimentado por Cristais dos tempos dos senhores da guerra. Lutando através de seus corredores",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles estavam trabalhando para ela! Parte Três A equipe agora sabe da Agente corrupta Kino e de seu plano nefasto. Com a ajuda de Huna",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles finalmente confrontam Kino e descobrem que ela veio em busca de um antigo dispositivo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles podem tentar Evadir. Se o Evadir não for bem- -sucedido",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles retornam à caverna para descobrir um Cristal sendo manipulado por um tradicionalista que está utilizando medidas extremas. • Espírito Animal. Seguindo rumores de animais fantasmagóricos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "eles sobrevivem a uma manada de bisões e descobrem um local onde um Cristal caiu recentemente de uma montanha flutuante. • Atravessando as Terras Devastadas. Continuando ao norte na Linha do Trem e encontrando Huna mais uma vez",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Eletrônicos d6",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Eletrônicos d8",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Elevar a Moral",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "elo mental/velocidade",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "em Fjordstad",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "em muitos aspectos",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Encolhimento (raio de encolhimento)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "então a equipe é enviada para as Ilhas. • Pista Concreta. Seguindo uma pista na cidade natal dos vilões",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "então a equipe é enviada para lá. Eles têm que lutar contra criaturas perigosas que a Agente despertou recentemente e 132 Aventuras depois segui-la até um vale escondido em uma montanha de Bogovia. No vale",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "entre vulcões e tsunamis! Principais NPCs Todos a seguir são NPCs das Ilhas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "escavando cerca de 3 quadros abaixo da superfície. Ele também pode submergir facilmente na água. • Camuflagem: Quando está imóvel em seu ambiente de emboscada (entre vitórias régias e juncos)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Especialista em Venenos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Esquivar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "estando no topo de uma encosta",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "este pode fazer uma rolagem de Cavalgar no lugar. • Tamanho 2: Pesam por volta de 350 Kg. Animais das Ilhas As ilhas estão cheias de lagartos e pássaros de todos os tipos",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Explosão (fogo) Habitantes do Limbo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "falar idioma iluminar/obscurecer",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "falar idioma. ferir",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "falar idiomas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "fantoche",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "fantoche e medo",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Feitiçaria d8",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "finalmente chegando a Fjordstad. • Catadores de Neve. Na cidade de Bachfen",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Focado. Escolha uma Vantagem de Cavaleiro",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "focas e elefantes-marinhos. O mar é lar de golfinhos",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Foco d12 Lutar d12",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Foco d12+2 Lutar d6",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Água Benta",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Estaca no Coração",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Ferro Frio (+4 Dano)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Fogo",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Fogo (+2 de Dano por Fogo)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Fogo (+4 Dano)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Luz Solar (2d4 Dano/rodada)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Fraqueza: Prata (+4 Dano)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Frenesi 260 Visão na Penumbra: Jacarés e crocodilos ignoram penalidades por Penumbra e Escuridão. JAVALI Esta entrada cobre toda a variedade de porcos selvagens Normalmente estas criaturas representam perigo apenas durante sua temporada de cio ou quando precisam se",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Frenesi Aprimorado 274 Bestiário 275",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Furtividade d10 Intimidar d10",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Furtividade d12 177 Adversários e Des afios",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Furtividade d6 Lutar d6",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Furtividaded8",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Ganacioso (Menor)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Ganância (Maior)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Ganancionoso (Maior)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Ganancioso (Maior) 250 Bestiário 251",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "geralmente correndo em linha reta para atingi-lo contra o obstáculo mais próximo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "geralmente uma árvore ou uma parede de pedra. Um urso que acerta com uma ampliação agarra seu inimigo (que agora está Enredado). O urso continuará se movendo com o inimigo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Guerreiro Sagrado",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Habitante de Gravidade Baixa",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Habitante de Gravidade Zero",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Hábito: se alimenta do medo e pesadelos (maior)",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Hacker d10",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Hesitante O Livro do Criador 57",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Humillhar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Huna",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "iluminar",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "iluminar/obscurecer",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Impiedoso",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Implacável (Menor)",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Incapaz de sentir cheiros",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "incluindo gorilas. Há inúmeras aves coloridas vivendo por toda a selva. Nos rios",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Inspire",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Intimidar -/d6/d8",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Intimidar -/d8/d10",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "inúmeras lagartixas e enxames de insetos",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "invisibilidade e proteção",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Jamila e Pasquan",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "jinn têm acesso a todos os feitiços — ou o que o Mestre considerar apropriado",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Jovem (Menor) [Nota: Isso significa que ele começa com um Bene a mais!]",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Ladinagem d6 Lutar d8",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Leal",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Leitura de Mente",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "leitura de objeto",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "leitura de objetos",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "leitura mental e manipulação elemental. Cthulhu conhece todos os poderes — os listados são apenas os mais comuns — e usa Psiônicos como rolagem de perícia arcana",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Liches têm quaisquer magias que o Mestre considere apropriadas para sua história e objetivos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Ligeiro Habilidades • Mordida: For+d4. • Reações Rápidas: Quando o cavalo branco está prestes a colidir",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Língua Presa 168 Adversários e Des afios",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "lontras",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Luta d4",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Luta d8",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Lutar 181 Adversários e Des afios d6",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Lutar com Duas Armas 170",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Lutar d6 Perceber d12",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Lutar d6/d8/d10",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "luz/escuridão",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "manipulação ambiental (fogo, gelo, chuva, deslizamentos de terra)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "manipulação elemental",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "manipulação elemental e mudança de forma. Nyarlathotep conhece todos os poderes e rituais — os listados são apenas os mais comuns — ele usa Conjurar como perícia arcana",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Manter a Formação",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Marionete",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "mas Arrogante",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "mas Curioso é comum",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mas não tem certeza de como operá-la. Ela envia seus tenentes",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mas não Zingama (a menos que você planeje narrar um Conto Selvagem lá). Estrutura da Campanha Sessão de Treinamento • Próxima Estação: Inaki Baixa. A equipe é enviada para convencer os moradores locais nas Ilhas a construir uma nova estação. Eles são acompanhados por Huna",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mas pelo menos a equipe obtém dois novos Cristais. • A Máquina Tectônica: Os Agentes chegam às Ilhas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mas utilizado nas Grandes Terras",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mas vantagens como Obstinado podem ajudar. • Voo:",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Maseiano - Ritual de Passagem",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Maseiano Rito de Passagem",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "medo (uivo) raio (energia divina)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Mentalista Compêndio de Ficção Científica 322",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Mestre da Magia",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Mestre da Mente",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "morosidade/velocidade",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "mudança de forma",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "mudança de forma e sono",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "não do Cristal. Ela escapa",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Não Pode Falar (na forma besta)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Nervos do Aço",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "o amigo de longa data da equipe",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "o cavalo branco faz uma rolagem de Astúcia para parar o frenesi",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "o que lhes parece crucial para a sobrevivência das Ilhas em um mundo que em breve será dominado por nações. Eles são secretamente liderados por Kino: uma Agente Livre Veterana que descobriu os restos de uma máquina tectônica da Era Antiga",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Obscurecer",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer (área de sombras)",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer (esfera de escuridão)",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer (neblina)",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer e proteção",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "obscurecer e raio",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "onde os ventos são calmos e as velas não são tão eficazes quanto uma enorme criatura semelhante a uma baleia puxando seu barco. Os leviatãs foram domesticados há centenas de anos e desde então foram criados em três grupos de tamanhos: os Navegantes de 4 metros de comprimento",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "os Agentes ajudam a acabar com um ataque ao mercado por manifestações de Cristal. Em seguida",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "os Arqueados de 8 metros de comprimento e os Caudas de 20 metros de comprimento. Os leviatãs são muito inteligentes e têm vidas sociais complexas",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "para reunir informações em ruínas antigas da Era Antiga. Isso os coloca em conflito com a equipe. Você deve informar aos jogadores que o caminho deles começa em Maseia",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Peculiariedade (Não consegue decidir se é o espírito do verdadeiro Gallowham ou uma IA)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "peixe-boi",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Perceber d6 141 Aventuras",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Perceber d6 198 Bestiário 199",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Perceberd12",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Perna Única (Compensada pela Magia)",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Persuadir d10/d8/d6",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Persuadir d8 139 Criaturas",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Persuadir d8 212 Bestiário 213",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Persuadir d8 Bestiário 307",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Persuadird8",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "pode se enrolar como uma bola e rolar para baixo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Pode usar poderes de estágio Novato e Experiente",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Poder da Astúcia",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Portal do Abismo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Portão do Abismo",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "preguiças",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Prontidão (Olfato) 19",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "proteção",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "proteção ambiental",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "proteção ambiental e teleporte",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Provocar d6 176 Adversários e Des afios",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Provocar d8 SENHOR DA GUERRA minados quanto à sua lealdade",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Qualquer uma que a vítima possuía em vida",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "que é metade do Espírito +2. Armaduras não protegem contra isso",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "que ela precisa para a máquina. A equipe finalmente descobre a localização da máquina e segue para uma luta final contra Kino",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "que estão armados com Fragmentos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "que mais tarde se tornará seu amigo. Parte Um Os Agentes recebem uma rota",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "raio (descarga elétrica). Os poderes podem variar dependendo das áreas de interesse do cientista louco",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "raio (enxame de escaravelhos carnívoros) e zumbi (preparação ritual)",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Raio de Luz",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Raio Necrótico",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Rápida",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Reanimar Mortos",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "recebe +4 em rolagens de Furtividade. • Garras: For+d6. • Tamanho -1: Do tamanho de um cão grande",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "reduzir Característica (maldição)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Reflexos de Combate. Equipamento (como cientista): Roupas de viagem (+1)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "revela-se muito mais importante do que eles pensavam e diz que eles têm um infiltrado. Ele autoriza uma missão secreta para procurar a sede dos vilões. A equipe chega a um laboratório subaquático e enfrenta Yamya",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Rock an Roll",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Rock and Roll! Bestiário 293",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "rumo ao norte. Eles também devem estar cientes de que em partes posteriores da campanha eles visitarão todos os tipos de lugares",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "se ele tiver um cavaleiro",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "se o alvo estiver ciente dele",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Sedutor",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Sem Noção Compêndio de Ficção Científica 334",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "semelhante ao de um professor de jardim de infância que precisa manter as crianças sob controle",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Sintonização de Cristal",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Sobrevivência d10 58 A Cidade do Sol a Vapor",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Sobrevivência d6 15",
+      "count": 1
+    },
+    {
+      "kind": "skill",
+      "term": "Sobrevivência d6 Bestiário 265",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Soldado Compêndio de Ficção Científica 328",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Soldado e quaisquer outras duas Vantagens de Combate",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Soldado e quaisquer outras duas Vantagens de Combate 153",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Som",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "som e sono",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "som/silêncio",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "sono",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "sono e teleporte",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "sono e visão distante",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Superpoderes (30)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Superpoderes (45) Feitiços: Adivinhação",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Superpoderes (60) Feitiços: adivinhação",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "também podem ter Código de Honra",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "tanto entre si quanto com seus manipuladores. O papel de um manipulador é",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "tanto o urso quanto o alvo sofrem 2d6 de dano (+1d6 com uma ampliação na rolagem)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "telecinese",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "teleporte",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "tentando localizar a máquina da Era Antiga. Eles enfrentam oposição de uma milícia bem organizada liderada por Kino. Huna é revelado como um dos cinco Agentes Lendários do conselho de Syn. Kino usa o dispositivo de Bogovia para atordoá-lo e roubar seu Cristal Lendário",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Todos",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "tranca/destranca",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "um corvo rabugento vai direto nos joelhos. Se a ave causar um Ferimento",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "varias grenadas dreck (4/8/16, MME, rola Vigor ou fica Distraído). Equipamento (como Agente): Traje reforçado (+2)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Variável",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Variável 202 Bestiário 203",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Varrer",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "velocidade e vidência",
+      "count": 1
+    },
+    {
+      "kind": "hindrance",
+      "term": "Visão Ruim (Menor) 190",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "visão sombria e voo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "voo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "Voo",
+      "count": 1
+    },
+    {
+      "kind": "power",
+      "term": "voo (vassoura)",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "Yamya",
+      "count": 1
+    },
+    {
+      "kind": "advantage",
+      "term": "zumbi",
+      "count": 1
+    }
+  ]
+}

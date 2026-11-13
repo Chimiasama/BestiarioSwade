@@ -1,3 +1,4 @@
+import { sourcebookLabel } from './scenarioService';
 import { Monster, MonsterTemplate } from '../types';
 import { monsters as predefinedMonsters } from './monsterData';
 
@@ -104,7 +105,7 @@ export const initLocalMonsterDatabase = (): Monster[] => {
         if (addedNew) {
           saveAllLocalMonsters(parsed);
         }
-        return parsed;
+        return parsed.map((m:Monster)=>({...m,sourcebook:sourcebookLabel(m.sourcebook)}));
       }
     }
 
@@ -162,7 +163,7 @@ export const getAllLocalMonsters = (): Monster[] => {
     if (!Array.isArray(parsed) || parsed.length === 0) {
       return initLocalMonsterDatabase();
     }
-    return parsed;
+    return parsed.map((m:Monster)=>({...m,sourcebook:sourcebookLabel(m.sourcebook)}));
   } catch (error) {
     console.error('Error reading all monsters from localStorage:', error);
     return initLocalMonsterDatabase();

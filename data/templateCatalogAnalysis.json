@@ -428,12 +428,12 @@
         {
           "id": "sw-1",
           "name": "Soldado",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "horr-anjo",
@@ -546,12 +546,12 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-7",
           "name": "Troll",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-2",
@@ -592,22 +592,22 @@
         {
           "id": "sw-2",
           "name": "Zumbi",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-4",
           "name": "Vampiro",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-5",
           "name": "Lobisomem",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         }
       ]
     },
@@ -674,12 +674,12 @@
         {
           "id": "book-swade_basico-15822",
           "name": "Elemental da água",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15945",
           "name": "Jacaré/crocodilo",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         }
       ]
     },
@@ -700,7 +700,7 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-8",
@@ -741,17 +741,17 @@
         {
           "id": "sw-2",
           "name": "Zumbi",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-4",
           "name": "Vampiro",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-3",
@@ -905,22 +905,22 @@
         {
           "id": "book-swade_basico-15758",
           "name": "Elemental do ar",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15822",
           "name": "Elemental da água",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15888",
           "name": "Elemental do fogo",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15916",
           "name": "Elemental da terra",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_crystal_heart-11528",
@@ -987,12 +987,12 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15720",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_deadlands-13483",
@@ -1038,7 +1038,7 @@
         {
           "id": "book-swade_basico-16065",
           "name": "Liche",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_crystal_heart-10813",
@@ -1195,7 +1195,7 @@
     {
       "id": "sw-1",
       "name": "Soldado",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "soldier"
@@ -1204,7 +1204,7 @@
     {
       "id": "sw-2",
       "name": "Zumbi",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -1214,7 +1214,7 @@
     {
       "id": "sw-3",
       "name": "Esqueleto",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -1225,7 +1225,7 @@
     {
       "id": "sw-4",
       "name": "Vampiro",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -1235,7 +1235,7 @@
     {
       "id": "sw-5",
       "name": "Lobisomem",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -1244,7 +1244,7 @@
     {
       "id": "sw-6",
       "name": "Dragão",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "dragon",
@@ -1256,7 +1256,7 @@
     {
       "id": "sw-7",
       "name": "Troll",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "brute"
@@ -2166,7 +2166,7 @@
     {
       "id": "book-swade_basico-9159",
       "name": "Soldado",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "soldier"
@@ -2175,7 +2175,7 @@
     {
       "id": "book-swade_basico-9170",
       "name": "Soldado calejado",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "soldier"
@@ -2184,7 +2184,7 @@
     {
       "id": "book-swade_basico-13573",
       "name": "Assistente",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "construct"
@@ -2193,7 +2193,7 @@
     {
       "id": "book-swade_basico-13582",
       "name": "Guarda-costas",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "construct",
@@ -2203,7 +2203,7 @@
     {
       "id": "book-swade_basico-13593",
       "name": "Sentinela",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "construct"
@@ -2212,7 +2212,7 @@
     {
       "id": "book-swade_basico-15540",
       "name": "Aranha gigante",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "brute",
@@ -2222,7 +2222,7 @@
     {
       "id": "book-swade_basico-15569",
       "name": "Aves de rapina",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator",
@@ -2232,7 +2232,7 @@
     {
       "id": "book-swade_basico-15585",
       "name": "Cão/Lobo",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2241,7 +2241,7 @@
     {
       "id": "book-swade_basico-15601",
       "name": "Cavalo",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2250,7 +2250,7 @@
     {
       "id": "book-swade_basico-15617",
       "name": "Cavalo de guerra",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2259,7 +2259,7 @@
     {
       "id": "book-swade_basico-15642",
       "name": "Bando",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2268,7 +2268,7 @@
     {
       "id": "book-swade_basico-15685",
       "name": "Draco",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2277,7 +2277,7 @@
     {
       "id": "book-swade_basico-15720",
       "name": "Dragão",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "dragon",
@@ -2289,7 +2289,7 @@
     {
       "id": "book-swade_basico-15758",
       "name": "Elemental do ar",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "elemental",
@@ -2299,7 +2299,7 @@
     {
       "id": "book-swade_basico-15822",
       "name": "Elemental da água",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "elemental",
@@ -2309,7 +2309,7 @@
     {
       "id": "book-swade_basico-15848",
       "name": "Esqueleto",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -2319,7 +2319,7 @@
     {
       "id": "book-swade_basico-15869",
       "name": "Fantasma",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "spirit"
@@ -2328,7 +2328,7 @@
     {
       "id": "book-swade_basico-15888",
       "name": "Elemental do fogo",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "elemental"
@@ -2337,7 +2337,7 @@
     {
       "id": "book-swade_basico-15916",
       "name": "Elemental da terra",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "elemental"
@@ -2346,7 +2346,7 @@
     {
       "id": "book-swade_basico-15945",
       "name": "Jacaré/crocodilo",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "aquatic",
@@ -2356,7 +2356,7 @@
     {
       "id": "book-swade_basico-15968",
       "name": "Leão",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2365,7 +2365,7 @@
     {
       "id": "book-swade_basico-15990",
       "name": "Gato pequeno",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2374,7 +2374,7 @@
     {
       "id": "book-swade_basico-16014",
       "name": "Goblin",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "ranged"
@@ -2383,7 +2383,7 @@
     {
       "id": "book-swade_basico-16038",
       "name": "Lobo atroz",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2392,7 +2392,7 @@
     {
       "id": "book-swade_basico-16065",
       "name": "Liche",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -2402,7 +2402,7 @@
     {
       "id": "book-swade_basico-16131",
       "name": "Minotauro",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2411,7 +2411,7 @@
     {
       "id": "book-swade_basico-16151",
       "name": "Lobisomem",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2420,7 +2420,7 @@
     {
       "id": "book-swade_basico-16191",
       "name": "Mecha",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "construct"
@@ -2429,7 +2429,7 @@
     {
       "id": "book-swade_basico-16206",
       "name": "Orc",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "soldier"
@@ -2438,7 +2438,7 @@
     {
       "id": "book-swade_basico-16231",
       "name": "Orc, líder tribal",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "soldier"
@@ -2447,7 +2447,7 @@
     {
       "id": "book-swade_basico-16258",
       "name": "Mula",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2456,7 +2456,7 @@
     {
       "id": "book-swade_basico-16280",
       "name": "Ogro",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "brute"
@@ -2465,7 +2465,7 @@
     {
       "id": "book-swade_basico-16321",
       "name": "Touro",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2474,7 +2474,7 @@
     {
       "id": "book-swade_basico-16340",
       "name": "Troll",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "brute",
@@ -2484,7 +2484,7 @@
     {
       "id": "book-swade_basico-16362",
       "name": "Serpente constritora",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2493,7 +2493,7 @@
     {
       "id": "book-swade_basico-16377",
       "name": "Serpente venenosa",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2502,7 +2502,7 @@
     {
       "id": "book-swade_basico-16405",
       "name": "Tubarão branco",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "aquatic",
@@ -2512,7 +2512,7 @@
     {
       "id": "book-swade_basico-16425",
       "name": "Urso",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "predator"
@@ -2521,7 +2521,7 @@
     {
       "id": "book-swade_basico-16456",
       "name": "Tubarão",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "aquatic",
@@ -2531,7 +2531,7 @@
     {
       "id": "book-swade_basico-16484",
       "name": "Vampiro",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -2541,7 +2541,7 @@
     {
       "id": "book-swade_basico-16561",
       "name": "Verme gigante",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "brute",
@@ -2551,7 +2551,7 @@
     {
       "id": "book-swade_basico-16579",
       "name": "Vampiro Ancião",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",
@@ -2561,7 +2561,7 @@
     {
       "id": "book-swade_basico-16650",
       "name": "Zumbi",
-      "sourcebook": "Core Rules",
+      "sourcebook": "Livro Básico",
       "referenceOnly": false,
       "families": [
         "undead",

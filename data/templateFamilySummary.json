@@ -428,12 +428,12 @@
         {
           "id": "sw-1",
           "name": "Soldado",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "horr-anjo",
@@ -546,12 +546,12 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-7",
           "name": "Troll",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-2",
@@ -592,22 +592,22 @@
         {
           "id": "sw-2",
           "name": "Zumbi",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-4",
           "name": "Vampiro",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-5",
           "name": "Lobisomem",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         }
       ]
     },
@@ -674,12 +674,12 @@
         {
           "id": "book-swade_basico-15822",
           "name": "Elemental da água",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15945",
           "name": "Jacaré/crocodilo",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         }
       ]
     },
@@ -700,7 +700,7 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-8",
@@ -741,17 +741,17 @@
         {
           "id": "sw-2",
           "name": "Zumbi",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-3",
           "name": "Esqueleto",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "sw-4",
           "name": "Vampiro",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "ext-3",
@@ -905,22 +905,22 @@
         {
           "id": "book-swade_basico-15758",
           "name": "Elemental do ar",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15822",
           "name": "Elemental da água",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15888",
           "name": "Elemental do fogo",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15916",
           "name": "Elemental da terra",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_crystal_heart-11528",
@@ -987,12 +987,12 @@
         {
           "id": "sw-6",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_basico-15720",
           "name": "Dragão",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_deadlands-13483",
@@ -1038,7 +1038,7 @@
         {
           "id": "book-swade_basico-16065",
           "name": "Liche",
-          "sourcebook": "Core Rules"
+          "sourcebook": "Livro Básico"
         },
         {
           "id": "book-swade_crystal_heart-10813",

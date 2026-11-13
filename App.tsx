@@ -1,3 +1,4 @@
+import { RulesReferenceHost } from './components/RulesReference';
 import { useKeyboardViewport } from './hooks/useKeyboardViewport';
 import { useDialogAccessibility } from './hooks/useDialogAccessibility';
 import { App as CapacitorApp } from '@capacitor/app';
@@ -423,6 +424,8 @@ const App: React.FC = () => {
         settings={themeSettings}
         onUpdateSettings={handleUpdateThemeSettings}
       />
+
+      <RulesReferenceHost />
 
       {/* Quick SWADE Rules Reference Modal */}
       <SwadeRulesModal

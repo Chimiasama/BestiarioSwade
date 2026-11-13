@@ -1,3 +1,4 @@
+import { sourcebookLabel } from '../services/scenarioService';
 import React from 'react';
 import { Monster } from '../types';
 
@@ -280,7 +281,7 @@ export const CompleteSheet: React.FC<{
                   marginTop: '5px',
                 }}
               >
-                {monster.sourcebook}
+                {sourcebookLabel(monster.sourcebook)}
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { openRulesReference } from '../services/rulesReference';
 import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 import { useBackNavigation } from '../hooks/useBackNavigation';
 import React from 'react';
@@ -38,6 +39,8 @@ export const SwadeRulesModal: React.FC<SwadeRulesModalProps> = ({ isOpen, onClos
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        <button type="button" onClick={()=>openRulesReference({term:''})} className="combat-primary w-full min-h-12 rounded-lg font-semibold mb-4">Consultar vantagens, complicações e poderes</button>
 
         {/* Content sections */}
         <div className="space-y-4 text-sm font-crimson">

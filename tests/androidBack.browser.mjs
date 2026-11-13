@@ -50,6 +50,11 @@ try {
   assert.equal(await exitDialog.count(), 0);
   await page.getByRole('heading', { name: 'Havenwood', exact: true }).click();
   await page.getByRole('heading', { name: 'Árvore Animada', exact: true }).last().click();
+  await page.getByRole('button', { name: 'Consultar atributo Astúcia', exact: true }).click();
+  await page.getByRole('dialog', { name: 'Consulta de regras' }).waitFor();
+  await back();
+  await page.getByRole('dialog', { name: 'Consulta de regras' }).waitFor({ state: 'hidden' });
+  await page.getByRole('heading', { name: 'Árvore Animada', exact: true }).waitFor();
   await page.getByTitle('Editar ficha deste monstro no armazenamento local').click();
   await back(); // Editor returns to the same detail, not a remounted library.
   await page.getByRole('button', { name: 'Voltar ao Compêndio' }).waitFor();
@@ -61,11 +66,11 @@ try {
   await page.getByRole('button', { name: 'Voltar ao Compêndio' }).waitFor({ state: 'hidden' });
   assert.equal(await exitDialog.count(), 0);
   await back(); // Book -> library.
-  await page.getByRole('heading', { name: 'Biblioteca de Tomos & Cenários' }).waitFor();
+  await page.getByRole('heading', { name: 'Biblioteca de Cenários' }).waitFor();
   assert.equal(await exitDialog.count(), 0);
   await page.getByRole('button', { name: /Compêndio Geral/ }).click();
   await back();
-  await page.getByRole('heading', { name: 'Biblioteca de Tomos & Cenários' }).waitFor();
+  await page.getByRole('heading', { name: 'Biblioteca de Cenários' }).waitFor();
   assert.equal(await page.evaluate(() => window.testExitCount), 0);
   await back();
   await exitDialog.waitFor();

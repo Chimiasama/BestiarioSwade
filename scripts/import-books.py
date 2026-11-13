@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOOKS = {
  'swade_adg': 'Arte da Guerra (ADG)',
  'swade_adg_diario_do_kui': 'Arte da Guerra — Diário do Kui',
- 'swade_basico': 'Core Rules',
+ 'swade_basico': 'Livro Básico',
  'swade_crystal_heart': 'Crystal Heart',
  'swade_crystal_heart_muitos_coracoes': 'Crystal Heart — Muitos Corações',
  'swade_csv_livro_do_criador': 'Cidade do Sol & Vapor — Livro do Criador',

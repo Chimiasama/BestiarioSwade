@@ -1,0 +1,73 @@
+{
+  "sourceRepository": "Chimiasama/MyApplication",
+  "sourceCommit": "931cc9db8ddff627824a259539acbe4cce4b2249",
+  "sources": [
+    {
+      "file": "app/src/main/assets/vantagens.json",
+      "sha256": "a7f0e09f67b839876ec4887fac6d0938e8aedc500b9be5205b85cb6add06d4f4",
+      "records": 1906,
+      "kind": "advantage"
+    },
+    {
+      "file": "app/src/main/assets/complicacoes.json",
+      "sha256": "9a314d20c22b83ace12985d384536f6d18d8b4d73cdd1f871259f5aa78988e24",
+      "records": 637,
+      "kind": "hindrance"
+    },
+    {
+      "file": "app/src/main/assets/poderes.json",
+      "sha256": "b5ef7a33d211398051d593afbb8c83751f4c24cecf6e225c0057b3e793c8ee0f",
+      "records": 538,
+      "kind": "power"
+    },
+    {
+      "file": "app/src/main/assets/super_poderes.json",
+      "sha256": "c6230e785c7e861a6d83f5c0b483384c9fcf84b8893137f9bc632f036d9d0445",
+      "records": 92,
+      "kind": "superpower"
+    },
+    {
+      "file": "app/src/main/assets/pericias.json",
+      "sha256": "4ccf2f626cffeb98dc2dd48807088b00f8c3cabeedeaf6943970319bb6d38c56",
+      "records": 66,
+      "kind": "skill"
+    },
+    {
+      "file": "app/src/main/assets/geral_atributos.json",
+      "sha256": "f508be5c22793f559f786636d3ee7d062f6d2a81417f022356ef195c1d1193e1",
+      "records": 5,
+      "kind": "attribute"
+    },
+    {
+      "file": "app/src/main/assets/basico_habilidades_raciais.json",
+      "sha256": "38578d6d5a3eb08b86cc9cb222281a1796f1b50442ae72eca14ad7d0171d7ae4",
+      "records": 115,
+      "kind": "ability"
+    },
+    {
+      "file": "app/src/full/assets/havenwood/vantagens.json",
+      "sha256": "76c805621f0d079b9ae30eb54aa132a4ec52eaddefe532944462a75b4506e027",
+      "records": 10,
+      "kind": "advantage"
+    },
+    {
+      "file": "app/src/full/assets/havenwood/complicacoes.json",
+      "sha256": "30f9e2b54ac77f7d24dfa2f34b2d4df03d01ff445caf0c374d95d7a53a089f1e",
+      "records": 9,
+      "kind": "hindrance"
+    }
+  ],
+  "inputRecords": 3378,
+  "uniqueEntries": 1769,
+  "localSummaries": 6,
+  "counts": {
+    "ability": 115,
+    "advantage": 928,
+    "attribute": 5,
+    "hindrance": 236,
+    "power": 321,
+    "rule": 6,
+    "skill": 66,
+    "superpower": 92
+  }
+}

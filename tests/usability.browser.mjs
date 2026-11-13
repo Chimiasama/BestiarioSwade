@@ -18,7 +18,7 @@ try {
   await page.getByText('Mostrando 41–80 de 1126', { exact: true }).waitFor();
   assert.equal(await page.locator('[role="article"]').count(), 40);
   await page.getByRole('button', { name: 'Filtros', exact: true }).click();
-  await page.getByLabel('Filtrar por suplemento').selectOption({ label: 'Havenwood' });
+  await page.getByLabel('Filtrar por cenário').selectOption({ label: 'Havenwood' });
   await page.locator('button[aria-controls="advanced-filters"]').click();
   await page.getByRole('heading', { name: 'Árvore Animada', exact: true }).waitFor();
   const resultRows = await page.locator('[role="article"]').count();
@@ -35,7 +35,7 @@ try {
   await page.getByText('Mostrando 41–80 de 1126', { exact: true }).waitFor();
   assert.ok(await page.evaluate(() => window.scrollY) > 500, 'return must preserve list reading position');
   assert.ok(listY > 500);
-  await page.getByRole('button', { name: 'Por Tomos', exact: true }).click();
+  await page.getByRole('button', { name: 'Por Cenários', exact: true }).click();
   await page.getByRole('heading', { name: 'Consultados recentemente' }).waitFor();
   await page.locator('.home-search').getByRole('button', { name: viewedName, exact: true }).waitFor();
   await page.evaluate(() => window.scrollTo(0, 0));

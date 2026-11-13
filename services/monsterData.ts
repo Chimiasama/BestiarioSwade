@@ -206,7 +206,7 @@ export const monsters: Monster[] = [
     advantages: ["Soldado"],
     weapons: "Espada Curta (For+d6) ou Mosquete (2d8, Alcance 10/20/40), Armadura de Couro (+1)",
     history: "Milicianos, guardas da guarnição ou mercenários de infantaria treinados em táticas de esquadrão. Atuam como capangas coordenados sob ordens de capitães.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-2",
@@ -229,7 +229,7 @@ export const monsters: Monster[] = [
     ],
     weapons: "Unhas podres e dentes (For)",
     history: "Cadáveres reanimados por necromancia ou pragas profanas. Lentos e cambaleantes, tornam-se avassaladores quando cercam alvos em hordas famintas.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-3",
@@ -252,7 +252,7 @@ export const monsters: Monster[] = [
     ],
     weapons: "Espada enferrujada (For+d6) ou Arco Curto (2d6)",
     history: "Restos mortais desprovidos de carne erguidos das catacumbas. Mais ágeis que zumbis comuns, marcham sem descanso em estrita obediência ao seu mestre.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-4",
@@ -276,7 +276,7 @@ export const monsters: Monster[] = [
     advantages: ["Frenesi", "Focado"],
     weapons: "Presas & Garras Vampíricas (For+d4)",
     history: "Aristocratas da noite que se alimentam do sangue dos vivos. Sedutores e implacáveis caçadores, combinam inteligência milenar e força predatória sobre-humana.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-5",
@@ -301,7 +301,7 @@ export const monsters: Monster[] = [
     ],
     weapons: "Mandíbulas poderosas e garras rasgadoras (For+d8)",
     history: "Humanos afligidos pela maldição lunar. Sob a lua cheia, sua carne se rasga e se reconstrói em um predador ápice bípede tomado por fúria incontrolável.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-6",
@@ -329,7 +329,7 @@ export const monsters: Monster[] = [
     advantages: ["Frenesi Aprimorado", "Focado"],
     weapons: "Mordida devastadora (For+d8), Garras (For+d6), Cauda (For+d4)",
     history: "Monarcas ancestrais dos céus. Senhores de tesouros milenares, dotados de intelecto astuto e chamas capazes de derreter fortalezas inteiras.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
   {
     id: "sw-7",
@@ -353,7 +353,7 @@ export const monsters: Monster[] = [
     advantages: ["Brutamontes", "Varredura Aprimorada"],
     weapons: "Clava rústica com espinhos de osso (For+d8)",
     history: "Monstruosidades carnívoras que espreitam sob pontes abandonadas e cavernas musgosas. Seus músculos se fecham instantaneamente sobre cortes e flechas.",
-    sourcebook: "Core Rules"
+    sourcebook: "Livro Básico"
   },
 
   // ==========================================

@@ -53,6 +53,7 @@ jobs:
           npm run test:back
           npm run test:templates
           npm run test:combat
+          npm run test:references
           npx --no-install tsc --noEmit
 
       - name: Compilar aplicação web

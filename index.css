@@ -749,3 +749,7 @@ html[data-mode="diurno"] { color-scheme: light; }
 }
 html[data-mode="diurno"] .app-shell [class*="text-purple-400"] { color: #6b218a !important; }
 .app-shell input[type="checkbox"], .app-shell input[type="radio"] { accent-color: var(--accent-highlight); }
+.reference-term { color: var(--text-primary); padding: 2px 3px; }
+.reference-term:hover { color: var(--accent-highlight); }
+.reference-dialog { overflow-wrap: anywhere; }
+.reference-dialog [aria-pressed="true"] { box-shadow: inset 4px 0 var(--accent-highlight); }

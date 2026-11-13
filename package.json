@@ -10,7 +10,9 @@
     "test:back": "node --experimental-strip-types --test tests/backNavigation.test.ts",
     "test:templates": "node --test tests/monsterTemplates.test.mjs",
     "analyze:templates": "node scripts/analyze_monster_templates.mjs",
-    "test:combat": "node --test tests/combat.test.mjs"
+    "test:combat": "node --test tests/combat.test.mjs",
+    "test:references": "node --test tests/rulesReference.test.mjs",
+    "import:references": "python3 scripts/import_rules_reference.py"
   },
   "dependencies": {
     "@capacitor/app": "8.1.2",
