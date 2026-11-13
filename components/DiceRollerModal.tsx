@@ -17,7 +17,8 @@ import {
   ArrowLeft 
 } from 'lucide-react';
 import { 
-  rollTrait, 
+  rollTrait,
+  rollDamage,
   getDiceSessionHistory, 
   saveDiceRollToSessionHistory, 
   clearDiceSessionHistory 
@@ -85,7 +86,7 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
 
   const handleSpendBennie = () => {
     // Reroll using a Savage Worlds Bennie (Benesse do Mestre/Jogador)
-    const newRoll = rollTrait(
+    const newRoll = currentView.isDamage ? rollDamage(currentView.title, currentView.resolvedFormula || currentView.formula.split('[')[0].trim(), currentView.formula.match(/\[Força (d\d+(?:[+-]\d+)?)\]/)?.[1] || 'd6') : rollTrait(
       currentView.title,
       currentView.formula.split(' ')[0],
       currentView.isWildCard,

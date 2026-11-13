@@ -1,3 +1,4 @@
+import { useKeyboardViewport } from './hooks/useKeyboardViewport';
 import { useDialogAccessibility } from './hooks/useDialogAccessibility';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
@@ -23,6 +24,7 @@ import { Dices, HelpCircle, Flame, Shield, Sparkles, Palette, Maximize, Minimize
 export type View = 'bestiary' | 'creator';
 
 const App: React.FC = () => {
+  useKeyboardViewport();
   const [view, setView] = useState<View>('bestiary');
   const [showHeaderMenu, setShowHeaderMenu] = useState(false);
   const [notice, setNotice] = useState('');

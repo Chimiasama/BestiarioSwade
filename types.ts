@@ -5,7 +5,7 @@ export interface MonsterAbility {
 
 export interface MonsterAttributes {
   agility: string;
-  cunning: string; // Esperteza (Smarts in SWADE)
+  cunning: string; // Astúcia (Smarts in SWADE)
   spirit: string;  // Espírito
   strength: string; // Força
   vigor: string;   // Vigor
@@ -69,6 +69,7 @@ export interface MonsterTemplate {
 }
 
 export interface DamageRollResult {
+  resolvedFormula?: string;
   isDamage: true;
   title: string;
   formula: string;

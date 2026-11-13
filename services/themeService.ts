@@ -139,6 +139,7 @@ export const applyThemeToDOM = (settings: ThemeSettings): void => {
   const root = document.documentElement;
   // Set data-attributes for mode, themes and fonts
   root.setAttribute('data-mode', settings.mode);
+  root.style.colorScheme = settings.mode === 'noturno' ? 'dark' : 'light';
   root.setAttribute('data-theme', settings.theme);
   root.setAttribute('data-font', settings.fontFamily);
   root.setAttribute('data-size', settings.fontSize);

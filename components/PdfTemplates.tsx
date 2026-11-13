@@ -406,7 +406,7 @@ export const CompleteSheet: React.FC<{
                 >
                   {[
                     { label: 'Agilidade', val: monster.attributes.agility },
-                    { label: 'Esperteza', val: monster.attributes.cunning },
+                    { label: 'Astúcia', val: monster.attributes.cunning },
                     { label: 'Espírito', val: monster.attributes.spirit },
                     { label: 'Força', val: monster.attributes.strength },
                     { label: 'Vigor', val: monster.attributes.vigor },

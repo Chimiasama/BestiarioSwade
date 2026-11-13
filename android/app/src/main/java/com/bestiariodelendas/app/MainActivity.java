@@ -2,6 +2,7 @@ package com.bestiariodelendas.app;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Build;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
@@ -32,6 +33,8 @@ public class MainActivity extends BridgeActivity {
         if (contentView != null) {
             contentView.setBackgroundColor(obsidianBg);
             ViewCompat.setOnApplyWindowInsetsListener(contentView, (view, windowInsets) -> {
+                // This activity uses adjustNothing: account for IME exactly once here.
+                // Combining adjustResize with this IME padding shrinks the WebView twice.
                 Insets insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
                     | WindowInsetsCompat.Type.displayCutout()
@@ -48,6 +51,12 @@ public class MainActivity extends BridgeActivity {
             webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
             WebSettings settings = webView.getSettings();
+            // The web application owns its light/dark palette. Do not recolor it.
+            if (Build.VERSION.SDK_INT >= 33) {
+                settings.setAlgorithmicDarkeningAllowed(false);
+            } else if (Build.VERSION.SDK_INT >= 29) {
+                settings.setForceDark(WebSettings.FORCE_DARK_OFF);
+            }
             settings.setTextZoom(100);
             settings.setSupportZoom(false);
             settings.setBuiltInZoomControls(false);

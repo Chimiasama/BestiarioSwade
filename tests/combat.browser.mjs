@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const b=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+try{
+ const c=await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+ await c.addInitScript(()=>{
+  localStorage.setItem('swade_sound_muted','true');
+  localStorage.setItem('swade_bestiary_theme_settings',JSON.stringify({followSystem:false,mode:'noturno',theme:'grimorio',nightTheme:'grimorio',dayTheme:'pergaminho',fontFamily:'classico',fontSize:'normal'}));
+ });
+ const p=await c.newPage();const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(process.env.APP_URL||'http://127.0.0.1:3000');
+ assert.equal(await p.evaluate(()=>getComputedStyle(document.documentElement).colorScheme),'dark');
+ await p.getByRole('button',{name:'Criar',exact:true}).click();
+ const race=p.getByLabel('Raça ou natureza',{exact:true});await race.focus();
+ assert.notEqual(await race.evaluate(e=>getComputedStyle(e).color),await race.evaluate(e=>getComputedStyle(e).backgroundColor));
+ await p.setViewportSize({width:390,height:360});await p.waitForTimeout(300);
+ assert.equal(await p.evaluate(()=>document.documentElement.classList.contains('keyboard-open')),true);
+ const rect=await race.boundingBox();assert.ok(rect.y>=0&&rect.y+rect.height<=360,'focused race field should remain visible');
+ assert.equal(await p.locator('.editor-savebar').evaluate(e=>getComputedStyle(e).position),'static');
+ await p.screenshot({path:'/tmp/night-editor-keyboard.png'});
+ await p.setViewportSize({width:390,height:844});await p.waitForTimeout(300);
+ await p.getByRole('button',{name:/Explorar 79 modelos/}).click();
+ const library=p.getByRole('dialog',{name:'Biblioteca de modelos'});
+ assert.notEqual(await library.locator('section').first().evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');
+ await p.screenshot({path:'/tmp/night-templates.png'});await p.keyboard.press('Escape');
+ await p.getByLabel('Astúcia',{exact:true}).waitFor({state:'attached'});
+ assert.equal(await p.getByLabel('Esperteza',{exact:true}).count(),0);
+ await p.getByRole('button',{name:'Cancelar',exact:true}).click();
+ await p.getByRole('searchbox',{name:'Buscar em todos os livros'}).fill('Chupacabra Brasileiro');await p.getByRole('button',{name:'Buscar criaturas',exact:true}).click();await p.getByRole('heading',{name:'Chupacabra Brasileiro',exact:true}).click();
+ await p.getByRole('button',{name:'Atacar com Garras/Mordida',exact:true}).click();
+ const dialog=p.getByRole('dialog',{name:'Atacar: Garras/Mordida'});
+ assert.match(await dialog.getByLabel('Perícia de ataque').innerText(),/Lutar d8/);
+ await dialog.getByRole('checkbox',{name:'Rolar dano automaticamente ao acertar'}).uncheck();
+ assert.equal(await dialog.getByRole('button',{name:'Rolar dano',exact:true}).isDisabled(),true);
+ async function sequence(values){await p.evaluate(values=>{window.__dice=values;Math.random=()=>window.__dice.length?window.__dice.shift():.5;},values);}
+ await dialog.getByLabel('Dificuldade',{exact:true}).fill('4');await dialog.getByLabel('Modificador do ataque',{exact:true}).fill('-1');
+ await sequence([.5,.3]);await dialog.getByRole('button',{name:'Rolar ataque',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do ataque'}).getByText(/Acertou · 4 contra 4/).waitFor();
+ await sequence([.99,.2,.99,.3]);await dialog.getByRole('button',{name:'Rolar dano',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do dano'}).getByText('Dano total: 14',{exact:true}).waitFor();
+ await dialog.getByLabel('Modificador do ataque',{exact:true}).fill('0');
+ await sequence([.99,.8,.3]);await dialog.getByRole('button',{name:'Rolar ataque',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do ataque'}).getByText(/2 ampliação/).waitFor();
+ await sequence([.5,.3,.99,.2]);await dialog.getByRole('button',{name:'Rolar dano (+d6)',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do dano'}).getByText('Dano total: 14',{exact:true}).waitFor();
+ const damageText=await dialog.getByRole('status',{name:'Resultado do dano'}).innerText();assert.match(damageText,/d6\+d4\+d6/);assert.match(damageText,/Sem Dado Selvagem/);
+ await p.screenshot({path:'/tmp/combat-hit-damage.png'});
+ await dialog.getByLabel('Dificuldade',{exact:true}).fill('100');
+ await sequence([.3,.3]);await dialog.getByRole('button',{name:'Rolar ataque',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do ataque'}).getByText(/Errou/).waitFor();assert.equal(await dialog.getByRole('button',{name:'Rolar dano',exact:true}).isDisabled(),true);
+ await dialog.getByRole('checkbox',{name:'Rolar dano automaticamente ao acertar'}).check();
+ await dialog.getByLabel('Dificuldade',{exact:true}).fill('4');
+ await sequence([.99,.8,.3,.5,.3,.99,.2]);await dialog.getByRole('button',{name:'Rolar ataque',exact:true}).click();
+ await dialog.getByRole('status',{name:'Resultado do dano'}).getByText('Dano total: 14',{exact:true}).waitFor();
+ await p.keyboard.press('Escape');await p.getByRole('button',{name:'Dano direto de Garras/Mordida',exact:true}).click();
+ await p.getByLabel('Fórmula de dano',{exact:true}).fill('inválido');await p.getByRole('button',{name:'Rolar dano',exact:true}).click();await p.getByRole('alert').waitFor();await p.keyboard.press('Escape');
+ assert.deepEqual(errors,[]);console.log('PASS: dark native controls, resized keyboard viewport, template colors, Astúcia, ability-only attacks, modifiers, target, hit/miss, automatic damage, raises, exploding damage, no damage Wild Die and invalid-formula feedback.');
+}finally{await b.close();}

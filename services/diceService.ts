@@ -1,4 +1,4 @@
-import { DiceRollResult } from '../types';
+import { DiceRollResult, DamageRollResult } from '../types';
 import { soundService } from './soundService';
 
 /**
@@ -10,14 +10,12 @@ export const rollExplodingDie = (sides: number): { rolls: number[]; total: numbe
   const rolls: number[] = [];
   let total = 0;
   let currentRoll = 0;
-  let safetyLimit = 20; // Prevent infinite loop in bizarre edge-cases
 
   do {
     currentRoll = Math.floor(Math.random() * sides) + 1;
     rolls.push(currentRoll);
     total += currentRoll;
-    safetyLimit--;
-  } while (currentRoll === sides && safetyLimit > 0);
+  } while (currentRoll === sides);
 
   return { rolls, total };
 };
@@ -50,13 +48,15 @@ export const rollTrait = (
   title: string,
   traitFormula: string,
   isWildCard: boolean = false,
-  targetNumber: number = 4
+  targetNumber: number = 4,
+  situationalModifier: number = 0
 ): DiceRollResult => {
-  const { sides, modifier } = parseTraitFormula(traitFormula);
+  const { sides, modifier: baseModifier } = parseTraitFormula(traitFormula);
+  const modifier = baseModifier + situationalModifier;
 
   const traitResult = rollExplodingDie(sides);
   let wildResult: { rolls: number[]; total: number } | undefined = undefined;
-  let isCriticalFailure = false;
+  let isCriticalFailure = !isWildCard && traitResult.rolls[0] === 1;
   let finalTotal = traitResult.total + modifier;
 
   if (isWildCard) {
@@ -87,7 +87,7 @@ export const rollTrait = (
 
   return {
     title,
-    formula: `${traitFormula}${modifier > 0 ? `+${modifier}` : ''}${isWildCard ? ' (+Dado Selvagem d6)' : ''}`,
+    formula: `d${sides}${modifier ? `${modifier > 0 ? '+' : ''}${modifier}` : ''}${isWildCard ? ' (+Dado Selvagem d6)' : ''}`,
     isWildCard,
     traitDiceSides: sides,
     traitRolls: traitResult.rolls,
@@ -170,96 +170,57 @@ export const clearDiceSessionHistory = (): void => {
 };
 
 
-/**
- * Rolls damage formula like "For+d8", "2d6", "3d6+2"
- */
-/**
- * Parses a weapon/attack text block into discrete attack entries with formulas
- * e.g., "Espada Curta (For+d6), Arco Curto (2d6, Alcance 12/24/48)"
- */
+/** Damage expressions only. No default damage is invented for equipment or notes. */
+const DAMAGE_EXPRESSION = /\b(?:(?:força|forca|for|espírito|espirito|esp|agilidade|agi|ag)(?:\s*[+−-]\s*(?:\d*d(?:4|6|8|10|12|20)|\d+))*|\d*d(?:4|6|8|10|12|20)(?:\s*[+−-]\s*(?:\d*d(?:4|6|8|10|12|20)|\d+))*)\b/gi;
+export function extractDamageFormula(text: string): string | null {
+  const candidates = [...text.matchAll(DAMAGE_EXPRESSION)];
+  // Attribute damage is less ambiguous than dice in a range, skill or saving throw.
+  const chosen = candidates.find(m => {
+    if (!/^(for|esp|ag)/i.test(m[0])) return false;
+    return /[+−-]/.test(m[0]) || /^\s*(?:[).,;]|(?:de )?dano\b|$)/i.test(text.slice(m.index+m[0].length));
+  }) || candidates.find(m => {
+    if (/^(for|esp|ag)/i.test(m[0])) return false;
+    const before = text.slice(Math.max(0,m.index-25),m.index);
+    return !/(?:lutar|atirar|vigor|espírito|espirito|força|forca|atletismo|teste de|perceber)\s*$/i.test(before);
+  });
+  return chosen ? chosen[0].replace(/\s/g,'').replace(/−/g,'-') : null;
+}
 export const parseWeaponAttacks = (weaponsText?: string): { name: string; formula: string; originalText: string }[] => {
-  if (!weaponsText || !weaponsText.trim()) return [];
-
-  // Split by comma or semicolon or newlines that separate weapon entries
-  const parts = weaponsText.split(/[,;\n]/).map(s => s.trim()).filter(Boolean);
-  const results: { name: string; formula: string; originalText: string }[] = [];
-
-  for (const part of parts) {
-    // Match patterns like "Espada Longa (For+d8)" or "Adaga (For+d4+1)" or "Besta (2d6)"
-    const match = part.match(/^(.*?)(?:\((.*?)\))?$/);
-    if (match) {
-      const rawName = match[1].trim();
-      const parenthetical = match[2] ? match[2].trim() : '';
-
-      // Check if parenthetical or raw string contains a die expression (d4, d6, d8, d10, d12, for+d6, etc)
-      const formulaMatch = (parenthetical || part).match(/(for\s*\+\s*d\d+(?:\s*\+\s*\d+)?|\d*d\d+(?:\s*[+-]\s*\d+)?)/i);
-
-      if (formulaMatch) {
-        results.push({
-          name: rawName || part,
-          formula: formulaMatch[1].replace(/\s+/g, ''),
-          originalText: part
-        });
-      } else if (rawName) {
-        results.push({
-          name: rawName,
-          formula: 'For+d4',
-          originalText: part
-        });
-      }
-    }
+  if (!weaponsText?.trim()) return [];
+  const parts: string[] = []; let depth=0, current='';
+  for(const ch of weaponsText){
+    if(ch==='(')depth++;
+    if(ch===')')depth=Math.max(0,depth-1);
+    if((/[,;\n•]/.test(ch)&&depth===0)||ch==='\n'){if(current.trim())parts.push(current.trim());current='';}
+    else current+=ch;
   }
-
-  return results;
+  if(current.trim())parts.push(current.trim());
+  return parts.flatMap(part=>{
+    const formula=extractDamageFormula(part);
+    if(!formula)return [];
+    const name=part.split(/[(:]/)[0].replace(DAMAGE_EXPRESSION,'').trim()||'Ataque';
+    return [{name,formula,originalText:part}];
+  });
 };
 
-export const rollDamage = (
-  title: string,
-  formula: string,
-  strengthDie: string = 'd6'
-): DiceRollResult => {
-  let processed = formula.replace(/for/gi, strengthDie);
-  const parts = processed.split('+').map(p => p.trim());
-  const diceResults: { sides: number; rolls: number[]; total: number }[] = [];
-  let modifier = 0;
-
-  for (const part of parts) {
-    if (part.includes('d')) {
-      const match = part.match(/(\d*)d(\d+)/i);
-      if (match) {
-        const count = parseInt(match[1], 10) || 1;
-        const sides = parseInt(match[2], 10);
-        for (let i = 0; i < count; i++) {
-          const res = rollExplodingDie(sides);
-          diceResults.push({ sides, rolls: res.rolls, total: res.total });
-        }
-      }
-    } else {
-      const val = parseInt(part, 10);
-      if (!isNaN(val)) {
-        modifier += val;
-      }
-    }
+export interface DamageOptions { modifier?: number; raise?: boolean; spiritDie?: string; agilityDie?: string; }
+export const rollDamage = (title: string, formula: string, strengthDie='d6', options: DamageOptions = {}): DamageRollResult => {
+  let resolved=formula.toLowerCase().replace(/\s+/g,'').replace(/−/g,'-')
+    .replace(/força|forca|for/g,strengthDie).replace(/espírito|espirito|esp/g,options.spiritDie||'d6')
+    .replace(/agilidade|agi|ag/g,options.agilityDie||'d6');
+  if(options.raise) resolved+='+d6';
+  if(options.modifier) resolved+=`${options.modifier>0?'+':''}${options.modifier}`;
+  if(!/^(?:\d*d(?:4|6|8|10|12|20)|\d+)(?:[+-](?:\d*d(?:4|6|8|10|12|20)|\d+))*$/.test(resolved)) throw new Error('Use uma fórmula como For+d4, 2d6 ou 3d6-2.');
+  const diceResults: DamageRollResult['rolls']=[]; let modifier=0;
+  for(const token of resolved.matchAll(/([+-]?)(\d*d(?:4|6|8|10|12|20)|\d+)/g)){
+    const sign=token[1]==='-'?-1:1; const die=token[2].match(/^(\d*)d(\d+)$/);
+    if(die){
+      const count=Number(die[1]||1),sides=Number(die[2]);
+      if(sign<0||count<1||count>30||diceResults.length+count>60) throw new Error('Use até 30 dados por termo, sem subtrair dados.');
+      for(let i=0;i<count;i++) diceResults.push({sides,...rollExplodingDie(sides)});
+    }else modifier+=sign*Number(token[2]);
   }
-
-  const sumDice = diceResults.reduce((acc, r) => acc + r.total, 0);
-  const total = sumDice + modifier;
-
-  try {
-    soundService.playDiceRoll();
-    const hasAced = diceResults.some(d => d.rolls.length > 1);
-    if (hasAced) {
-      setTimeout(() => soundService.playAceExplosion(), 280);
-    }
-  } catch {}
-
-  return {
-    isDamage: true,
-    title,
-    formula: `${formula} [Força ${strengthDie}]`,
-    rolls: diceResults,
-    modifier,
-    finalTotal: total,
-    timestamp: new Date(),
-  };
+  if(!diceResults.length)throw new Error('Informe pelo menos um dado de dano.');
+  try{soundService.playDiceRoll();if(diceResults.some(d=>d.rolls.length>1))setTimeout(()=>soundService.playAceExplosion(),280);}catch{}
+  return {isDamage:true,title,formula:`${formula}${options.raise?' + d6 (ampliação)':''}${options.modifier?` (${options.modifier>0?'+':''}${options.modifier})`:''}`,resolvedFormula:resolved,rolls:diceResults,modifier,finalTotal:diceResults.reduce((sum,r)=>sum+r.total,0)+modifier,timestamp:new Date()};
 };

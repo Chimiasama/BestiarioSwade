@@ -1,3 +1,5 @@
+import { AttackRollModal } from './AttackRollModal';
+import { getMonsterAttacks } from '../services/monsterAttacks';
 import { classifyMonster, CREATURE_FAMILIES } from '../services/monsterTaxonomy';
 import { ConfirmDialog } from './ConfirmDialog';
 import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
@@ -16,9 +18,9 @@ import {
   importFullDatabaseFromJson,
   resetDatabaseToDefaults
 } from '../services/customMonsterService';
-import { Monster, DiceRollResult } from '../types';
+import { Monster, DiceRollResult, ParsedAttack } from '../types';
 import { generatePdf, PdfTemplate, PdfTheme } from '../services/pdfService';
-import { rollTrait, rollDamage, parseWeaponAttacks } from '../services/diceService';
+import { rollTrait } from '../services/diceService';
 import { DiceRollerModal } from './DiceRollerModal';
 import { EncounterBuilderModal } from './EncounterBuilderModal';
 import { MonsterStatsModal } from './MonsterStatsModal';
@@ -555,9 +557,10 @@ const MonsterDetail: React.FC<{
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onRoll: (title: string, formula: string, isWildCard: boolean) => void;
-  onRollDamage?: (title: string, formula: string, strengthDie: string) => void;
   isPlayerView?: boolean;
-}> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll, onRollDamage, isPlayerView = false }) => {
+}> = ({ monster, onBack, onEdit, onDuplicate, onDelete, isFavorite, onToggleFavorite, onRoll, isPlayerView = false }) => {
+  const [chosenAttack, setChosenAttack] = useState<{attack:ParsedAttack;damageOnly:boolean}|null>(null);
+  const attacks = useMemo(() => getMonsterAttacks(monster), [monster]);
   const [showExportPdfModal, setShowExportPdfModal] = useState(false);
   const [showDetailTools, setShowDetailTools] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -803,7 +806,7 @@ const MonsterDetail: React.FC<{
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
               { label: 'Agilidade', key: 'agility', value: monster.attributes.agility },
-              { label: 'Esperteza', key: 'cunning', value: monster.attributes.cunning },
+              { label: 'Astúcia', key: 'cunning', value: monster.attributes.cunning },
               { label: 'Espírito', key: 'spirit', value: monster.attributes.spirit },
               { label: 'Força', key: 'strength', value: monster.attributes.strength },
               { label: 'Vigor', key: 'vigor', value: monster.attributes.vigor },
@@ -874,30 +877,18 @@ const MonsterDetail: React.FC<{
           {/* Weapons, Edges, Hindrances */}
           <div className="space-y-4">
             
-            {/* Weapons / Attacks (Interactive Damage Buttons) */}
-            {monster.weapons && (
-              <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800 space-y-2">
-                <h4 className="font-cinzel text-sm font-bold text-amber-400 mb-1 flex items-center gap-2">
-                  <Swords className="w-4 h-4" />
-                  Armas & Ataques (Clique para Rolar Dano)
-                </h4>
-                <div className="space-y-2">
-                  {parseWeaponAttacks(monster.weapons).map((atk, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-stone-950 p-2 rounded-lg border border-stone-800 text-xs">
-                      <span className="text-stone-300 font-medium">{atk.originalText}</span>
-                      {onRollDamage && (
-                        <button
-                          onClick={() => onRollDamage(`${monster.name} - ${atk.name}`, atk.formula, monster.attributes.strength)}
-                          className="px-2.5 py-1 bg-red-950 hover:bg-red-900 text-red-200 border border-red-700/60 rounded font-cinzel font-bold text-[11px] transition-colors flex items-center gap-1 shadow-sm shrink-0"
-                          title={`Rolar Dano: ${atk.formula}`}
-                        >
-                          <Dices className="w-3 h-3 text-red-400" />
-                          Rolar Dano ({atk.formula})
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
+            {(monster.weapons || attacks.length > 0) && (
+              <div className="bg-stone-900/60 p-4 rounded-xl border border-stone-800 space-y-3">
+                <h4 className="font-cinzel text-sm font-bold text-amber-400 flex items-center gap-2"><Swords className="w-4 h-4"/>Armas e ataques</h4>
+                {monster.weapons && <p className="text-sm text-stone-300">{monster.weapons}</p>}
+                {attacks.map((attack,index)=><div key={index} className="attack-entry bg-stone-950 p-3 rounded-lg border border-stone-700 space-y-2">
+                  <p className="font-semibold text-sm">{attack.name} <span className="text-stone-400">· {attack.formula}</span></p>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={()=>setChosenAttack({attack,damageOnly:false})} className="combat-primary min-h-11 px-4 rounded-lg font-semibold" aria-label={`Atacar com ${attack.name}`}>Atacar</button>
+                    <button type="button" onClick={()=>setChosenAttack({attack,damageOnly:true})} className="min-h-11 px-3 rounded-lg border border-stone-700" aria-label={`Dano direto de ${attack.name}`}>Dano direto</button>
+                  </div>
+                </div>)}
+                {!attacks.length&&<p className="text-xs text-stone-400">Nenhuma fórmula de dano reconhecida. Edite a ficha para informar, por exemplo, Garras (For+d4).</p>}
               </div>
             )}
 
@@ -940,6 +931,7 @@ const MonsterDetail: React.FC<{
 
       {/* Styled Single Monster PDF Export Modal */}
       <ConfirmDialog open={showDeleteConfirmation} title="Excluir criatura?" message={`Deseja excluir ${monster.name} deste aparelho? Exporte um backup se quiser guardar esta ficha.`} confirmLabel="Excluir criatura" onCancel={() => setShowDeleteConfirmation(false)} onConfirm={() => onDelete(monster.id)} />
+      {chosenAttack && <AttackRollModal monster={monster} attack={chosenAttack.attack} damageOnly={chosenAttack.damageOnly} initialModifier={-Math.min(wounds,3)-fatigue} onClose={()=>setChosenAttack(null)} />}
       <SingleMonsterPdfModal
         isOpen={showExportPdfModal}
         onClose={() => setShowExportPdfModal(false)}
@@ -1542,11 +1534,6 @@ const Bestiary: React.FC<{
     setActiveRoll(result);
   };
 
-  const handleTriggerDamage = (title: string, formula: string, strengthDie: string) => {
-    const result = rollDamage(title, formula, strengthDie);
-    setActiveRoll(result);
-  };
-
   // Export JSON Backup of full local database
   const handleExportBackup = () => {
     const jsonStr = exportFullDatabaseAsJson();
@@ -1768,7 +1755,6 @@ const Bestiary: React.FC<{
           isFavorite={favoriteIds.includes(selectedMonster.id)}
           onToggleFavorite={handleToggleFavorite}
           onRoll={handleTriggerRoll}
-          onRollDamage={handleTriggerDamage}
           isPlayerView={isPlayerView}
         />
         <DiceRollerModal

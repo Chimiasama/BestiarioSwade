@@ -498,7 +498,7 @@ const MonsterCreator: React.FC<{
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
               { key: 'agility', label: 'Agilidade' },
-              { key: 'cunning', label: 'Esperteza' },
+              { key: 'cunning', label: 'Astúcia' },
               { key: 'spirit', label: 'Espírito' },
               { key: 'strength', label: 'Força' },
               { key: 'vigor', label: 'Vigor' },

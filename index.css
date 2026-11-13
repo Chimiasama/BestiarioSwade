@@ -731,3 +731,21 @@ html[data-mode="diurno"] [class*="text-purple-200"] { color: #6b218a; }
 
 .template-library .primary-action { background: #d97706 !important; color: #1c1917 !important; border: 1px solid #b45309; }
 .template-library .primary-action:hover { background: #f59e0b !important; }
+
+/* Native controls must follow the chosen palette, including focus and autofill. */
+html[data-mode="noturno"] { color-scheme: dark; }
+html[data-mode="diurno"] { color-scheme: light; }
+.app-shell input, .app-shell textarea, .app-shell select { color: var(--text-primary); caret-color: var(--accent-highlight); }
+.app-shell input:not([type="checkbox"]):not([type="radio"]):focus, .app-shell textarea:focus, .app-shell select:focus { background-color: var(--bg-input) !important; color: var(--text-primary) !important; -webkit-text-fill-color: var(--text-primary); }
+.app-shell option, .app-shell optgroup { background-color: var(--bg-input); color: var(--text-primary); }
+.app-shell input:-webkit-autofill { -webkit-text-fill-color: var(--text-primary); box-shadow: 0 0 0 1000px var(--bg-input) inset; }
+.combat-primary { background: #d97706 !important; color: #1c1917 !important; border: 1px solid #b45309; }
+.combat-primary:hover { background: #f59e0b !important; }
+.combat-dialog { overflow-wrap: anywhere; }
+@media (max-width: 639px) {
+ .keyboard-open .editor-savebar { position: static; }
+ .keyboard-open .creator-form { padding-bottom: 16px; }
+ .keyboard-open .save-error { position: static; }
+}
+html[data-mode="diurno"] .app-shell [class*="text-purple-400"] { color: #6b218a !important; }
+.app-shell input[type="checkbox"], .app-shell input[type="radio"] { accent-color: var(--accent-highlight); }
